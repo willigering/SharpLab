@@ -37,7 +37,7 @@
      "task": "Gib genau diesen Text aus:\n\n```\nHallo, Welt!\n```",
      "starter": "// Schreib hier deinen Code\n",
      "solution": "Console.WriteLine(\"Hallo, Welt!\");\n",
-     "hint": "Console.WriteLine(\"Hallo, Welt!\"); – achte auf das Komma, das Ausrufezeichen und das ; am Ende.",
+     "hint": "Text, der genau so erscheinen soll, steht im Code in Anführungszeichen. Achte auf das Komma, das Ausrufezeichen und das Semikolon am Ende.",
      "compare": "exact",
      "tests": [
       {
@@ -50,10 +50,10 @@
     },
     {
      "title": "Drei Zeilen",
-     "task": "Gib diese drei Zeilen aus (jede mit einem eigenen `Console.WriteLine`):\n\n```\nIch heiße Max.\nIch bin 20 Jahre alt.\nMeine Lieblingsfarbe ist Blau.\n```",
+     "task": "Gib diese drei Zeilen aus:\n\n```\nIch heiße Max.\nIch bin 20 Jahre alt.\nMeine Lieblingsfarbe ist Blau.\n```",
      "starter": "Console.WriteLine(\"Ich heiße Max.\");\n",
      "solution": "Console.WriteLine(\"Ich heiße Max.\");\nConsole.WriteLine(\"Ich bin 20 Jahre alt.\");\nConsole.WriteLine(\"Meine Lieblingsfarbe ist Blau.\");\n",
-     "hint": "Jede Zeile bekommt ihr eigenes Console.WriteLine(...); mit dem Text in Anführungszeichen. Achte auf den Punkt am Satzende.",
+     "hint": "Jeder Satz steht in einer eigenen Zeile – überleg, welcher Ausgabe-Befehl danach in die nächste Zeile springt. Achte auf den Punkt am Satzende.",
      "compare": "exact",
      "tests": [
       {
@@ -65,8 +65,8 @@
      "id": "l01a2"
     },
     {
-     "title": "Write ohne Zeilenumbruch",
-     "task": "Benutze **dreimal** `Console.Write` (nicht WriteLine!), sodass diese **eine** Zeile entsteht:\n\n```\nEins Zwei Drei\n```",
+     "title": "Drei Wörter, eine Zeile",
+     "task": "Gib die drei Wörter mit **drei getrennten** Ausgabe-Befehlen aus – trotzdem soll am Ende nur **eine** Zeile entstehen:\n\n```\nEins Zwei Drei\n```",
      "starter": "Console.Write(\"Eins \");\n",
      "solution": "Console.Write(\"Eins \");\nConsole.Write(\"Zwei \");\nConsole.Write(\"Drei\");\n",
      "hint": "Die Leerzeichen zwischen den Wörtern musst du selbst in die Anführungszeichen schreiben.",
@@ -80,7 +80,7 @@
      "requirements": [
       {
        "pattern": "Console\\s*\\.\\s*Write\\s*\\(",
-       "message": "Benutze Console.Write (ohne Line)."
+       "message": "Deine Ausgabe springt noch nach jedem Befehl in die nächste Zeile – in der Lektion gibt es eine Variante, die das nicht tut."
       }
      ],
      "id": "l01a3"
@@ -133,11 +133,11 @@
    "note": "Gute Kommentare erklären das „Warum“. Schreib lieber zu viele als zu wenige, solange du lernst.",
    "exercises": [
     {
-     "title": "Auskommentieren",
-     "task": "Das Programm gibt drei Zeilen aus. Kommentiere die **mittlere** Zeile aus, sodass nur noch das hier erscheint:\n\n```\nGuten Morgen\nGute Nacht\n```",
+     "title": "Zeile ausblenden",
+     "task": "Das Programm gibt drei Zeilen aus. Sorge dafür, dass die **mittlere** Zeile nicht mehr ausgegeben wird – lösch sie aber nicht, sie soll im Code stehen bleiben. Danach erscheint nur noch:\n\n```\nGuten Morgen\nGute Nacht\n```",
      "starter": "Console.WriteLine(\"Guten Morgen\");\nConsole.WriteLine(\"Guten Mittag\");\nConsole.WriteLine(\"Gute Nacht\");\n",
      "solution": "Console.WriteLine(\"Guten Morgen\");\n// Console.WriteLine(\"Guten Mittag\");\nConsole.WriteLine(\"Gute Nacht\");\n",
-     "hint": "Setz // an den Anfang der mittleren Zeile.",
+     "hint": "In dieser Lektion hast du gelernt, wie man den Computer eine Zeile überspringen lässt, ohne sie zu löschen.",
      "compare": "exact",
      "tests": [
       {
@@ -148,7 +148,7 @@
      "requirements": [
       {
        "pattern": "Guten Mittag",
-       "message": "Lösch die mittlere Zeile nicht – setz // davor.",
+       "message": "Die mittlere Zeile soll im Code bleiben – lösch sie nicht, sondern sorg dafür, dass sie übersprungen wird.",
        "raw": true
       }
      ],
@@ -156,10 +156,10 @@
     },
     {
      "title": "Kommentar schreiben",
-     "task": "Schreib über die Ausgabe einen Kommentar (mit `//`), der erklärt, was die Zeile macht. Die Ausgabe soll sein:\n\n```\nC# macht Spaß\n```",
+     "task": "Schreib direkt über die Ausgabezeile einen einzeiligen Kommentar, der erklärt, was die Zeile macht. Die Ausgabe soll sein:\n\n```\nC# macht Spaß\n```",
      "starter": "Console.WriteLine(\"C# macht Spaß\");\n",
      "solution": "// Gibt einen Satz aus\nConsole.WriteLine(\"C# macht Spaß\");\n",
-     "hint": "Ein einzeiliger Kommentar beginnt mit // und gehört in eine eigene Zeile über den Befehl. Der Computer ignoriert alles dahinter.",
+     "hint": "Ein Kommentar ist eine Notiz für Menschen, der Computer ignoriert sie. Schreib sie in eine eigene Zeile direkt über den Befehl.",
      "compare": "exact",
      "tests": [
       {
@@ -170,18 +170,18 @@
      "requirements": [
       {
        "pattern": "//",
-       "message": "Schreib einen Kommentar mit // über die Zeile.",
+       "message": "Über der Ausgabezeile fehlt noch ein einzeiliger Kommentar.",
        "raw": true
       }
      ],
      "id": "l02a2"
     },
     {
-     "title": "Mehrzeiliger Kommentar",
-     "task": "Schalte die beiden mittleren Zeilen mit **einem** mehrzeiligen Kommentar `/* ... */` aus. Ausgabe:\n\n```\nStart\nEnde\n```",
+     "title": "Zwei Zeilen ausblenden",
+     "task": "Sorge dafür, dass die beiden mittleren Zeilen nicht mehr ausgegeben werden – ohne sie zu löschen. Schaff das mit **einem einzigen** Kommentar (nicht Zeile für Zeile). Ausgabe:\n\n```\nStart\nEnde\n```",
      "starter": "Console.WriteLine(\"Start\");\nConsole.WriteLine(\"Fehler 1\");\nConsole.WriteLine(\"Fehler 2\");\nConsole.WriteLine(\"Ende\");\n",
      "solution": "Console.WriteLine(\"Start\");\n/*\nConsole.WriteLine(\"Fehler 1\");\nConsole.WriteLine(\"Fehler 2\");\n*/\nConsole.WriteLine(\"Ende\");\n",
-     "hint": "Setz /* vor die erste und */ hinter die zweite Zeile, die verschwinden soll. Alles dazwischen wird übersprungen.",
+     "hint": "Schau in der Theorie nach, wie ein Kommentar über mehrere Zeilen geht. Er hat einen Anfang und ein Ende.",
      "compare": "exact",
      "tests": [
       {
@@ -192,12 +192,12 @@
      "requirements": [
       {
        "pattern": "/\\*[\\s\\S]*\\*/",
-       "message": "Benutze einen mehrzeiligen Kommentar /* ... */.",
+       "message": "Hier fehlt noch ein Kommentar, der beide Zeilen auf einmal ausblendet.",
        "raw": true
       },
       {
        "pattern": "Fehler 1",
-       "message": "Lösch die Zeilen nicht, kommentiere sie aus.",
+       "message": "Lösch die Zeilen nicht – blende sie aus, sodass sie im Code stehen bleiben.",
        "raw": true
       }
      ],
@@ -277,10 +277,10 @@
     },
     {
      "title": "Text und Variable verbinden",
-     "task": "Gegeben ist `string tier = \"Katze\";` und `int beine = 4;`. Gib mit `+` aus:\n\n```\nEine Katze hat 4 Beine.\n```",
+     "task": "Gegeben sind die Variablen `tier` (Wert `\"Katze\"`) und `beine` (Wert `4`). Bau daraus diesen Satz zusammen – `Katze` und `4` sollen aus den Variablen kommen, nicht von Hand eingetippt:\n\n```\nEine Katze hat 4 Beine.\n```",
      "starter": "string tier = \"Katze\";\nint beine = 4;\n\n",
      "solution": "string tier = \"Katze\";\nint beine = 4;\n\nConsole.WriteLine(\"Eine \" + tier + \" hat \" + beine + \" Beine.\");\n",
-     "hint": "Leerzeichen gehören in die Anführungszeichen: \"Eine \" + tier + \" hat \" ...",
+     "hint": "Denk an die Leerzeichen zwischen Text und Variablen – sie gehören mit in die Anführungszeichen.",
      "compare": "exact",
      "tests": [
       {
@@ -291,21 +291,21 @@
      "requirements": [
       {
        "pattern": "\\+\\s*tier|tier\\s*\\+",
-       "message": "Benutze die Variable tier mit +."
+       "message": "Die Variable tier fehlt noch in deinem Satz – verbinde sie mit dem Text."
       },
       {
        "pattern": "\\+\\s*beine|beine\\s*\\+",
-       "message": "Benutze die Variable beine mit +."
+       "message": "Die Variable beine fehlt noch in deinem Satz – verbinde sie mit dem Text."
       }
      ],
      "id": "l03a2"
     },
     {
      "title": "Wert ändern",
-     "task": "Lege `int punkte = 10;` an und gib den Wert aus. Ändere ihn dann auf `50` (ohne neues `int`!) und gib ihn nochmal aus:\n\n```\nPunkte: 10\nPunkte: 50\n```",
+     "task": "Lege eine ganzzahlige Variable `punkte` mit dem Wert `10` an und gib den Wert aus. Ändere danach den Wert **derselben** Variablen auf `50` (keine zweite Variable anlegen) und gib ihn nochmal aus:\n\n```\nPunkte: 10\nPunkte: 50\n```",
      "starter": "int punkte = 10;\n",
      "solution": "int punkte = 10;\nConsole.WriteLine(\"Punkte: \" + punkte);\npunkte = 50;\nConsole.WriteLine(\"Punkte: \" + punkte);\n",
-     "hint": "Beim Ändern schreibst du nur den Namen, ein = und den neuen Wert. Ein zweites int davor würde eine neue Variable anlegen wollen.",
+     "hint": "Eine Variable legst du nur einmal an. Beim Ändern bekommt sie nur einen neuen Wert.",
      "compare": "exact",
      "tests": [
       {
@@ -316,7 +316,7 @@
      "requirements": [
       {
        "pattern": "(?<!int\\s)\\bpunkte\\s*=\\s*50",
-       "message": "Weise punkte den neuen Wert 50 zu: punkte = 50;"
+       "message": "Die Variable punkte bekommt noch nicht den neuen Wert 50 – ändere die vorhandene Variable, statt eine neue anzulegen."
       }
      ],
      "id": "l03a3"
@@ -370,7 +370,7 @@
    "exercises": [
     {
      "title": "Rechteck",
-     "task": "Ein Rechteck ist `breite = 8` und `hoehe = 5` groß (beides `int`). Berechne Fläche (`breite * hoehe`) und Umfang (`2 * (breite + hoehe)`) und gib aus:\n\n```\nFläche: 40\nUmfang: 26\n```",
+     "task": "Ein Rechteck ist 8 breit und 5 hoch (ganze Zahlen). Berechne Fläche (Breite × Höhe) und Umfang (2 × (Breite + Höhe)) und gib aus:\n\n```\nFläche: 40\nUmfang: 26\n```",
      "starter": "int breite = 8;\nint hoehe = 5;\n\n",
      "solution": "int breite = 8;\nint hoehe = 5;\n\nint flaeche = breite * hoehe;\nint umfang = 2 * (breite + hoehe);\nConsole.WriteLine(\"Fläche: \" + flaeche);\nConsole.WriteLine(\"Umfang: \" + umfang);\n",
      "hint": "Lege für Fläche und Umfang je eine int-Variable an und rechne mit den Formeln aus der Aufgabe. Danach baust du die Ausgabe mit + zusammen.",
@@ -386,10 +386,10 @@
     },
     {
      "title": "Teilen mit Rest",
-     "task": "17 Kekse werden an 5 Kinder verteilt. Berechne mit `/` und `%`, wie viele jedes Kind bekommt und wie viele übrig bleiben:\n\n```\nJedes Kind: 3\nÜbrig: 2\n```",
+     "task": "17 Kekse werden gerecht an 5 Kinder verteilt. Berechne, wie viele jedes Kind bekommt und wie viele übrig bleiben – lass beides vom Programm ausrechnen:\n\n```\nJedes Kind: 3\nÜbrig: 2\n```",
      "starter": "int kekse = 17;\nint kinder = 5;\n\n",
      "solution": "int kekse = 17;\nint kinder = 5;\n\nConsole.WriteLine(\"Jedes Kind: \" + (kekse / kinder));\nConsole.WriteLine(\"Übrig: \" + (kekse % kinder));\n",
-     "hint": "Ganzzahliges Teilen mit / liefert, wie viele jedes Kind bekommt, % liefert den Rest. Setz die Rechnung in der Ausgabe in Klammern.",
+     "hint": "Teilst du zwei ganze Zahlen, ist das Ergebnis wieder eine ganze Zahl. Für den Rest beim Teilen kennst du aus der Lektion einen eigenen Operator.",
      "compare": "exact",
      "tests": [
       {
@@ -400,17 +400,17 @@
      "requirements": [
       {
        "pattern": "%",
-       "message": "Benutze den Modulo-Operator % für den Rest."
+       "message": "Der Rest soll ausgerechnet werden – dafür gibt es in dieser Lektion einen eigenen Rechen-Operator."
       }
      ],
      "id": "l04a2"
     },
     {
-     "title": "Inkrementieren",
-     "task": "Starte mit `int level = 1;`. Erhöhe `level` zweimal mit `++` und danach mit `+=` um 10. Gib nach jedem Schritt aus:\n\n```\nLevel 1\nLevel 2\nLevel 3\nLevel 13\n```",
+     "title": "Level-Aufstieg",
+     "task": "Starte mit einer Variablen `level` mit dem Wert `1`. Erhöhe `level` zweimal um 1 und danach um 10 – jeweils mit der **Kurzschreibweise** aus dieser Lektion (nicht `level = level + …`). Gib nach jedem Schritt aus:\n\n```\nLevel 1\nLevel 2\nLevel 3\nLevel 13\n```",
      "starter": "int level = 1;\nConsole.WriteLine(\"Level \" + level);\n",
      "solution": "int level = 1;\nConsole.WriteLine(\"Level \" + level);\nlevel++;\nConsole.WriteLine(\"Level \" + level);\nlevel++;\nConsole.WriteLine(\"Level \" + level);\nlevel += 10;\nConsole.WriteLine(\"Level \" + level);\n",
-     "hint": "Gib nach jeder Änderung den Wert erneut aus. ++ erhöht um genau 1, += erhöht um eine beliebige Zahl.",
+     "hint": "Für „um 1 erhöhen“ und „um eine bestimmte Zahl erhöhen“ gibt es in der Lektion je eine Kurzschreibweise. Gib nach jeder Änderung den Wert erneut aus.",
      "compare": "exact",
      "tests": [
       {
@@ -421,21 +421,21 @@
      "requirements": [
       {
        "pattern": "level\\s*\\+\\+",
-       "message": "Benutze level++."
+       "message": "Für das Erhöhen um 1 fehlt noch die Kurzschreibweise aus der Lektion."
       },
       {
        "pattern": "level\\s*\\+=",
-       "message": "Benutze level += 10."
+       "message": "Für das Erhöhen um 10 fehlt noch die Kurzschreibweise aus der Lektion."
       }
      ],
      "id": "l04a3"
     },
     {
-     "title": "Durchschnitt mit double",
-     "task": "Berechne den Durchschnitt der Noten `2`, `3` und `2` als Kommazahl. Tipp: Teile durch `3.0`, damit nicht ganzzahlig geteilt wird. Gib das Ergebnis mit **2 Nachkommastellen** aus (`:F2`):\n\n```\nDurchschnitt: 2,33\n```",
+     "title": "Notendurchschnitt",
+     "task": "Berechne den Durchschnitt der Noten `2`, `3` und `2` als Kommazahl – achte darauf, dass dabei **nicht ganzzahlig** geteilt wird. Gib das Ergebnis mit 2 Nachkommastellen aus. Wie man Nachkommastellen festlegt, lernst du erst in der nächsten Lektion – für die Ausgabe darfst du deshalb diese Zeile übernehmen:\n\n```\nConsole.WriteLine($\"Durchschnitt: {schnitt:F2}\");\n```\n\nAusgabe:\n```\nDurchschnitt: 2,33\n```",
      "starter": "int n1 = 2;\nint n2 = 3;\nint n3 = 2;\n\n",
      "solution": "int n1 = 2;\nint n2 = 3;\nint n3 = 2;\n\ndouble schnitt = (n1 + n2 + n3) / 3.0;\nConsole.WriteLine($\"Durchschnitt: {schnitt:F2}\");\n",
-     "hint": "(n1 + n2 + n3) / 3.0 – die Klammern sind wichtig (Punkt vor Strich)!",
+     "hint": "Teilst du nur ganze Zahlen, schneidet C# die Nachkommastellen ab – mindestens eine Zahl in der Rechnung muss eine Kommazahl sein. Denk an Punkt vor Strich.",
      "compare": "exact",
      "tests": [
       {
@@ -446,7 +446,7 @@
      "requirements": [
       {
        "pattern": "3\\.0|\\(\\s*double\\s*\\)",
-       "message": "Teile durch 3.0 (oder wandle mit (double) um), damit eine Kommazahl herauskommt."
+       "message": "Hier wird noch ganzzahlig geteilt – sorg dafür, dass beim Teilen eine Kommazahl im Spiel ist."
       }
      ],
      "id": "l04a4"
@@ -500,10 +500,10 @@
    "exercises": [
     {
      "title": "Vorstellung",
-     "task": "Gib mit String-Interpolation (`$\"...\"`) aus:\n\n```\nIch heiße Tom und bin 17 Jahre alt.\n```",
+     "task": "Lege Variablen für Name (`Tom`) und Alter (`17`) an und bau sie so in den Satz ein, wie du es in dieser Lektion gelernt hast – ohne Text mit Plus-Zeichen zusammenzukleben:\n\n```\nIch heiße Tom und bin 17 Jahre alt.\n```",
      "starter": "string name = \"Tom\";\nint alter = 17;\n\n",
      "solution": "string name = \"Tom\";\nint alter = 17;\n\nConsole.WriteLine($\"Ich heiße {name} und bin {alter} Jahre alt.\");\n",
-     "hint": "Lege Variablen für Name und Alter an. Im $\"...\"-Text setzt du sie mit geschweiften Klammern ein.",
+     "hint": "Lege Variablen für Name und Alter an. Die Lektion zeigt dir, wie du Variablen direkt in einen Text einbaust.",
      "compare": "exact",
      "tests": [
       {
@@ -514,17 +514,17 @@
      "requirements": [
       {
        "pattern": "\\$\"",
-       "message": "Benutze String-Interpolation mit $\"...\"."
+       "message": "Bau die Variablen direkt in den Text ein, so wie in dieser Lektion – ohne Plus-Zeichen."
       }
      ],
      "id": "l05a1"
     },
     {
      "title": "Rechnung im Text",
-     "task": "Ein Kino-Ticket kostet `9.5` Euro. Berechne den Preis für `4` Tickets direkt in den `{ }` und gib ihn mit 2 Nachkommastellen aus:\n\n```\n4 Tickets kosten 38,00 Euro.\n```",
+     "task": "Ein Kino-Ticket kostet `9.5` Euro. Berechne den Preis für `4` Tickets **direkt im Ausgabetext** (ohne Extra-Variable für das Ergebnis) und gib ihn mit 2 Nachkommastellen aus:\n\n```\n4 Tickets kosten 38,00 Euro.\n```",
      "starter": "double ticketPreis = 9.5;\nint anzahl = 4;\n\n",
      "solution": "double ticketPreis = 9.5;\nint anzahl = 4;\n\nConsole.WriteLine($\"{anzahl} Tickets kosten {ticketPreis * anzahl:F2} Euro.\");\n",
-     "hint": "{ticketPreis * anzahl:F2}",
+     "hint": "Im eingebauten Teil des Textes darf auch eine Rechnung stehen. Wie du die Anzahl der Nachkommastellen festlegst, steht in der Lektion.",
      "compare": "exact",
      "tests": [
       {
@@ -535,17 +535,17 @@
      "requirements": [
       {
        "pattern": "\\$\"",
-       "message": "Benutze String-Interpolation mit $\"...\"."
+       "message": "Bau die Rechnung direkt in den Text ein, so wie in dieser Lektion – ohne Plus-Zeichen."
       }
      ],
      "id": "l05a2"
     },
     {
-     "title": "Zeilenumbruch im Text",
-     "task": "Gib mit **einem einzigen** `Console.WriteLine` und `\\n` drei Zeilen aus:\n\n```\nRot\nGelb\nGrün\n```",
+     "title": "Drei Farben, eine Anweisung",
+     "task": "Gib alle drei Zeilen mit **einer einzigen** Anweisung aus:\n\n```\nRot\nGelb\nGrün\n```",
      "starter": "",
      "solution": "Console.WriteLine(\"Rot\\nGelb\\nGrün\");\n",
-     "hint": "\\n innerhalb der Anführungszeichen erzeugt einen Zeilenumbruch. Du brauchst also nur einen einzigen Text.",
+     "hint": "Es gibt ein Sonderzeichen, das mitten im Text eine neue Zeile beginnt. Schau in der Lektion nach.",
      "compare": "exact",
      "tests": [
       {
@@ -556,7 +556,7 @@
      "requirements": [
       {
        "pattern": "\\\\n",
-       "message": "Benutze \\n für die Zeilenumbrüche."
+       "message": "Die Zeilenumbrüche sollen mitten im Text entstehen – in der Lektion gibt es dafür ein Sonderzeichen."
       }
      ],
      "id": "l05a3"
@@ -616,7 +616,7 @@
      "task": "Lies einen Namen ein und begrüße die Person. Bei der Eingabe `Lena` soll erscheinen:\n\n```\nHallo Lena!\n```\n(Eine Frage wie „Name: “ davor darfst du gern ausgeben.)",
      "starter": "Console.Write(\"Wie heißt du? \");\n",
      "solution": "Console.Write(\"Wie heißt du? \");\nstring name = Console.ReadLine();\nConsole.WriteLine($\"Hallo {name}!\");\n",
-     "hint": "Console.ReadLine() liefert die Eingabe als string – speichere sie in einer Variablen. Danach gibst du den Gruß mit dem Namen aus.",
+     "hint": "Die Lektion zeigt dir, wie dein Programm auf eine Eingabe wartet – speichere das Ergebnis in einer Variablen. Danach gibst du den Gruß mit dem Namen aus.",
      "compare": "lenient",
      "tests": [
       {
@@ -640,7 +640,7 @@
      "task": "Lies eine ganze Zahl ein und gib das Doppelte aus. Bei Eingabe `21`:\n\n```\nDas Doppelte ist 42\n```",
      "starter": "Console.Write(\"Zahl: \");\n",
      "solution": "Console.Write(\"Zahl: \");\nint zahl = int.Parse(Console.ReadLine());\nConsole.WriteLine(\"Das Doppelte ist \" + (zahl * 2));\n",
-     "hint": "ReadLine liefert Text; mit int.Parse(...) wird daraus eine Zahl. Setz die Rechnung in der Ausgabe in Klammern.",
+     "hint": "Eine Eingabe ist immer Text – zum Rechnen musst du sie erst in eine Zahl umwandeln. Setz die Rechnung in der Ausgabe in Klammern.",
      "compare": "lenient",
      "tests": [
       {
@@ -659,17 +659,17 @@
      "requirements": [
       {
        "pattern": "int\\s*\\.\\s*Parse",
-       "message": "Wandle die Eingabe mit int.Parse(...) in eine Zahl um."
+       "message": "Die Eingabe ist noch Text – wandle sie zuerst so in eine ganze Zahl um, wie es die Lektion zeigt."
       }
      ],
      "id": "l06a2"
     },
     {
      "title": "Taschenrechner Plus",
-     "task": "Lies zwei ganze Zahlen ein (zwei `ReadLine`) und gib ihre Summe aus. Bei `7` und `5`:\n\n```\n7 + 5 = 12\n```",
+     "task": "Lies nacheinander zwei ganze Zahlen ein und gib ihre Summe aus. Bei `7` und `5`:\n\n```\n7 + 5 = 12\n```",
      "starter": "",
      "solution": "Console.Write(\"Erste Zahl: \");\nint a = int.Parse(Console.ReadLine());\nConsole.Write(\"Zweite Zahl: \");\nint b = int.Parse(Console.ReadLine());\nConsole.WriteLine($\"{a} + {b} = {a + b}\");\n",
-     "hint": "Lies zwei Mal ein und wandle jede Eingabe mit int.Parse um. Mit $\"...\" kannst du beide Zahlen und die Summe in einen Text setzen.",
+     "hint": "Lies zweimal ein und wandle jede Eingabe in eine Zahl um. Beide Zahlen und die Summe kannst du dann in einen Text einbauen.",
      "compare": "lenient",
      "tests": [
       {
@@ -692,10 +692,10 @@
     },
     {
      "title": "Preis mit Komma",
-     "task": "Lies einen Preis als Kommazahl (`double.Parse`) und eine Menge (`int`) ein. Gib den Gesamtpreis mit 2 Nachkommastellen aus. Bei `2,5` und `3`:\n\n```\nGesamt: 7,50 Euro\n```",
+     "task": "Lies einen Preis als Kommazahl und danach eine Menge als ganze Zahl ein. Gib den Gesamtpreis mit 2 Nachkommastellen aus. Bei `2,5` und `3`:\n\n```\nGesamt: 7,50 Euro\n```",
      "starter": "",
      "solution": "Console.Write(\"Preis: \");\ndouble preis = double.Parse(Console.ReadLine());\nConsole.Write(\"Menge: \");\nint menge = int.Parse(Console.ReadLine());\nConsole.WriteLine($\"Gesamt: {preis * menge:F2} Euro\");\n",
-     "hint": "double.Parse versteht das Komma, weil die App deutsch rechnet. Für 2 Nachkommastellen schreibst du :F2 hinter den Wert in den geschweiften Klammern.",
+     "hint": "Eine Kommazahl wandelst du mit einer anderen Methode um als eine ganze Zahl. Wie man auf 2 Nachkommastellen formatiert, kennst du aus der Lektion zur String-Interpolation.",
      "compare": "lenient",
      "tests": [
       {
@@ -768,7 +768,7 @@
      "task": "In der `Main`-Methode fehlt noch der Befehl. Lass das Programm ausgeben:\n\n```\nProgramm gestartet\n```",
      "starter": "using System;\n\nnamespace Uebung\n{\n    class Program\n    {\n        static void Main(string[] args)\n        {\n            // Hier kommt dein Code hin\n        }\n    }\n}\n",
      "solution": "using System;\n\nnamespace Uebung\n{\n    class Program\n    {\n        static void Main(string[] args)\n        {\n            Console.WriteLine(\"Programm gestartet\");\n        }\n    }\n}\n",
-     "hint": "Der Befehl gehört zwischen die geschweiften Klammern von Main. Es ist ein ganz normales Console.WriteLine.",
+     "hint": "Der Befehl gehört zwischen die geschweiften Klammern von Main. Es ist ein ganz normaler Ausgabe-Befehl.",
      "compare": "exact",
      "tests": [
       {
@@ -779,17 +779,17 @@
      "requirements": [
       {
        "pattern": "static\\s+void\\s+Main",
-       "message": "Lass die Main-Methode stehen und schreib den Code hinein."
+       "message": "Lass die Main-Methode stehen und schreib den Befehl hinein."
       }
      ],
      "id": "l07a1"
     },
     {
      "title": "Klammern reparieren",
-     "task": "Hier fehlen **zwei** schließende geschweifte Klammern `}`. Repariere das Programm, sodass es ausgibt:\n\n```\nAlle Klammern stimmen!\n```",
+     "task": "Dieses Programm lässt sich nicht kompilieren – an seinem Aufbau fehlt etwas. Repariere es, sodass es ausgibt:\n\n```\nAlle Klammern stimmen!\n```",
      "starter": "using System;\n\nnamespace Reparatur\n{\n    class Program\n    {\n        static void Main(string[] args)\n        {\n            Console.WriteLine(\"Alle Klammern stimmen!\");\n        }\n",
      "solution": "using System;\n\nnamespace Reparatur\n{\n    class Program\n    {\n        static void Main(string[] args)\n        {\n            Console.WriteLine(\"Alle Klammern stimmen!\");\n        }\n    }\n}\n",
-     "hint": "Zähle: namespace {, class {, Main { – also braucht es am Ende drei }.",
+     "hint": "Zähle, wie viele Blöcke geöffnet werden – und wie viele davon wieder geschlossen werden.",
      "compare": "exact",
      "tests": [
       {
@@ -802,10 +802,10 @@
     },
     {
      "title": "Von Top-Level zu Main",
-     "task": "Schreib dieses Top-Level-Programm in den **klassischen Aufbau** mit `class Program` und `static void Main` um:\n\n```\nstring stadt = \"Hamburg\";\nConsole.WriteLine($\"Ich wohne in {stadt}.\");\n```\n\nAusgabe:\n```\nIch wohne in Hamburg.\n```",
+     "task": "Schreib dieses Top-Level-Programm in den **klassischen Aufbau** um – mit der Klasse `Program` und der Methode `Main`:\n\n```\nstring stadt = \"Hamburg\";\nConsole.WriteLine($\"Ich wohne in {stadt}.\");\n```\n\nAusgabe:\n```\nIch wohne in Hamburg.\n```",
      "starter": "using System;\n\n",
      "solution": "using System;\n\nclass Program\n{\n    static void Main(string[] args)\n    {\n        string stadt = \"Hamburg\";\n        Console.WriteLine($\"Ich wohne in {stadt}.\");\n    }\n}\n",
-     "hint": "Du brauchst class Program mit static void Main(string[] args) darin. Die beiden Zeilen wandern unverändert in Main.",
+     "hint": "Schau dir in der Theorie an, wie der klassische Aufbau aussieht: die Klasse außen, Main innen. Die beiden Zeilen wandern unverändert hinein.",
      "compare": "exact",
      "tests": [
       {
@@ -876,10 +876,10 @@
    "exercises": [
     {
      "title": "Gerade oder ungerade",
-     "task": "Lies eine ganze Zahl ein. Ist sie gerade (`zahl % 2 == 0`), gib `gerade` aus, sonst `ungerade`.\n\nBei `4` → `gerade`, bei `7` → `ungerade`.",
+     "task": "Lies eine ganze Zahl ein. Ist sie gerade, gib `gerade` aus, sonst `ungerade`.\n\nBei `4` → `gerade`, bei `7` → `ungerade`.",
      "starter": "int zahl = int.Parse(Console.ReadLine());\n",
      "solution": "int zahl = int.Parse(Console.ReadLine());\nif (zahl % 2 == 0)\n{\n    Console.WriteLine(\"gerade\");\n}\nelse\n{\n    Console.WriteLine(\"ungerade\");\n}\n",
-     "hint": "Der Rest beim Teilen durch 2 verrät, ob eine Zahl gerade ist. Verwende if für den einen Fall und else für den anderen.",
+     "hint": "Der Rest beim Teilen durch 2 verrät, ob eine Zahl gerade ist. Für den einen Fall und den „sonst“-Fall brauchst du je einen Zweig.",
      "compare": "lenient",
      "tests": [
       {
@@ -904,11 +904,11 @@
      "requirements": [
       {
        "pattern": "\\bif\\s*\\(",
-       "message": "Benutze if."
+       "message": "Triff die Entscheidung mit einer Verzweigung aus dieser Lektion."
       },
       {
        "pattern": "\\belse\\b",
-       "message": "Benutze else."
+       "message": "Für den Fall „sonst“ fehlt noch der passende Zweig."
       }
      ],
      "id": "l08a1"
@@ -918,7 +918,7 @@
      "task": "Lies eine Temperatur (`int`) ein und gib aus:\n- unter 10 → `kalt`\n- 10 bis 24 → `angenehm`\n- 25 oder mehr → `heiß`",
      "starter": "int temp = int.Parse(Console.ReadLine());\n",
      "solution": "int temp = int.Parse(Console.ReadLine());\nif (temp < 10)\n{\n    Console.WriteLine(\"kalt\");\n}\nelse if (temp < 25)\n{\n    Console.WriteLine(\"angenehm\");\n}\nelse\n{\n    Console.WriteLine(\"heiß\");\n}\n",
-     "hint": "Prüfe die Grenzen der Reihe nach mit if, else if und else. Überleg genau, ob < oder <= passt.",
+     "hint": "Prüfe die Grenzen der Reihe nach, von unten nach oben. Überleg genau, ob „kleiner“ oder „kleiner gleich“ passt.",
      "compare": "lenient",
      "tests": [
       {
@@ -955,7 +955,7 @@
      "requirements": [
       {
        "pattern": "else\\s+if",
-       "message": "Benutze else if für den mittleren Fall."
+       "message": "Für den mittleren Fall fehlt noch ein weiterer Zweig zwischen dem ersten und dem letzten."
       }
      ],
      "id": "l08a2"
@@ -965,7 +965,7 @@
      "task": "Lies zwei ganze Zahlen ein und gib die größere aus: `Die größere Zahl ist 9`. Sind beide gleich, gib `Beide sind gleich` aus.",
      "starter": "int a = int.Parse(Console.ReadLine());\nint b = int.Parse(Console.ReadLine());\n",
      "solution": "int a = int.Parse(Console.ReadLine());\nint b = int.Parse(Console.ReadLine());\nif (a == b)\n{\n    Console.WriteLine(\"Beide sind gleich\");\n}\nelse if (a > b)\n{\n    Console.WriteLine($\"Die größere Zahl ist {a}\");\n}\nelse\n{\n    Console.WriteLine($\"Die größere Zahl ist {b}\");\n}\n",
-     "hint": "Prüf zuerst, ob beide gleich sind. Danach entscheidest du mit else if/else, welche größer ist.",
+     "hint": "Prüf zuerst, ob beide gleich sind. Danach entscheidest du, welche der beiden größer ist.",
      "compare": "lenient",
      "tests": [
       {
@@ -1042,10 +1042,10 @@
    "exercises": [
     {
      "title": "Im Bereich?",
-     "task": "Lies eine Zahl ein. Liegt sie zwischen 1 und 100 (beide eingeschlossen), gib `im Bereich` aus, sonst `außerhalb`. Benutze `&&`.",
+     "task": "Lies eine Zahl ein. Liegt sie zwischen 1 und 100 (beide eingeschlossen), gib `im Bereich` aus, sonst `außerhalb`. Prüfe beide Grenzen in **einer einzigen** Bedingung.",
      "starter": "int zahl = int.Parse(Console.ReadLine());\n",
      "solution": "int zahl = int.Parse(Console.ReadLine());\nif (zahl >= 1 && zahl <= 100)\n    Console.WriteLine(\"im Bereich\");\nelse\n    Console.WriteLine(\"außerhalb\");\n",
-     "hint": "Die Zahl muss zwei Bedingungen gleichzeitig erfüllen: mindestens 1 und höchstens 100. Verbinde sie mit &&.",
+     "hint": "Die Zahl muss zwei Bedingungen gleichzeitig erfüllen: mindestens 1 und höchstens 100. Wie man zwei Bedingungen verknüpft, steht in der Lektion.",
      "compare": "lenient",
      "tests": [
       {
@@ -1082,17 +1082,17 @@
      "requirements": [
       {
        "pattern": "&&",
-       "message": "Benutze && (UND)."
+       "message": "Beide Grenzen müssen gleichzeitig stimmen – verknüpfe die zwei Vergleiche mit dem passenden logischen Operator."
       }
      ],
      "id": "l09a1"
     },
     {
      "title": "Wochenende",
-     "task": "Lies einen Wochentag ein (z. B. `Samstag`). Ist es `Samstag` oder `Sonntag`, gib `Wochenende!` aus, sonst `Arbeitstag`. Benutze `||`.",
+     "task": "Lies einen Wochentag ein (z. B. `Samstag`). Ist es `Samstag` oder `Sonntag`, gib `Wochenende!` aus, sonst `Arbeitstag`. Prüfe beide Tage in **einer einzigen** Bedingung.",
      "starter": "string tag = Console.ReadLine();\n",
      "solution": "string tag = Console.ReadLine();\nif (tag == \"Samstag\" || tag == \"Sonntag\")\n    Console.WriteLine(\"Wochenende!\");\nelse\n    Console.WriteLine(\"Arbeitstag\");\n",
-     "hint": "Vergleiche den Text einmal mit \"Samstag\" und einmal mit \"Sonntag\". Es reicht, wenn einer der Vergleiche stimmt – dafür gibt es ||.",
+     "hint": "Vergleiche den Text einmal mit \"Samstag\" und einmal mit \"Sonntag\". Es reicht, wenn einer der beiden Vergleiche stimmt.",
      "compare": "lenient",
      "tests": [
       {
@@ -1117,7 +1117,7 @@
      "requirements": [
       {
        "pattern": "\\|\\|",
-       "message": "Benutze || (ODER)."
+       "message": "Es reicht, wenn einer der beiden Vergleiche stimmt – verknüpfe sie mit dem passenden logischen Operator."
       }
      ],
      "id": "l09a2"
@@ -1127,7 +1127,7 @@
      "task": "Lies Alter (`int`) und ob die Person in Begleitung ist (`ja` oder `nein`) ein. Sie darf in den Film, wenn sie **mindestens 16** ist **oder** mindestens 12 **und** in Begleitung. Gib `Viel Spaß im Film!` oder `Leider nicht erlaubt.` aus.",
      "starter": "int alter = int.Parse(Console.ReadLine());\nstring begleitung = Console.ReadLine();\n",
      "solution": "int alter = int.Parse(Console.ReadLine());\nstring begleitung = Console.ReadLine();\nbool mitBegleitung = begleitung == \"ja\";\nif (alter >= 16 || (alter >= 12 && mitBegleitung))\n    Console.WriteLine(\"Viel Spaß im Film!\");\nelse\n    Console.WriteLine(\"Leider nicht erlaubt.\");\n",
-     "hint": "Wandle ja/nein zuerst in ein bool um. Setz den Teil mit && in Klammern und verbinde ihn mit || mit der Altersgrenze 16.",
+     "hint": "Wandle ja/nein zuerst in einen Wahrheitswert um. Überleg, welche Teile der Regel zusammengehören, und setz sie in Klammern.",
      "compare": "lenient",
      "tests": [
       {
@@ -1207,10 +1207,10 @@
    "exercises": [
     {
      "title": "Wochentag-Nummer",
-     "task": "Lies eine Zahl von 1 bis 7 ein und gib mit `switch` den Wochentag aus (1 = `Montag` … 7 = `Sonntag`). Bei allen anderen Zahlen: `Ungültig`.",
+     "task": "Lies eine Zahl von 1 bis 7 ein und gib den Wochentag aus (1 = `Montag` … 7 = `Sonntag`). Bei allen anderen Zahlen: `Ungültig`. Löse die Auswahl mit der Mehrfachauswahl aus dieser Lektion statt mit einer Kette von Abfragen.",
      "starter": "int nummer = int.Parse(Console.ReadLine());\n\nswitch (nummer)\n{\n    case 1:\n        Console.WriteLine(\"Montag\");\n        break;\n}\n",
      "solution": "int nummer = int.Parse(Console.ReadLine());\n\nswitch (nummer)\n{\n    case 1: Console.WriteLine(\"Montag\"); break;\n    case 2: Console.WriteLine(\"Dienstag\"); break;\n    case 3: Console.WriteLine(\"Mittwoch\"); break;\n    case 4: Console.WriteLine(\"Donnerstag\"); break;\n    case 5: Console.WriteLine(\"Freitag\"); break;\n    case 6: Console.WriteLine(\"Samstag\"); break;\n    case 7: Console.WriteLine(\"Sonntag\"); break;\n    default: Console.WriteLine(\"Ungültig\"); break;\n}\n",
-     "hint": "Schreib für jede Zahl von 1 bis 7 einen eigenen case mit break. Alles andere fängt default ab.",
+     "hint": "Jede Zahl von 1 bis 7 bekommt ihren eigenen Fall. Für alle anderen Zahlen gibt es einen Auffang-Fall.",
      "compare": "lenient",
      "tests": [
       {
@@ -1247,21 +1247,21 @@
      "requirements": [
       {
        "pattern": "\\bswitch\\b",
-       "message": "Benutze switch."
+       "message": "Löse die Auswahl mit der Mehrfachauswahl aus dieser Lektion statt mit einer Kette von Abfragen."
       },
       {
        "pattern": "\\bdefault\\b",
-       "message": "Denk an den default-Fall."
+       "message": "Es fehlt noch der Auffang-Fall für alle anderen Zahlen."
       }
      ],
      "id": "l10a1"
     },
     {
      "title": "Mini-Taschenrechner",
-     "task": "Lies zwei ganze Zahlen und dann ein Rechenzeichen (`+`, `-`, `*` oder `/`) ein. Gib das Ergebnis mit `switch` aus, z. B. bei `8`, `2`, `*`:\n\n```\nErgebnis: 16\n```\nBei einem unbekannten Zeichen: `Unbekanntes Zeichen`. (`/` teilt ganzzahlig.)",
+     "task": "Lies zwei ganze Zahlen und dann ein Rechenzeichen (`+`, `-`, `*` oder `/`) ein. Wähle die passende Rechnung mit der Mehrfachauswahl aus dieser Lektion aus und gib das Ergebnis aus, z. B. bei `8`, `2`, `*`:\n\n```\nErgebnis: 16\n```\nBei einem unbekannten Zeichen: `Unbekanntes Zeichen`. (`/` teilt ganzzahlig.)",
      "starter": "int a = int.Parse(Console.ReadLine());\nint b = int.Parse(Console.ReadLine());\nstring op = Console.ReadLine();\n",
      "solution": "int a = int.Parse(Console.ReadLine());\nint b = int.Parse(Console.ReadLine());\nstring op = Console.ReadLine();\n\nswitch (op)\n{\n    case \"+\": Console.WriteLine($\"Ergebnis: {a + b}\"); break;\n    case \"-\": Console.WriteLine($\"Ergebnis: {a - b}\"); break;\n    case \"*\": Console.WriteLine($\"Ergebnis: {a * b}\"); break;\n    case \"/\": Console.WriteLine($\"Ergebnis: {a / b}\"); break;\n    default: Console.WriteLine(\"Unbekanntes Zeichen\"); break;\n}\n",
-     "hint": "Mach das Rechenzeichen zum Wert in switch (...), und jeder case ist ein Zeichen als Text, z. B. case \"+\":. Vergiss default nicht.",
+     "hint": "Das Rechenzeichen ist Text, und jedes mögliche Zeichen bekommt seinen eigenen Fall. Vergiss den Auffang-Fall nicht.",
      "compare": "lenient",
      "tests": [
       {
@@ -1308,17 +1308,17 @@
      "requirements": [
       {
        "pattern": "\\bswitch\\b",
-       "message": "Benutze switch."
+       "message": "Wähle die Rechnung mit der Mehrfachauswahl aus dieser Lektion aus."
       }
      ],
      "id": "l10a2"
     },
     {
      "title": "Jahreszeit",
-     "task": "Lies eine Monatszahl (1–12) ein und gib die Jahreszeit aus. Fasse mehrere `case` zusammen:\n- 12, 1, 2 → `Winter`\n- 3, 4, 5 → `Frühling`\n- 6, 7, 8 → `Sommer`\n- 9, 10, 11 → `Herbst`\n- sonst → `Ungültiger Monat`",
+     "task": "Lies eine Monatszahl (1–12) ein und gib mit der Mehrfachauswahl aus dieser Lektion die Jahreszeit aus. Monate mit derselben Jahreszeit sollen sich **denselben** Code teilen (nicht viermal dasselbe schreiben):\n- 12, 1, 2 → `Winter`\n- 3, 4, 5 → `Frühling`\n- 6, 7, 8 → `Sommer`\n- 9, 10, 11 → `Herbst`\n- sonst → `Ungültiger Monat`",
      "starter": "int monat = int.Parse(Console.ReadLine());\n",
      "solution": "int monat = int.Parse(Console.ReadLine());\nswitch (monat)\n{\n    case 12:\n    case 1:\n    case 2:\n        Console.WriteLine(\"Winter\");\n        break;\n    case 3:\n    case 4:\n    case 5:\n        Console.WriteLine(\"Frühling\");\n        break;\n    case 6:\n    case 7:\n    case 8:\n        Console.WriteLine(\"Sommer\");\n        break;\n    case 9:\n    case 10:\n    case 11:\n        Console.WriteLine(\"Herbst\");\n        break;\n    default:\n        Console.WriteLine(\"Ungültiger Monat\");\n        break;\n}\n",
-     "hint": "Mehrere case-Zeilen direkt untereinander teilen sich denselben Code. Nur nach dem letzten case einer Gruppe kommen Ausgabe und break.",
+     "hint": "In der Lektion siehst du, wie sich mehrere Fälle einen gemeinsamen Code-Block teilen.",
      "compare": "lenient",
      "tests": [
       {
@@ -1361,7 +1361,7 @@
      "requirements": [
       {
        "pattern": "\\bswitch\\b",
-       "message": "Benutze switch."
+       "message": "Löse die Auswahl mit der Mehrfachauswahl aus dieser Lektion."
       }
      ],
      "id": "l10a3"
@@ -1415,7 +1415,7 @@
    "exercises": [
     {
      "title": "Zählen bis 10",
-     "task": "Gib mit einer `while`-Schleife die Zahlen von 1 bis 10 aus, jede in einer eigenen Zeile.",
+     "task": "Gib die Zahlen von 1 bis 10 aus, jede in einer eigenen Zeile – lass eine Schleife die Arbeit machen, statt zehn Ausgaben zu schreiben.",
      "starter": "int i = 1;\n",
      "solution": "int i = 1;\nwhile (i <= 10)\n{\n    Console.WriteLine(i);\n    i++;\n}\n",
      "hint": "Du brauchst eine Zählvariable, die vor der Schleife startet. Erhöhe sie in der Schleife, sonst läuft sie endlos.",
@@ -1429,14 +1429,14 @@
      "requirements": [
       {
        "pattern": "\\bwhile\\s*\\(",
-       "message": "Benutze eine while-Schleife."
+       "message": "Lass die Schleife aus dieser Lektion die Arbeit machen."
       }
      ],
      "id": "l11a1"
     },
     {
      "title": "Verdoppeln bis 1000",
-     "task": "Starte mit `int zahl = 1;` und verdopple sie in einer `while`-Schleife, solange sie kleiner als 1000 ist. Gib jede Zahl aus:\n\n```\n1\n2\n4\n...\n512\n```",
+     "task": "Starte mit der Zahl 1 und verdopple sie immer wieder, solange sie kleiner als 1000 ist. Gib jede Zahl aus:\n\n```\n1\n2\n4\n...\n512\n```",
      "starter": "int zahl = 1;\n",
      "solution": "int zahl = 1;\nwhile (zahl < 1000)\n{\n    Console.WriteLine(zahl);\n    zahl *= 2;\n}\n",
      "hint": "Die Bedingung prüft, ob die Zahl noch kleiner als 1000 ist. In der Schleife erst ausgeben, dann verdoppeln.",
@@ -1450,14 +1450,14 @@
      "requirements": [
       {
        "pattern": "\\bwhile\\s*\\(",
-       "message": "Benutze eine while-Schleife."
+       "message": "Lass die Schleife aus dieser Lektion das Verdoppeln wiederholen."
       }
      ],
      "id": "l11a2"
     },
     {
      "title": "Passwort-Abfrage",
-     "task": "Frage mit einer Schleife so lange nach dem Passwort, bis `geheim` eingegeben wird. Bei falscher Eingabe gib `Falsch!` aus, am Ende `Willkommen!`.\n\nBei den Eingaben `abc`, `123`, `geheim`:\n```\nFalsch!\nFalsch!\nWillkommen!\n```",
+     "task": "Frage so lange nach dem Passwort, bis `geheim` eingegeben wird. Bei falscher Eingabe gib `Falsch!` aus, am Ende `Willkommen!`.\n\nBei den Eingaben `abc`, `123`, `geheim`:\n```\nFalsch!\nFalsch!\nWillkommen!\n```",
      "starter": "string eingabe = Console.ReadLine();\n",
      "solution": "string eingabe = Console.ReadLine();\nwhile (eingabe != \"geheim\")\n{\n    Console.WriteLine(\"Falsch!\");\n    eingabe = Console.ReadLine();\n}\nConsole.WriteLine(\"Willkommen!\");\n",
      "hint": "Lies einmal vor der Schleife ein und dann noch einmal am Ende jedes Durchlaufs. Die Schleife läuft, solange die Eingabe nicht stimmt.",
@@ -1481,7 +1481,7 @@
      "requirements": [
       {
        "pattern": "\\bwhile\\s*\\(",
-       "message": "Benutze eine while- oder do-while-Schleife."
+       "message": "Frag mit der Schleife aus dieser Lektion immer wieder nach."
       }
      ],
      "id": "l11a3"
@@ -1570,7 +1570,7 @@
    "exercises": [
     {
      "title": "Fünferreihe",
-     "task": "Gib mit einer `for`-Schleife die Fünferreihe aus:\n\n```\n1 x 5 = 5\n2 x 5 = 10\n...\n10 x 5 = 50\n```",
+     "task": "Gib die Fünferreihe aus – mit der Schleifenart aus dieser Lektion, deren Zähler von 1 bis 10 läuft:\n\n```\n1 x 5 = 5\n2 x 5 = 10\n...\n10 x 5 = 50\n```",
      "starter": "",
      "solution": "for (int i = 1; i <= 10; i++)\n{\n    Console.WriteLine($\"{i} x 5 = {i * 5}\");\n}\n",
      "hint": "Die Zählvariable läuft von 1 bis 10. Mit $\"...\" kannst du sie und das Ergebnis in die Zeile einsetzen.",
@@ -1584,14 +1584,14 @@
      "requirements": [
       {
        "pattern": "\\bfor\\s*\\(",
-       "message": "Benutze eine for-Schleife."
+       "message": "Nutze die Schleifenart aus dieser Lektion mit Zähler, Bedingung und Schritt."
       }
      ],
      "id": "l12a1"
     },
     {
      "title": "Countdown",
-     "task": "Lies eine Zahl `n` ein und zähle mit einer `for`-Schleife von `n` bis 1 rückwärts. Danach `Abflug!`. Bei `3`:\n\n```\n3\n2\n1\nAbflug!\n```",
+     "task": "Lies eine Zahl `n` ein und zähle mit der Schleifenart aus dieser Lektion von `n` bis 1 rückwärts. Danach `Abflug!`. Bei `3`:\n\n```\n3\n2\n1\nAbflug!\n```",
      "starter": "int n = int.Parse(Console.ReadLine());\n",
      "solution": "int n = int.Parse(Console.ReadLine());\nfor (int i = n; i >= 1; i--)\n{\n    Console.WriteLine(i);\n}\nConsole.WriteLine(\"Abflug!\");\n",
      "hint": "Bei dieser Aufgabe bitte keine Eingabeaufforderung ausgeben – nur die Zahlen.",
@@ -1619,14 +1619,14 @@
      "requirements": [
       {
        "pattern": "\\bfor\\s*\\(",
-       "message": "Benutze eine for-Schleife."
+       "message": "Nutze die Schleifenart aus dieser Lektion mit Zähler, Bedingung und Schritt."
       }
      ],
      "id": "l12a2"
     },
     {
      "title": "Summe der geraden Zahlen",
-     "task": "Berechne mit einer `for`-Schleife die Summe aller geraden Zahlen von 2 bis 100 (2 + 4 + … + 100):\n\n```\nSumme: 2550\n```",
+     "task": "Berechne mit der Schleifenart aus dieser Lektion die Summe aller geraden Zahlen von 2 bis 100 (2 + 4 + … + 100):\n\n```\nSumme: 2550\n```",
      "starter": "int summe = 0;\n",
      "solution": "int summe = 0;\nfor (int i = 2; i <= 100; i += 2)\n{\n    summe += i;\n}\nConsole.WriteLine(\"Summe: \" + summe);\n",
      "hint": "Starte die Schleife bei 2 und geh in Zweierschritten weiter. Addiere jede Zahl zu einer Summe, die du vorher anlegst.",
@@ -1640,14 +1640,14 @@
      "requirements": [
       {
        "pattern": "\\bfor\\s*\\(",
-       "message": "Benutze eine for-Schleife."
+       "message": "Nutze die Schleifenart aus dieser Lektion mit Zähler, Bedingung und Schritt."
       }
      ],
      "id": "l12a3"
     },
     {
      "title": "Sterne-Treppe",
-     "task": "Lies eine Zahl `n` ein und gib eine Treppe aus `n` Zeilen aus (verschachtelte Schleifen). Bei `4`:\n\n```\n*\n**\n***\n****\n```",
+     "task": "Lies eine Zahl `n` ein und gib eine Treppe aus `n` Zeilen aus – mit der Schleifenart aus dieser Lektion. Bei `4`:\n\n```\n*\n**\n***\n****\n```",
      "starter": "int n = int.Parse(Console.ReadLine());\n",
      "solution": "int n = int.Parse(Console.ReadLine());\nfor (int zeile = 1; zeile <= n; zeile++)\n{\n    for (int j = 0; j < zeile; j++)\n    {\n        Console.Write(\"*\");\n    }\n    Console.WriteLine();\n}\n",
      "hint": "Gib keine Eingabeaufforderung aus, nur die Sterne.",
@@ -1669,7 +1669,7 @@
      "requirements": [
       {
        "pattern": "\\bfor\\s*\\(",
-       "message": "Benutze for-Schleifen."
+       "message": "Nutze die Schleifenart aus dieser Lektion mit Zähler, Bedingung und Schritt."
       }
      ],
      "id": "l12a4"
@@ -1723,7 +1723,7 @@
    "exercises": [
     {
      "title": "Wochentage",
-     "task": "Lege ein `string`-Array mit den Tagen `Mo`, `Di`, `Mi`, `Do`, `Fr` an. Gib das **erste** und das **letzte** Element aus und dann die Länge:\n\n```\nMo\nFr\n5\n```",
+     "task": "Lege ein Array mit den Tagen `Mo`, `Di`, `Mi`, `Do`, `Fr` an. Gib das **erste** und das **letzte** Element aus und dann die Länge. Die Länge und die Position des letzten Elements sollen vom Array kommen, nicht von Hand eingetippt sein:\n\n```\nMo\nFr\n5\n```",
      "starter": "string[] tage = { };\n",
      "solution": "string[] tage = { \"Mo\", \"Di\", \"Mi\", \"Do\", \"Fr\" };\nConsole.WriteLine(tage[0]);\nConsole.WriteLine(tage[tage.Length - 1]);\nConsole.WriteLine(tage.Length);\n",
      "hint": "Das erste Element hat den Index 0. Den letzten Index bekommst du aus der Länge minus 1.",
@@ -1737,14 +1737,14 @@
      "requirements": [
       {
        "pattern": "\\.\\s*Length",
-       "message": "Benutze .Length für die Länge des Arrays – und auch für das letzte Element."
+       "message": "Tipp die Länge nicht von Hand ein – das Array kann dir seine Länge selbst verraten, auch für das letzte Element."
       }
      ],
      "id": "l13a1"
     },
     {
      "title": "Quadratzahlen",
-     "task": "Lege ein `int`-Array mit 10 Fächern an. Fülle es mit einer Schleife so, dass in Fach `i` der Wert `i * i` steht. Gib danach alle Werte in **einer** Zeile aus, getrennt durch Leerzeichen:\n\n```\n0 1 4 9 16 25 36 49 64 81\n```",
+     "task": "Lege ein Array `quadrate` mit 10 Fächern an. Fülle es automatisch (nicht jedes Fach einzeln), sodass in Fach `i` der Wert `i · i` steht. Gib danach alle Werte in **einer** Zeile aus, getrennt durch Leerzeichen:\n\n```\n0 1 4 9 16 25 36 49 64 81\n```",
      "starter": "int[] quadrate = new int[10];\n",
      "solution": "int[] quadrate = new int[10];\nfor (int i = 0; i < quadrate.Length; i++)\n{\n    quadrate[i] = i * i;\n}\nfor (int i = 0; i < quadrate.Length; i++)\n{\n    Console.Write(quadrate[i] + \" \");\n}\nConsole.WriteLine();\n",
      "hint": "Leerzeichen am Zeilenende sind egal.",
@@ -1758,18 +1758,18 @@
      "requirements": [
       {
        "pattern": "quadrate\\s*\\[\\s*\\w+\\s*\\]\\s*=",
-       "message": "Fülle die Fächer in der Schleife, z. B. mit quadrate[i] = …"
+       "message": "Die Fächer von quadrate werden noch nicht in der Schleife befüllt."
       },
       {
        "pattern": "for\\s*\\(",
-       "message": "Fülle das Array mit einer for-Schleife."
+       "message": "Fülle das Array mit einer Zählschleife, wie du sie aus der vorigen Lektion kennst."
       }
      ],
      "id": "l13a2"
     },
     {
      "title": "Größter Wert",
-     "task": "Finde im Array `{ 12, 45, 7, 89, 23, 56 }` mit einer Schleife den größten Wert (ohne `Max()`!):\n\n```\nMaximum: 89\n```",
+     "task": "Finde im Array `{ 12, 45, 7, 89, 23, 56 }` selbst den größten Wert, indem du die Werte der Reihe nach durchgehst (ohne fertige Funktion wie `Max()`):\n\n```\nMaximum: 89\n```",
      "starter": "int[] werte = { 12, 45, 7, 89, 23, 56 };\nint max = werte[0];\n",
      "solution": "int[] werte = { 12, 45, 7, 89, 23, 56 };\nint max = werte[0];\nfor (int i = 1; i < werte.Length; i++)\n{\n    if (werte[i] > max)\n        max = werte[i];\n}\nConsole.WriteLine(\"Maximum: \" + max);\n",
      "hint": "Merk dir am Anfang das erste Element als bisheriges Maximum. Vergleiche in der Schleife jedes weitere Element damit.",
@@ -1783,7 +1783,7 @@
      "requirements": [
       {
        "pattern": "\\bfor\\s*\\(|\\bforeach\\s*\\(|\\bwhile\\s*\\(",
-       "message": "Benutze eine Schleife."
+       "message": "Geh die Werte selbst der Reihe nach durch."
       }
      ],
      "id": "l13a3"
@@ -1865,10 +1865,10 @@
    "exercises": [
     {
      "title": "Einkaufsliste",
-     "task": "Gib alle Einträge des Arrays mit `foreach` aus, jeweils mit einem `- ` davor:\n\n```\n- Milch\n- Brot\n- Eier\n- Äpfel\n```",
+     "task": "Gib alle Einträge des Arrays aus, jeweils mit einem `- ` davor – mit der Schleifenart aus dieser Lektion:\n\n```\n- Milch\n- Brot\n- Eier\n- Äpfel\n```",
      "starter": "string[] einkauf = { \"Milch\", \"Brot\", \"Eier\", \"Äpfel\" };\n",
      "solution": "string[] einkauf = { \"Milch\", \"Brot\", \"Eier\", \"Äpfel\" };\nforeach (string artikel in einkauf)\n{\n    Console.WriteLine(\"- \" + artikel);\n}\n",
-     "hint": "foreach gibt dir jedes Element nacheinander in eine Variable. Davor setzt du einfach \"- \".",
+     "hint": "Die Schleife aus dieser Lektion liefert dir jedes Element nacheinander, ganz ohne Index. Davor setzt du einfach den Strich.",
      "compare": "exact",
      "tests": [
       {
@@ -1879,17 +1879,17 @@
      "requirements": [
       {
        "pattern": "\\bforeach\\s*\\(",
-       "message": "Benutze foreach."
+       "message": "Nutze die Schleifenart aus dieser Lektion, die ganz ohne Index auskommt."
       }
      ],
      "id": "l14a1"
     },
     {
      "title": "Durchschnitt",
-     "task": "Berechne mit `foreach` den Durchschnitt der Temperaturen und gib ihn mit einer Nachkommastelle aus (`:F1`):\n\n```\nDurchschnitt: 18,4 Grad\n```",
+     "task": "Berechne mit der Schleifenart aus dieser Lektion den Durchschnitt der Temperaturen und gib ihn mit **einer** Nachkommastelle aus:\n\n```\nDurchschnitt: 18,4 Grad\n```",
      "starter": "double[] temperaturen = { 15.5, 18.0, 21.5, 17.0, 20.0 };\n",
      "solution": "double[] temperaturen = { 15.5, 18.0, 21.5, 17.0, 20.0 };\ndouble summe = 0;\nforeach (double t in temperaturen)\n{\n    summe += t;\n}\nConsole.WriteLine($\"Durchschnitt: {summe / temperaturen.Length:F1} Grad\");\n",
-     "hint": "Addiere alle Werte in der foreach-Schleife zu einer Summe. Teile danach durch die Anzahl und formatiere mit :F1.",
+     "hint": "Addiere alle Werte zu einer Summe und teile danach durch die Anzahl. Eine Nachkommastelle formatierst du genauso wie zwei, nur mit einer anderen Zahl.",
      "compare": "exact",
      "tests": [
       {
@@ -1900,17 +1900,17 @@
      "requirements": [
       {
        "pattern": "\\bforeach\\s*\\(",
-       "message": "Benutze foreach."
+       "message": "Nutze die Schleifenart aus dieser Lektion, die ganz ohne Index auskommt."
       }
      ],
      "id": "l14a2"
     },
     {
      "title": "Vokale zählen",
-     "task": "Lies ein Wort ein und zähle mit `foreach` die Vokale (a, e, i, o, u – nur Kleinbuchstaben). Bei `programmieren`:\n\n```\nVokale: 5\n```",
+     "task": "Lies ein Wort ein und zähle mit der Schleifenart aus dieser Lektion die Vokale (a, e, i, o, u – nur Kleinbuchstaben). Bei `programmieren`:\n\n```\nVokale: 5\n```",
      "starter": "string wort = Console.ReadLine();\nint vokale = 0;\n",
      "solution": "string wort = Console.ReadLine();\nint vokale = 0;\nforeach (char c in wort)\n{\n    if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')\n        vokale++;\n}\nConsole.WriteLine(\"Vokale: \" + vokale);\n",
-     "hint": "Ein einzelnes Zeichen vergleichst du mit einfachen Anführungszeichen: c == 'a'",
+     "hint": "Ein einzelnes Zeichen schreibst du in einfache Anführungszeichen, nicht in doppelte.",
      "compare": "lenient",
      "tests": [
       {
@@ -1935,7 +1935,7 @@
      "requirements": [
       {
        "pattern": "\\bforeach\\s*\\(",
-       "message": "Benutze foreach."
+       "message": "Nutze die Schleifenart aus dieser Lektion, die ganz ohne Index auskommt."
       }
      ],
      "id": "l14a3"
@@ -1989,10 +1989,10 @@
    "exercises": [
     {
      "title": "Lieblingsfilme",
-     "task": "Lege eine leere `List<string>` an, füge mit `Add` die Filme `Matrix`, `Shrek` und `Up` hinzu und gib dann aus:\n\n```\n3 Filme:\nMatrix\nShrek\nUp\n```",
+     "task": "Lege eine leere Liste für Texte an, füge die Filme `Matrix`, `Shrek` und `Up` nacheinander hinzu und gib dann aus. Die Anzahl soll aus der Liste kommen, nicht von Hand eingetippt:\n\n```\n3 Filme:\nMatrix\nShrek\nUp\n```",
      "starter": "List<string> filme = new List<string>();\n",
      "solution": "List<string> filme = new List<string>();\nfilme.Add(\"Matrix\");\nfilme.Add(\"Shrek\");\nfilme.Add(\"Up\");\nConsole.WriteLine(filme.Count + \" Filme:\");\nforeach (string f in filme)\n    Console.WriteLine(f);\n",
-     "hint": "Erst die leere Liste anlegen, dann dreimal Add aufrufen. Die Anzahl liefert .Count, die Filme gibst du mit foreach aus.",
+     "hint": "Erst die leere Liste anlegen, dann die Filme einzeln hinzufügen. Wie viele Elemente drin sind, kann dir die Liste selbst sagen.",
      "compare": "exact",
      "tests": [
       {
@@ -2003,18 +2003,18 @@
      "requirements": [
       {
        "pattern": "\\.\\s*Add\\s*\\(",
-       "message": "Benutze Add."
+       "message": "Die Filme sollen nacheinander zur leeren Liste hinzugefügt werden."
       },
       {
        "pattern": "\\.\\s*Count\\b",
-       "message": "Benutze Count für die Anzahl."
+       "message": "Die Anzahl soll aus der Liste kommen, nicht fest eingetippt sein."
       }
      ],
      "id": "l15a1"
     },
     {
      "title": "Zahlen sammeln",
-     "task": "Lies Zahlen ein, bis `0` kommt, und speichere sie in einer `List<int>`. Gib danach Anzahl, Summe und die sortierte Liste aus. Bei `5`, `2`, `8`, `0`:\n\n```\nAnzahl: 3\nSumme: 15\nSortiert: 2 5 8\n```",
+     "task": "Lies Zahlen ein, bis `0` kommt, und speichere sie in einer Liste. Gib danach Anzahl, Summe und die sortierte Liste aus. Bei `5`, `2`, `8`, `0`:\n\n```\nAnzahl: 3\nSumme: 15\nSortiert: 2 5 8\n```",
      "starter": "List<int> zahlen = new List<int>();\n",
      "solution": "List<int> zahlen = new List<int>();\nint z = int.Parse(Console.ReadLine());\nwhile (z != 0)\n{\n    zahlen.Add(z);\n    z = int.Parse(Console.ReadLine());\n}\nint summe = 0;\nforeach (int x in zahlen) summe += x;\nzahlen.Sort();\nConsole.WriteLine(\"Anzahl: \" + zahlen.Count);\nConsole.WriteLine(\"Summe: \" + summe);\nConsole.Write(\"Sortiert:\");\nforeach (int x in zahlen) Console.Write(\" \" + x);\nConsole.WriteLine();\n",
      "hint": "Tipp: string.Join(\" \", zahlen) baut alle Elemente mit Leerzeichen zu einem Text zusammen.",
@@ -2045,7 +2045,7 @@
      "task": "Die Gästeliste enthält `Ana`, `Ben`, `Cem`. Lies einen Namen ein. Steht er auf der Liste, entferne ihn und gib `Ben wurde ausgeladen.` aus – sonst `Ben steht nicht auf der Liste.`. Gib danach die Anzahl aus: `Noch 2 Gäste`.",
      "starter": "List<string> gaeste = new List<string> { \"Ana\", \"Ben\", \"Cem\" };\nstring name = Console.ReadLine();\n",
      "solution": "List<string> gaeste = new List<string> { \"Ana\", \"Ben\", \"Cem\" };\nstring name = Console.ReadLine();\nif (gaeste.Contains(name))\n{\n    gaeste.Remove(name);\n    Console.WriteLine($\"{name} wurde ausgeladen.\");\n}\nelse\n{\n    Console.WriteLine($\"{name} steht nicht auf der Liste.\");\n}\nConsole.WriteLine($\"Noch {gaeste.Count} Gäste\");\n",
-     "hint": "Mit Contains prüfst du, ob der Name auf der Liste steht, mit Remove entfernst du ihn. Die Anzahl gibst du ganz am Ende aus – in beiden Fällen.",
+     "hint": "Prüf zuerst, ob der Name auf der Liste steht – die Liste hat dafür eine eigene Methode, genauso fürs Entfernen. Die Anzahl gibst du in beiden Fällen ganz am Ende aus.",
      "compare": "lenient",
      "tests": [
       {
@@ -2064,11 +2064,11 @@
      "requirements": [
       {
        "pattern": "\\.\\s*Contains\\s*\\(",
-       "message": "Benutze Contains."
+       "message": "Prüf mit der passenden Listen-Methode, ob der Name auf der Liste steht."
       },
       {
        "pattern": "\\.\\s*Remove\\s*\\(",
-       "message": "Benutze Remove."
+       "message": "Entferne den Namen mit der passenden Listen-Methode."
       }
      ],
      "id": "l15a3"
@@ -2167,7 +2167,7 @@
      "task": "Schreib eine Methode `static void Rahmen(string text)`, die den Text in einen Rahmen setzt. Die Linie ist so lang wie der Text plus 4. Bei `Rahmen(\"Hallo\");`:\n\n```\n*********\n* Hallo *\n*********\n```\nRuf sie mit `Hallo` und danach mit `C#` auf.",
      "starter": "Rahmen(\"Hallo\");\nRahmen(\"C#\");\n\n",
      "solution": "Rahmen(\"Hallo\");\nRahmen(\"C#\");\n\nstatic void Rahmen(string text)\n{\n    string linie = new string('*', text.Length + 4);\n    Console.WriteLine(linie);\n    Console.WriteLine(\"* \" + text + \" *\");\n    Console.WriteLine(linie);\n}\n",
-     "hint": "text.Length ist die Anzahl der Zeichen. Eine Linie geht mit einer for-Schleife oder mit new string('*', anzahl).",
+     "hint": "Wie lang die Linie wird, hängt von der Anzahl der Zeichen im Text ab. Eine Linie aus Sternen kannst du Stück für Stück in einer Schleife bauen.",
      "compare": "exact",
      "tests": [
       {
@@ -2235,7 +2235,7 @@
      "task": "Schreib eine Methode `static int Max(int a, int b)`, die die größere Zahl **zurückgibt** (nicht ausgibt!). Der Hauptcode ist schon da.\n\n```\n9\n12\n5\n```",
      "starter": "Console.WriteLine(Max(9, 4));\nConsole.WriteLine(Max(3, 12));\nConsole.WriteLine(Max(5, 5));\n\n",
      "solution": "Console.WriteLine(Max(9, 4));\nConsole.WriteLine(Max(3, 12));\nConsole.WriteLine(Max(5, 5));\n\nstatic int Max(int a, int b)\n{\n    if (a > b)\n        return a;\n    else\n        return b;\n}\n",
-     "hint": "Vergleiche a und b mit if. Statt etwas auszugeben, lieferst du die größere Zahl mit return zurück.",
+     "hint": "Vergleiche a und b miteinander. Statt etwas auszugeben, lieferst du die größere Zahl an den Aufrufer zurück.",
      "compare": "exact",
      "tests": [
       {
@@ -2246,17 +2246,17 @@
      "requirements": [
       {
        "pattern": "\\breturn\\b",
-       "message": "Gib das Ergebnis mit return zurück."
+       "message": "Die Methode soll die größere Zahl zurückliefern, nicht selbst ausgeben."
       }
      ],
      "id": "l17a1"
     },
     {
      "title": "Brutto-Preis",
-     "task": "Schreib `static double Brutto(double netto)`, die den Preis plus 19 % Mehrwertsteuer zurückgibt (`netto * 1.19`). Gib damit aus:\n\n```\n100 Euro netto = 119,00 Euro brutto\n50 Euro netto = 59,50 Euro brutto\n```",
+     "task": "Schreib `static double Brutto(double netto)`, die den Preis plus 19 % Mehrwertsteuer zurückgibt. Gib damit aus:\n\n```\n100 Euro netto = 119,00 Euro brutto\n50 Euro netto = 59,50 Euro brutto\n```",
      "starter": "",
      "solution": "Console.WriteLine($\"100 Euro netto = {Brutto(100):F2} Euro brutto\");\nConsole.WriteLine($\"50 Euro netto = {Brutto(50):F2} Euro brutto\");\n\nstatic double Brutto(double netto)\n{\n    return netto * 1.19;\n}\n",
-     "hint": "Die Methode rechnet den Bruttopreis aus und gibt ihn mit return zurück. Die Formatierung :F2 machst du erst beim Ausgeben.",
+     "hint": "Die Methode rechnet nur und liefert den Wert zurück. Die 2 Nachkommastellen kommen erst beim Ausgeben dazu.",
      "compare": "exact",
      "tests": [
       {
@@ -2277,7 +2277,7 @@
      "task": "Schreib `static bool IstPrimzahl(int n)`. Eine Primzahl ist größer als 1 und nur durch 1 und sich selbst teilbar. Lies eine Zahl ein und gib `17 ist eine Primzahl` bzw. `12 ist keine Primzahl` aus.",
      "starter": "int zahl = int.Parse(Console.ReadLine());\n\n",
      "solution": "int zahl = int.Parse(Console.ReadLine());\n\nif (IstPrimzahl(zahl))\n    Console.WriteLine($\"{zahl} ist eine Primzahl\");\nelse\n    Console.WriteLine($\"{zahl} ist keine Primzahl\");\n\nstatic bool IstPrimzahl(int n)\n{\n    if (n < 2) return false;\n    for (int i = 2; i < n; i++)\n    {\n        if (n % i == 0) return false;\n    }\n    return true;\n}\n",
-     "hint": "Prüfe mit einer Schleife, ob n % i == 0 für ein i zwischen 2 und n-1. Dann ist es keine Primzahl.",
+     "hint": "Probiere alle möglichen Teiler zwischen 2 und n-1 durch. Lässt sich n durch einen davon ohne Rest teilen, ist es keine Primzahl.",
      "compare": "lenient",
      "tests": [
       {
@@ -2392,7 +2392,7 @@
      "task": "Lies einen Namen ein, der unordentlich geschrieben ist (z. B. `  mAx  `). Entferne die Leerzeichen und gib ihn so aus: erster Buchstabe groß, Rest klein:\n\n```\nMax\n```",
      "starter": "string name = Console.ReadLine();\n",
      "solution": "string name = Console.ReadLine();\nname = name.Trim();\nstring schoen = name.Substring(0, 1).ToUpper() + name.Substring(1).ToLower();\nConsole.WriteLine(schoen);\n",
-     "hint": "Trim(), dann Substring(0, 1).ToUpper() + Substring(1).ToLower(). Gib keine Eingabeaufforderung aus.",
+     "hint": "Entferne zuerst die Leerzeichen am Rand und behandle dann den ersten Buchstaben und den Rest getrennt. Gib keine Eingabeaufforderung aus.",
      "compare": "exact",
      "tests": [
       {
@@ -2422,7 +2422,7 @@
      "task": "Ein Palindrom liest sich vorwärts und rückwärts gleich (z. B. `Anna`, `Otto`). Lies ein Wort ein, ignoriere Groß-/Kleinschreibung und gib `Palindrom` oder `kein Palindrom` aus.",
      "starter": "string wort = Console.ReadLine();\n",
      "solution": "string wort = Console.ReadLine().ToLower();\nstring rueckwaerts = \"\";\nfor (int i = wort.Length - 1; i >= 0; i--)\n{\n    rueckwaerts += wort[i];\n}\nif (wort == rueckwaerts)\n    Console.WriteLine(\"Palindrom\");\nelse\n    Console.WriteLine(\"kein Palindrom\");\n",
-     "hint": "Bau den umgedrehten Text mit einer Schleife, die bei wort.Length - 1 startet.",
+     "hint": "Bau dir den Text rückwärts zusammen und vergleiche ihn mit dem Original. Beide müssen dafür in derselben Schreibweise sein.",
      "compare": "lenient",
      "tests": [
       {
@@ -2449,10 +2449,10 @@
     },
     {
      "title": "Wörter zählen",
-     "task": "Lies einen Satz ein, zerlege ihn mit `Split(' ')` und gib die Anzahl der Wörter und das längste Wort aus. Bei `Ich lerne gerade programmieren`:\n\n```\nWörter: 4\nLängstes Wort: programmieren\n```",
+     "task": "Lies einen Satz ein, zerlege ihn in seine Wörter und gib die Anzahl der Wörter und das längste Wort aus. Bei `Ich lerne gerade programmieren`:\n\n```\nWörter: 4\nLängstes Wort: programmieren\n```",
      "starter": "string satz = Console.ReadLine();\n",
      "solution": "string satz = Console.ReadLine();\nstring[] woerter = satz.Split(' ');\nstring laengstes = \"\";\nforeach (string w in woerter)\n{\n    if (w.Length > laengstes.Length)\n        laengstes = w;\n}\nConsole.WriteLine(\"Wörter: \" + woerter.Length);\nConsole.WriteLine(\"Längstes Wort: \" + laengstes);\n",
-     "hint": "Split liefert ein Array – seine Length ist die Anzahl der Wörter. Fürs längste Wort vergleichst du in einer Schleife die Length jedes Wortes.",
+     "hint": "Zerlegst du den Satz, bekommst du ein Array mit den Wörtern. Fürs längste Wort vergleichst du die Wörter in einer Schleife nacheinander.",
      "compare": "lenient",
      "tests": [
       {
@@ -2471,7 +2471,7 @@
      "requirements": [
       {
        "pattern": "\\.\\s*Split\\s*\\(",
-       "message": "Benutze Split."
+       "message": "Zerleg den Satz mit der passenden String-Methode aus dieser Lektion in einzelne Wörter."
       }
      ],
      "id": "l18a3"
@@ -2525,10 +2525,10 @@
    "exercises": [
     {
      "title": "Zahl oder nicht?",
-     "task": "Lies eine Eingabe. Ist es eine ganze Zahl, gib `Das Doppelte ist 14` (bei `7`) aus, sonst `Ungültige Eingabe`. Benutze `int.TryParse`.",
+     "task": "Lies eine Eingabe. Ist es eine ganze Zahl, gib das Doppelte aus, z. B. `Das Doppelte ist 14` (bei `7`), sonst `Ungültige Eingabe`. Dein Programm darf bei einer falschen Eingabe **nicht abstürzen**.",
      "starter": "string eingabe = Console.ReadLine();\n",
      "solution": "string eingabe = Console.ReadLine();\nif (int.TryParse(eingabe, out int zahl))\n    Console.WriteLine(\"Das Doppelte ist \" + (zahl * 2));\nelse\n    Console.WriteLine(\"Ungültige Eingabe\");\n",
-     "hint": "int.TryParse liefert true oder false und schreibt die Zahl über out in eine Variable. Benutze den Rückgabewert direkt im if.",
+     "hint": "Die sichere Umwandlung aus dieser Lektion meldet dir, ob es geklappt hat. Das kannst du direkt in der Bedingung benutzen.",
      "compare": "lenient",
      "tests": [
       {
@@ -2553,7 +2553,7 @@
      "requirements": [
       {
        "pattern": "int\\s*\\.\\s*TryParse",
-       "message": "Benutze int.TryParse."
+       "message": "Wandle die Eingabe mit der sicheren Methode aus dieser Lektion um, damit nichts abstürzt."
       }
      ],
      "id": "l19a1"
@@ -2563,7 +2563,7 @@
      "task": "Frage so lange nach dem Alter, bis eine gültige Zahl eingegeben wird. Bei ungültiger Eingabe: `Bitte eine Zahl eingeben!`. Am Ende: `Du bist 30 Jahre alt.`\n\nBei `dreißig`, `30`:\n```\nBitte eine Zahl eingeben!\nDu bist 30 Jahre alt.\n```",
      "starter": "int alter;\n",
      "solution": "int alter;\nwhile (!int.TryParse(Console.ReadLine(), out alter))\n{\n    Console.WriteLine(\"Bitte eine Zahl eingeben!\");\n}\nConsole.WriteLine($\"Du bist {alter} Jahre alt.\");\n",
-     "hint": "Setz int.TryParse in die Bedingung einer while-Schleife. Solange es nicht klappt, gibst du die Bitte aus und liest neu ein.",
+     "hint": "Wiederhole das Einlesen, solange die sichere Umwandlung nicht klappt. Bei jedem Fehlschlag gibst du die Bitte aus.",
      "compare": "lenient",
      "tests": [
       {
@@ -2591,7 +2591,7 @@
      "requirements": [
       {
        "pattern": "TryParse",
-       "message": "Benutze int.TryParse."
+       "message": "Wandle die Eingabe mit der sicheren Methode aus dieser Lektion um, damit nichts abstürzt."
       }
      ],
      "id": "l19a2"
@@ -2601,7 +2601,7 @@
      "task": "Lies 5 Eingaben. Addiere nur die, die gültige ganze Zahlen sind, und zähle die ungültigen. Bei `4`, `x`, `10`, `zwei`, `6`:\n\n```\nSumme: 20\nUngültig: 2\n```",
      "starter": "int summe = 0;\nint ungueltig = 0;\n",
      "solution": "int summe = 0;\nint ungueltig = 0;\nfor (int i = 0; i < 5; i++)\n{\n    if (int.TryParse(Console.ReadLine(), out int z))\n        summe += z;\n    else\n        ungueltig++;\n}\nConsole.WriteLine(\"Summe: \" + summe);\nConsole.WriteLine(\"Ungültig: \" + ungueltig);\n",
-     "hint": "Eine for-Schleife mit 5 Durchläufen liest jede Eingabe. Je nach Ergebnis von TryParse addierst du zur Summe oder zählst die ungültigen.",
+     "hint": "Lies die 5 Eingaben in einer Schleife ein. Je nachdem, ob die Umwandlung klappt, addierst du zur Summe oder zählst die ungültigen.",
      "compare": "lenient",
      "tests": [
       {
@@ -2628,7 +2628,7 @@
      "requirements": [
       {
        "pattern": "TryParse",
-       "message": "Benutze int.TryParse."
+       "message": "Wandle die Eingaben mit der sicheren Methode aus dieser Lektion um, damit nichts abstürzt."
       }
      ],
      "id": "l19a3"
@@ -2685,7 +2685,7 @@
      "task": "Berechne die Länge der Hypotenuse c = √(a² + b²) für a = 3 und b = 4 sowie für a = 5 und b = 12. Schreib dafür eine Methode `static double Hypotenuse(double a, double b)`:\n\n```\n5\n13\n```",
      "starter": "",
      "solution": "Console.WriteLine(Hypotenuse(3, 4));\nConsole.WriteLine(Hypotenuse(5, 12));\n\nstatic double Hypotenuse(double a, double b)\n{\n    return Math.Sqrt(a * a + b * b);\n}\n",
-     "hint": "Math.Sqrt zieht die Wurzel. Die Methode bekommt a und b und gibt das Ergebnis mit return zurück.",
+     "hint": "Die Math-Klasse hat eine fertige Methode für die Quadratwurzel. Deine Methode bekommt a und b und gibt das Ergebnis zurück.",
      "compare": "exact",
      "tests": [
       {
@@ -2696,17 +2696,17 @@
      "requirements": [
       {
        "pattern": "Math\\s*\\.\\s*Sqrt",
-       "message": "Benutze Math.Sqrt."
+       "message": "Für die Wurzel gibt es eine fertige Methode in der Math-Klasse."
       }
      ],
      "id": "l20a1"
     },
     {
      "title": "Kreis",
-     "task": "Lies einen Radius (Kommazahl) ein und gib Umfang (2·π·r) und Fläche (π·r²) mit 2 Nachkommastellen aus. Bei `5`:\n\n```\nUmfang: 31,42\nFläche: 78,54\n```",
+     "task": "Lies einen Radius (Kommazahl) ein und gib Umfang (2·π·r) und Fläche (π·r²) mit 2 Nachkommastellen aus. Tipp π nicht als Zahl ein. Bei `5`:\n\n```\nUmfang: 31,42\nFläche: 78,54\n```",
      "starter": "double r = double.Parse(Console.ReadLine());\n",
      "solution": "double r = double.Parse(Console.ReadLine());\nConsole.WriteLine($\"Umfang: {2 * Math.PI * r:F2}\");\nConsole.WriteLine($\"Fläche: {Math.PI * Math.Pow(r, 2):F2}\");\n",
-     "hint": "Math.PI ist die Kreiszahl π, r² rechnest du mit r * r oder Math.Pow. Für 2 Nachkommastellen nimmst du :F2.",
+     "hint": "Die Kreiszahl kennt die Math-Klasse schon, und r² ist einfach r mal r. Die 2 Nachkommastellen kommen erst bei der Ausgabe dazu.",
      "compare": "lenient",
      "tests": [
       {
@@ -2731,17 +2731,17 @@
      "requirements": [
       {
        "pattern": "Math\\s*\\.\\s*PI",
-       "message": "Benutze Math.PI."
+       "message": "Tipp π nicht als Zahl ein – die Math-Klasse kennt die Kreiszahl schon."
       }
      ],
      "id": "l20a2"
     },
     {
      "title": "Pizza-Rechner",
-     "task": "Für eine Party brauchst du pro Person 3 Pizzastücke. Eine Pizza hat 8 Stücke. Lies die Anzahl der Personen ein und berechne mit `Math.Ceiling`, wie viele Pizzen du **mindestens** bestellen musst. Bei `10`:\n\n```\nAnzahl Pizzen: 4\n```",
+     "task": "Für eine Party brauchst du pro Person 3 Pizzastücke. Eine Pizza hat 8 Stücke. Lies die Anzahl der Personen ein und berechne, wie viele ganze Pizzen du **mindestens** bestellen musst – angefangene Pizzen zählen voll. Bei `10`:\n\n```\nAnzahl Pizzen: 4\n```",
      "starter": "int personen = int.Parse(Console.ReadLine());\n",
      "solution": "int personen = int.Parse(Console.ReadLine());\nint stuecke = personen * 3;\nint pizzen = (int)Math.Ceiling(stuecke / 8.0);\nConsole.WriteLine($\"Anzahl Pizzen: {pizzen}\");\n",
-     "hint": "Teile durch 8.0 (nicht 8), sonst wird ganzzahlig geteilt und vorher schon abgerundet!",
+     "hint": "Achte darauf, dass beim Teilen eine Kommazahl herauskommt – sonst wird schon vorher abgerundet! Zum Aufrunden hilft dir die Math-Klasse.",
      "compare": "lenient",
      "tests": [
       {
@@ -2766,7 +2766,7 @@
      "requirements": [
       {
        "pattern": "Math\\s*\\.\\s*Ceiling",
-       "message": "Benutze Math.Ceiling."
+       "message": "Zum Aufrunden gibt es eine fertige Methode in der Math-Klasse."
       }
      ],
      "id": "l20a3"
@@ -2852,7 +2852,7 @@
      "task": "Schreib eine Klasse `Rechteck` mit den Feldern `Breite` und `Hoehe` (double) und einer Methode `public double Flaeche()`, die die Fläche **zurückgibt**. Erzeuge ein Rechteck 4 × 2,5 und gib aus:\n\n```\nFläche: 10\n```",
      "starter": "\n\nclass Rechteck\n{\n}\n",
      "solution": "Rechteck r = new Rechteck();\nr.Breite = 4;\nr.Hoehe = 2.5;\nConsole.WriteLine(\"Fläche: \" + r.Flaeche());\n\nclass Rechteck\n{\n    public double Breite;\n    public double Hoehe;\n\n    public double Flaeche()\n    {\n        return Breite * Hoehe;\n    }\n}\n",
-     "hint": "Die Methode Flaeche hat den Rückgabetyp double und liefert Breite mal Hoehe mit return. Breite und Hoehe setzt du im Hauptcode.",
+     "hint": "Die Methode Flaeche rechnet Breite mal Hoehe und liefert das Ergebnis zurück. Breite und Hoehe setzt du im Hauptcode.",
      "compare": "exact",
      "tests": [
       {
@@ -2863,7 +2863,7 @@
      "requirements": [
       {
        "pattern": "new\\s+Rechteck\\s*\\(",
-       "message": "Erzeuge ein Objekt mit new Rechteck()."
+       "message": "Erzeuge im Hauptcode ein Rechteck-Objekt."
       }
      ],
      "id": "l21a2"
@@ -2991,11 +2991,11 @@
      "id": "l22a2"
     },
     {
-     "title": "Punkt mit this",
-     "task": "Schreib eine Klasse `Punkt` mit Feldern `X` und `Y` (int), einem Konstruktor mit Parametern `X` und `Y` (gleiche Namen – benutze `this`!) und einer Methode `public string AlsText()`, die `(3|4)` zurückgibt. Gib aus:\n\n```\n(3|4)\n(-1|7)\n```",
+     "title": "Punkt mit gleichen Namen",
+     "task": "Schreib eine Klasse `Punkt` mit Feldern `X` und `Y` (int), einem Konstruktor, dessen Parameter **genauso heißen** wie die Felder (`X` und `Y`), und einer Methode `public string AlsText()`, die z. B. `(3|4)` zurückgibt. Gib aus:\n\n```\n(3|4)\n(-1|7)\n```",
      "starter": "Console.WriteLine(new Punkt(3, 4).AlsText());\nConsole.WriteLine(new Punkt(-1, 7).AlsText());\n\n",
      "solution": "Console.WriteLine(new Punkt(3, 4).AlsText());\nConsole.WriteLine(new Punkt(-1, 7).AlsText());\n\nclass Punkt\n{\n    public int X;\n    public int Y;\n\n    public Punkt(int X, int Y)\n    {\n        this.X = X;\n        this.Y = Y;\n    }\n\n    public string AlsText()\n    {\n        return $\"({X}|{Y})\";\n    }\n}\n",
-     "hint": "Heißen Parameter und Feld gleich, meint this.X das Feld und X den Parameter. AlsText baut den Text mit $\"...\" zusammen.",
+     "hint": "Heißen Parameter und Feld gleich, musst du C# sagen, wann du das Feld des Objekts meinst. AlsText baut den Text aus X und Y zusammen.",
      "compare": "exact",
      "tests": [
       {
@@ -3006,7 +3006,7 @@
      "requirements": [
       {
        "pattern": "\\bthis\\s*\\.",
-       "message": "Benutze this, um Feld und Parameter zu unterscheiden."
+       "message": "Feld und Parameter heißen gleich – in der Lektion steht, wie du im Konstruktor das Feld eindeutig ansprichst."
       }
      ],
      "id": "l22a3"
@@ -3060,10 +3060,10 @@
    "exercises": [
     {
      "title": "Temperatur mit Grenze",
-     "task": "Ergänze die Eigenschaft `Celsius`: Werte unter -273 sollen auf -273 gesetzt werden (kälter geht nicht). Ergänze außerdem eine Eigenschaft `Fahrenheit` nur mit `get`, die `Celsius * 1.8 + 32` liefert.\n\n```\n20 °C = 68,0 °F\n-273 °C = -459,4 °F\n```",
+     "task": "Ergänze die Eigenschaft `Celsius`: Werte unter -273 sollen auf -273 gesetzt werden (kälter geht nicht). Ergänze außerdem eine Eigenschaft `Fahrenheit`, die man nur **lesen** kann und die die Temperatur in °F liefert (°F = °C · 1,8 + 32).\n\n```\n20 °C = 68,0 °F\n-273 °C = -459,4 °F\n```",
      "starter": "Thermometer t = new Thermometer();\nt.Celsius = 20;\nConsole.WriteLine($\"{t.Celsius} °C = {t.Fahrenheit:F1} °F\");\nt.Celsius = -500;\nConsole.WriteLine($\"{t.Celsius} °C = {t.Fahrenheit:F1} °F\");\n\nclass Thermometer\n{\n    private double celsius;\n\n    public double Celsius\n    {\n        get { return celsius; }\n        set { celsius = value; }\n    }\n}\n",
      "solution": "Thermometer t = new Thermometer();\nt.Celsius = 20;\nConsole.WriteLine($\"{t.Celsius} °C = {t.Fahrenheit:F1} °F\");\nt.Celsius = -500;\nConsole.WriteLine($\"{t.Celsius} °C = {t.Fahrenheit:F1} °F\");\n\nclass Thermometer\n{\n    private double celsius;\n\n    public double Celsius\n    {\n        get { return celsius; }\n        set\n        {\n            if (value < -273) celsius = -273;\n            else celsius = value;\n        }\n    }\n\n    public double Fahrenheit\n    {\n        get { return celsius * 1.8 + 32; }\n    }\n}\n",
-     "hint": "-273 * 1.8 + 32 ergibt -459,4. :F1 rundet auf eine Nachkommastelle.",
+     "hint": "Zur Kontrolle: -273 °C sind -459,4 °F.",
      "compare": "exact",
      "tests": [
       {
@@ -3074,17 +3074,17 @@
      "requirements": [
       {
        "pattern": "double\\s+Fahrenheit\\s*(\\{|=>)",
-       "message": "Ergänze in der Klasse die Eigenschaft public double Fahrenheit (nur mit get)."
+       "message": "Ergänze in der Klasse die Eigenschaft public double Fahrenheit, die man nur lesen kann."
       }
      ],
      "id": "l23a1"
     },
     {
-     "title": "Produkt mit Auto-Eigenschaften",
+     "title": "Produkt mit Rabatt",
      "task": "Schreib eine Klasse `Produkt` mit den Auto-Eigenschaften `Name` (string) und `Preis` (double) sowie einem Konstruktor. Ergänze die Methode `public double PreisMitRabatt(int prozent)`. Gib aus:\n\n```\nKopfhörer: 80,00 Euro, mit 25 % Rabatt: 60,00 Euro\n```",
      "starter": "Produkt p = new Produkt(\"Kopfhörer\", 80);\nConsole.WriteLine($\"{p.Name}: {p.Preis:F2} Euro, mit 25 % Rabatt: {p.PreisMitRabatt(25):F2} Euro\");\n\n",
      "solution": "Produkt p = new Produkt(\"Kopfhörer\", 80);\nConsole.WriteLine($\"{p.Name}: {p.Preis:F2} Euro, mit 25 % Rabatt: {p.PreisMitRabatt(25):F2} Euro\");\n\nclass Produkt\n{\n    public string Name { get; set; }\n    public double Preis { get; set; }\n\n    public Produkt(string name, double preis)\n    {\n        Name = name;\n        Preis = preis;\n    }\n\n    public double PreisMitRabatt(int prozent)\n    {\n        return Preis * (100 - prozent) / 100;\n    }\n}\n",
-     "hint": "Auto-Eigenschaften schreibst du kurz mit { get; set; }. Für den Rabatt ziehst du den Prozentanteil vom Preis ab – denk an das Teilen durch 100.0.",
+     "hint": "Auto-Eigenschaften brauchen kein eigenes Feld – die Lektion zeigt dir die Kurzschreibweise. Für den Rabatt ziehst du den Prozentanteil vom Preis ab und teilst dabei durch eine Kommazahl.",
      "compare": "exact",
      "tests": [
       {
@@ -3095,7 +3095,7 @@
      "requirements": [
       {
        "pattern": "\\{\\s*get\\s*;\\s*set\\s*;\\s*\\}",
-       "message": "Benutze Auto-Eigenschaften { get; set; }."
+       "message": "Name und Preis sollen Auto-Eigenschaften sein – nimm die Kurzschreibweise aus der Lektion."
       }
      ],
      "id": "l23a2"
@@ -3173,7 +3173,7 @@
      "task": "Füge der Liste drei Schüler hinzu: `Ana` (Note 2), `Ben` (Note 1), `Cem` (Note 3). Gib alle aus und danach den Notendurchschnitt mit 2 Nachkommastellen:\n\n```\nAna: 2\nBen: 1\nCem: 3\nDurchschnitt: 2,00\n```",
      "starter": "List<Schueler> klasse = new List<Schueler>();\n\n\nclass Schueler\n{\n    public string Name { get; }\n    public int Note { get; }\n\n    public Schueler(string name, int note)\n    {\n        Name = name;\n        Note = note;\n    }\n}\n",
      "solution": "List<Schueler> klasse = new List<Schueler>();\nklasse.Add(new Schueler(\"Ana\", 2));\nklasse.Add(new Schueler(\"Ben\", 1));\nklasse.Add(new Schueler(\"Cem\", 3));\n\ndouble summe = 0;\nforeach (Schueler s in klasse)\n{\n    Console.WriteLine($\"{s.Name}: {s.Note}\");\n    summe += s.Note;\n}\nConsole.WriteLine($\"Durchschnitt: {summe / klasse.Count:F2}\");\n\nclass Schueler\n{\n    public string Name { get; }\n    public int Note { get; }\n\n    public Schueler(string name, int note)\n    {\n        Name = name;\n        Note = note;\n    }\n}\n",
-     "hint": "Erzeuge jeden Schüler mit new Schueler(...) und füge ihn mit Add hinzu. Für den Durchschnitt addierst du in der foreach-Schleife die Noten und teilst danach.",
+     "hint": "Erzeuge für jeden Schüler ein Objekt und füge es der Liste hinzu. Für den Durchschnitt addierst du in einer Schleife die Noten und teilst danach.",
      "compare": "exact",
      "tests": [
       {
@@ -3184,14 +3184,14 @@
      "requirements": [
       {
        "pattern": "\\.\\s*Add\\s*\\(",
-       "message": "Füge die Schüler mit .Add(...) zur Liste hinzu."
+       "message": "Die Schüler sollen einzeln zur Liste hinzugefügt werden."
       }
      ],
      "id": "l24a1"
     },
     {
      "title": "Teuerstes Produkt",
-     "task": "Finde in der Liste das teuerste Produkt (mit einer Schleife) und gib aus:\n\n```\nTeuerstes Produkt: Monitor (199,99 Euro)\n```",
+     "task": "Finde in der Liste selbst das teuerste Produkt, indem du die Produkte der Reihe nach durchgehst, und gib aus:\n\n```\nTeuerstes Produkt: Monitor (199,99 Euro)\n```",
      "starter": "List<Produkt> produkte = new List<Produkt>\n{\n    new Produkt(\"Maus\", 19.99),\n    new Produkt(\"Monitor\", 199.99),\n    new Produkt(\"Tastatur\", 49.5),\n};\n\n\nclass Produkt\n{\n    public string Name { get; }\n    public double Preis { get; }\n    public Produkt(string name, double preis) { Name = name; Preis = preis; }\n}\n",
      "solution": "List<Produkt> produkte = new List<Produkt>\n{\n    new Produkt(\"Maus\", 19.99),\n    new Produkt(\"Monitor\", 199.99),\n    new Produkt(\"Tastatur\", 49.5),\n};\n\nProdukt teuerstes = produkte[0];\nforeach (Produkt p in produkte)\n{\n    if (p.Preis > teuerstes.Preis)\n        teuerstes = p;\n}\nConsole.WriteLine($\"Teuerstes Produkt: {teuerstes.Name} ({teuerstes.Preis:F2} Euro)\");\n\nclass Produkt\n{\n    public string Name { get; }\n    public double Preis { get; }\n    public Produkt(string name, double preis) { Name = name; Preis = preis; }\n}\n",
      "hint": "Merk dir das erste Produkt als bisher teuerstes. Vergleiche in der Schleife den Preis jedes Produkts damit.",
@@ -3205,7 +3205,7 @@
      "requirements": [
       {
        "pattern": "foreach|for\\s*\\(",
-       "message": "Suche das teuerste Produkt mit einer Schleife (foreach oder for)."
+       "message": "Geh die Produkte selbst der Reihe nach durch."
       }
      ],
      "id": "l24a2"
@@ -3215,7 +3215,7 @@
      "task": "Lies erst die Anzahl der Teilnehmer, dann für jeden Namen und Punktzahl ein. Gib nur die aus, die **mindestens 50** Punkte haben, und am Ende die Anzahl. Bei `3`, `Ana`, `70`, `Ben`, `40`, `Cem`, `50`:\n\n```\nBestanden: Ana (70)\nBestanden: Cem (50)\n2 von 3 haben bestanden.\n```",
      "starter": "List<Teilnehmer> liste = new List<Teilnehmer>();\n\n\nclass Teilnehmer\n{\n    public string Name { get; set; }\n    public int Punkte { get; set; }\n}\n",
      "solution": "List<Teilnehmer> liste = new List<Teilnehmer>();\nint anzahl = int.Parse(Console.ReadLine());\nfor (int i = 0; i < anzahl; i++)\n{\n    Teilnehmer t = new Teilnehmer();\n    t.Name = Console.ReadLine();\n    t.Punkte = int.Parse(Console.ReadLine());\n    liste.Add(t);\n}\n\nint bestanden = 0;\nforeach (Teilnehmer t in liste)\n{\n    if (t.Punkte >= 50)\n    {\n        Console.WriteLine($\"Bestanden: {t.Name} ({t.Punkte})\");\n        bestanden++;\n    }\n}\nConsole.WriteLine($\"{bestanden} von {liste.Count} haben bestanden.\");\n\nclass Teilnehmer\n{\n    public string Name { get; set; }\n    public int Punkte { get; set; }\n}\n",
-     "hint": "Lies in einer for-Schleife Name und Punkte ein und lege dafür je ein Objekt an. Danach gibst du in einer zweiten Schleife nur die mit mindestens 50 Punkten aus und zählst mit.",
+     "hint": "Lies Name und Punkte in einer Schleife ein und lege für jeden ein Objekt an. Danach gibst du nur die mit mindestens 50 Punkten aus und zählst mit.",
      "compare": "lenient",
      "tests": [
       {
@@ -3291,10 +3291,10 @@
    "exercises": [
     {
      "title": "Schritt 1: Noten einlesen",
-     "task": "Lies zuerst die Anzahl der Noten ein, dann die Noten selbst, und speichere sie in einer `List<int>`. Gib sie danach so aus (bei `3`, `2`, `1`, `4`):\n\n```\nDeine Noten: 2, 1, 4\n```",
+     "task": "Lies zuerst die Anzahl der Noten ein, dann die Noten selbst, und speichere sie in einer Liste. Gib sie danach so aus (bei `3`, `2`, `1`, `4`):\n\n```\nDeine Noten: 2, 1, 4\n```",
      "starter": "List<int> noten = new List<int>();\n",
      "solution": "List<int> noten = new List<int>();\nint anzahl = int.Parse(Console.ReadLine());\nfor (int i = 0; i < anzahl; i++)\n{\n    noten.Add(int.Parse(Console.ReadLine()));\n}\nConsole.WriteLine(\"Deine Noten: \" + string.Join(\", \", noten));\n",
-     "hint": "string.Join(\", \", noten) verbindet alle Noten mit Komma.",
+     "hint": "Für die Ausgabe gibt es eine fertige Methode, die alle Elemente mit einem Trennzeichen zu einem Text verbindet. Du kannst den Text aber auch in einer Schleife bauen.",
      "compare": "lenient",
      "tests": [
       {
@@ -3473,7 +3473,7 @@
      "task": "Lass so lange raten, bis die Zahl `37` getroffen ist. Gib nach jedem Tipp `Zu klein!`/`Zu groß!` aus und am Ende `Richtig! Versuche: 3` Bei `50`, `25`, `37`:\n\n```\nZu groß!\nZu klein!\nRichtig! Versuche: 3\n```",
      "starter": "int geheim = 37;\nint versuche = 0;\n",
      "solution": "int geheim = 37;\nint versuche = 0;\nint tipp = 0;\nwhile (tipp != geheim)\n{\n    tipp = int.Parse(Console.ReadLine());\n    versuche++;\n    if (tipp < geheim)\n        Console.WriteLine(\"Zu klein!\");\n    else if (tipp > geheim)\n        Console.WriteLine(\"Zu groß!\");\n}\nConsole.WriteLine($\"Richtig! Versuche: {versuche}\");\n",
-     "hint": "Eine while-Schleife läuft, solange der Tipp nicht die geheime Zahl ist. Zähle in jedem Durchlauf die Versuche hoch und gib das Ergebnis erst nach der Schleife aus.",
+     "hint": "Wiederhole das Raten, solange der Tipp nicht die geheime Zahl ist. Zähle dabei die Versuche mit und gib das Ergebnis erst nach der Schleife aus.",
      "compare": "lenient",
      "tests": [
       {
@@ -3496,10 +3496,10 @@
     },
     {
      "title": "Mit Schutz und Limit",
-     "task": "Erweitere das Spiel:\n- Ungültige Eingaben (keine Zahl) → `Das ist keine Zahl!` (zählt nicht als Versuch). Benutze `int.TryParse`.\n- Nach **5** Versuchen ohne Treffer ist Schluss: `Verloren! Die Zahl war 37.`\n- Bei Treffer: `Richtig! Versuche: 2`\n\nBei `50`, `abc`, `37`:\n```\nZu groß!\nDas ist keine Zahl!\nRichtig! Versuche: 2\n```",
+     "task": "Erweitere das Spiel:\n- Ungültige Eingaben (keine Zahl) → `Das ist keine Zahl!` (zählt nicht als Versuch). Das Programm darf dabei **nicht abstürzen**.\n- Nach **5** Versuchen ohne Treffer ist Schluss: `Verloren! Die Zahl war 37.`\n- Bei Treffer: `Richtig! Versuche: 2`\n\nBei `50`, `abc`, `37`:\n```\nZu groß!\nDas ist keine Zahl!\nRichtig! Versuche: 2\n```",
      "starter": "int geheim = 37;\nint versuche = 0;\nconst int maxVersuche = 5;\n",
      "solution": "int geheim = 37;\nint versuche = 0;\nconst int maxVersuche = 5;\nbool gewonnen = false;\n\nwhile (versuche < maxVersuche && !gewonnen)\n{\n    if (!int.TryParse(Console.ReadLine(), out int tipp))\n    {\n        Console.WriteLine(\"Das ist keine Zahl!\");\n        continue;\n    }\n    versuche++;\n    if (tipp < geheim) Console.WriteLine(\"Zu klein!\");\n    else if (tipp > geheim) Console.WriteLine(\"Zu groß!\");\n    else gewonnen = true;\n}\n\nif (gewonnen)\n    Console.WriteLine($\"Richtig! Versuche: {versuche}\");\nelse\n    Console.WriteLine($\"Verloren! Die Zahl war {geheim}.\");\n",
-     "hint": "continue; springt sofort zum nächsten Schleifendurchlauf.",
+     "hint": "Bei einer ungültigen Eingabe kannst du den Rest des Schleifendurchlaufs überspringen und gleich neu fragen.",
      "compare": "lenient",
      "tests": [
       {
@@ -3525,7 +3525,7 @@
      "requirements": [
       {
        "pattern": "TryParse",
-       "message": "Benutze int.TryParse."
+       "message": "Wandle die Eingabe mit der sicheren Methode aus Lektion 19 um, damit nichts abstürzt."
       }
      ],
      "id": "l26a3"
@@ -3582,7 +3582,7 @@
      "task": "Baue die Hauptschleife mit den Befehlen `1` (hinzufügen), `2` (anzeigen) und `0` (beenden).\n- Bei `1`: Namen einlesen, hinzufügen, `Milch hinzugefügt.` ausgeben.\n- Bei `2`: alle Artikel nummeriert ausgeben (`1. Milch`). Ist die Liste leer: `Die Liste ist leer.`\n- Bei `0`: `Tschüss!` und beenden.\n\nBei `2`, `1`, `Milch`, `1`, `Brot`, `2`, `0`:\n```\nDie Liste ist leer.\nMilch hinzugefügt.\nBrot hinzugefügt.\n1. Milch\n2. Brot\nTschüss!\n```",
      "starter": "List<string> liste = new List<string>();\nbool laeuft = true;\n\nwhile (laeuft)\n{\n    string befehl = Console.ReadLine();\n    // switch (befehl) ...\n    laeuft = false;\n}\n",
      "solution": "List<string> liste = new List<string>();\nbool laeuft = true;\n\nwhile (laeuft)\n{\n    string befehl = Console.ReadLine();\n    switch (befehl)\n    {\n        case \"1\":\n            string artikel = Console.ReadLine();\n            liste.Add(artikel);\n            Console.WriteLine($\"{artikel} hinzugefügt.\");\n            break;\n        case \"2\":\n            if (liste.Count == 0)\n                Console.WriteLine(\"Die Liste ist leer.\");\n            for (int i = 0; i < liste.Count; i++)\n                Console.WriteLine($\"{i + 1}. {liste[i]}\");\n            break;\n        case \"0\":\n            Console.WriteLine(\"Tschüss!\");\n            laeuft = false;\n            break;\n    }\n}\n",
-     "hint": "Die Schleife läuft, solange eine bool-Variable true ist – Befehl 0 setzt sie auf false. Mit switch auf den eingelesenen Befehl wählst du den Fall aus.",
+     "hint": "Die Hauptschleife läuft, solange eine Variable sagt „weitermachen“ – Befehl 0 ändert das. Welcher Befehl eingegeben wurde, entscheidest du mit einer Mehrfachauswahl.",
      "compare": "lenient",
      "tests": [
       {
@@ -3601,11 +3601,11 @@
      "requirements": [
       {
        "pattern": "\\.\\s*Add\\s*\\(",
-       "message": "Füge neue Artikel mit liste.Add(...) zur Liste hinzu."
+       "message": "Neue Artikel sollen in der Liste gespeichert werden."
       },
       {
        "pattern": "\\.\\s*Count\\b",
-       "message": "Prüfe mit liste.Count, ob die Liste leer ist."
+       "message": "Ob die Liste leer ist, kann sie dir selbst sagen – frag ihre Anzahl ab."
       }
      ],
      "id": "l27a1"
@@ -3615,7 +3615,7 @@
      "task": "Erweitere dein Programm um:\n- `3`: Namen einlesen und entfernen → `Brot entfernt.` – gibt es den Artikel nicht: `Brot ist nicht auf der Liste.`\n- Unbekannte Befehle → `Unbekannter Befehl.`\n- Beim Hinzufügen doppelte Artikel ablehnen: `Milch ist schon auf der Liste.`\n\nBei `1`, `Milch`, `1`, `Milch`, `3`, `Brot`, `9`, `3`, `Milch`, `2`, `0`:\n```\nMilch hinzugefügt.\nMilch ist schon auf der Liste.\nBrot ist nicht auf der Liste.\nUnbekannter Befehl.\nMilch entfernt.\nDie Liste ist leer.\nTschüss!\n```",
      "starter": "List<string> liste = new List<string>();\nbool laeuft = true;\n\nwhile (laeuft)\n{\n    string befehl = Console.ReadLine();\n    switch (befehl)\n    {\n        case \"0\":\n            Console.WriteLine(\"Tschüss!\");\n            laeuft = false;\n            break;\n    }\n}\n",
      "solution": "List<string> liste = new List<string>();\nbool laeuft = true;\n\nwhile (laeuft)\n{\n    string befehl = Console.ReadLine();\n    switch (befehl)\n    {\n        case \"1\":\n            string neu = Console.ReadLine();\n            if (liste.Contains(neu))\n                Console.WriteLine($\"{neu} ist schon auf der Liste.\");\n            else\n            {\n                liste.Add(neu);\n                Console.WriteLine($\"{neu} hinzugefügt.\");\n            }\n            break;\n        case \"2\":\n            if (liste.Count == 0)\n                Console.WriteLine(\"Die Liste ist leer.\");\n            for (int i = 0; i < liste.Count; i++)\n                Console.WriteLine($\"{i + 1}. {liste[i]}\");\n            break;\n        case \"3\":\n            string weg = Console.ReadLine();\n            if (liste.Remove(weg))\n                Console.WriteLine($\"{weg} entfernt.\");\n            else\n                Console.WriteLine($\"{weg} ist nicht auf der Liste.\");\n            break;\n        case \"0\":\n            Console.WriteLine(\"Tschüss!\");\n            laeuft = false;\n            break;\n        default:\n            Console.WriteLine(\"Unbekannter Befehl.\");\n            break;\n    }\n}\n",
-     "hint": "liste.Remove(x) gibt true zurück, wenn etwas entfernt wurde, sonst false.",
+     "hint": "Die Methode zum Entfernen verrät dir mit ihrem Rückgabewert, ob wirklich etwas entfernt wurde.",
      "compare": "lenient",
      "tests": [
       {
@@ -3638,11 +3638,11 @@
      "requirements": [
       {
        "pattern": "Contains",
-       "message": "Prüfe mit Contains, ob der Artikel schon auf der Liste steht."
+       "message": "Prüf mit der passenden Listen-Methode, ob der Artikel schon auf der Liste steht."
       },
       {
        "pattern": "Remove",
-       "message": "Entferne Artikel mit Remove."
+       "message": "Entferne Artikel mit der passenden Listen-Methode."
       }
      ],
      "id": "l27a2"
@@ -3675,11 +3675,11 @@
      "requirements": [
       {
        "pattern": "new\\s+Artikel\\b",
-       "message": "Lege für jeden neuen Artikel ein Objekt mit new Artikel … an."
+       "message": "Jeder neue Artikel soll ein eigenes Artikel-Objekt werden."
       },
       {
        "pattern": "Menge\\s*(\\+=|=\\s*\\w+\\s*\\.\\s*Menge\\s*\\+)",
-       "message": "Ist der Artikel schon da, addiere die neue Menge zur vorhandenen (z. B. mit +=)."
+       "message": "Ist der Artikel schon da, soll die neue Menge zur vorhandenen dazukommen."
       }
      ],
      "id": "l27a3"

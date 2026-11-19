@@ -5,11 +5,12 @@
     <UseWPF>true</UseWPF>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>CSharpLernen</RootNamespace>
     <AssemblyName>SharpLab</AssemblyName>
     <ApplicationIcon>Ressourcen\app.ico</ApplicationIcon>
-    <Version>1.0.2</Version>
+    <Version>1.0.4</Version>
     <Product>SharpLab – Der interaktive C#-Trainer</Product>
     <Title>SharpLab</Title>
     <Authors>Willi Gering</Authors>

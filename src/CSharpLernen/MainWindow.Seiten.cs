@@ -44,7 +44,7 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
     void BaueSeite(string name)
     {
         SeitenInhalt.Children.Clear();
-        einstMatrixAn = null; einstMatrixRegler = null; einstMatrixText = null;
+        einstMatrixAn = null; einstMatrixRegler = null; einstMatrixText = null; einstMatrixTempo = null; einstMatrixTempoText = null;
         if (SeitenSpalte.Child is ScrollViewer sv) sv.ScrollToTop();
         switch (name)
         {
@@ -471,6 +471,16 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
         };
         editor.Children.Add(groesse);
 
+        var auto = new CheckBox { Content = "Autovervollständigung (Vorschläge beim Tippen, wie in Visual Studio)", IsChecked = fortschritt.Autovervollstaendigung, FontSize = 12.5, Foreground = Ui.B("TextHell"), Margin = new Thickness(0, 0, 0, 4) };
+        auto.Click += (_, _) =>
+        {
+            fortschritt.Autovervollstaendigung = auto.IsChecked == true;
+            if (!fortschritt.Autovervollstaendigung) vervollstaendiger?.Schliessen();
+            fortschritt.Speichern();
+        };
+        editor.Children.Add(auto);
+        editor.Children.Add(Ui.Text("Öffnet sich nach einem Punkt und beim ersten Buchstaben, sonst mit Strg+Leertaste. Tab oder Enter übernimmt, Esc schließt. Schließt außerdem ( [ \" automatisch.", 11, "TextGedimmt", rand: new Thickness(0, 0, 0, 14)));
+
         var zeitText = Ui.Text($"Zeitlimit für Programme: {fortschritt.Zeitlimit} Sekunden", 12.5, "TextMittel");
         editor.Children.Add(zeitText);
         var zeit = new Slider { Minimum = 3, Maximum = 60, Value = fortschritt.Zeitlimit, TickFrequency = 1, IsSnapToTickEnabled = true, Margin = new Thickness(0, 4, 0, 4), Width = 420, HorizontalAlignment = HorizontalAlignment.Left };
@@ -486,16 +496,22 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
 
         var optik = new StackPanel();
         optik.Children.Add(Ui.Text("Aussehen", 15.5, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 10)));
-        var regenAn = new CheckBox { Content = "Matrix-Regen im Hintergrund", IsChecked = fortschritt.MatrixRegen, FontSize = 12.5 };
-        var staerkeText = Ui.Text($"Intensität: {fortschritt.MatrixStufe * 100:0} %", 12.5, "TextMittel", rand: new Thickness(0, 12, 0, 0));
+        optik.Children.Add(Ui.Text("Matrixcode", 13, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 6)));
+        var regenAn = new CheckBox { Content = "Matrixcode im Hintergrund anzeigen", IsChecked = fortschritt.MatrixRegen, FontSize = 12.5 };
+        var staerkeText = Ui.Text($"Helligkeit: {fortschritt.MatrixStufe * 100:0} %", 12.5, "TextMittel", rand: new Thickness(0, 12, 0, 0));
         var staerke = new Slider { Minimum = 0, Maximum = 1, Value = fortschritt.MatrixStufe, SmallChange = 0.05, LargeChange = 0.1, Margin = new Thickness(0, 4, 0, 4), Width = 420, HorizontalAlignment = HorizontalAlignment.Left, IsEnabled = fortschritt.MatrixRegen };
-        einstMatrixAn = regenAn; einstMatrixRegler = staerke; einstMatrixText = staerkeText;
+        var tempoText = Ui.Text($"Geschwindigkeit: {TempoText(fortschritt.MatrixTempo)}", 12.5, "TextMittel", rand: new Thickness(0, 8, 0, 0));
+        var tempo = new Slider { Minimum = 0.3, Maximum = 2.5, Value = fortschritt.MatrixTempo, SmallChange = 0.1, LargeChange = 0.25, Margin = new Thickness(0, 4, 0, 4), Width = 420, HorizontalAlignment = HorizontalAlignment.Left, IsEnabled = fortschritt.MatrixRegen };
+        einstMatrixAn = regenAn; einstMatrixRegler = staerke; einstMatrixText = staerkeText; einstMatrixTempo = tempo; einstMatrixTempoText = tempoText;
         regenAn.Click += (_, _) => SetzeMatrix(regenAn.IsChecked == true, fortschritt.MatrixStufe);
         staerke.ValueChanged += (_, _) => { if (!matrixSync) SetzeMatrix(fortschritt.MatrixRegen, staerke.Value); };
+        tempo.ValueChanged += (_, _) => { if (!matrixSync) SetzeMatrix(fortschritt.MatrixRegen, fortschritt.MatrixStufe, tempo.Value); };
         optik.Children.Add(regenAn);
         optik.Children.Add(staerkeText);
         optik.Children.Add(staerke);
-        optik.Children.Add(Ui.Text("Fallende Zeichen hinter der Oberfläche – auch links im Menü regelbar. Ab 50 % werden die Flächen etwas durchsichtiger. Wird angehalten, wenn das Fenster minimiert ist.", 11, "TextGedimmt"));
+        optik.Children.Add(tempoText);
+        optik.Children.Add(tempo);
+        optik.Children.Add(Ui.Text("Zeichen bauen sich im Hintergrund auf und klingen ab – auch links im Menü regelbar. Ab 50 % Helligkeit werden die Flächen etwas durchsichtiger. Wird angehalten, wenn das Fenster minimiert ist.", 11, "TextGedimmt", rand: new Thickness(0, 0, 0, 0)));
         SeitenInhalt.Children.Add(Ui.Karte(optik));
 
         var lernen = new StackPanel();

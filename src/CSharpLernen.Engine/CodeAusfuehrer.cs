@@ -26,10 +26,10 @@ public static class CodeAusfuehrer
 {
     public const string Dateiname = "Program.cs";
 
-    static readonly CSharpParseOptions ParseOptionen = new(LanguageVersion.CSharp12, DocumentationMode.None);
+    internal static readonly CSharpParseOptions ParseOptionen = new(LanguageVersion.CSharp12, DocumentationMode.None);
 
     /// <summary>Wie die impliziten usings einer .NET-8-Konsolen-App in Visual Studio.</summary>
-    const string GlobaleUsings = """
+    internal const string GlobaleUsings = """
 global using System;
 global using System.Collections.Generic;
 global using System.IO;
@@ -39,7 +39,7 @@ global using System.Threading;
 global using System.Threading.Tasks;
 """;
 
-    static readonly Lazy<List<MetadataReference>> Referenzen =
+    internal static readonly Lazy<List<MetadataReference>> Referenzen =
         new(() => Basic.Reference.Assemblies.Net80.References.All.Cast<MetadataReference>().ToList());
 
     static readonly SyntaxTree UsingsBaum = CSharpSyntaxTree.ParseText(GlobaleUsings, ParseOptionen, "GlobalUsings.cs", Encoding.UTF8);
@@ -60,7 +60,7 @@ global using System.Threading.Tasks;
 
     static readonly SemaphoreSlim Sperre = new(1, 1);
 
-    static readonly CSharpCompilationOptions Optionen = new(
+    internal static readonly CSharpCompilationOptions Optionen = new(
         OutputKind.ConsoleApplication,
         optimizationLevel: OptimizationLevel.Debug,
         nullableContextOptions: NullableContextOptions.Disable,

@@ -60,6 +60,7 @@ public partial class MainWindow
         VorherigeKnopf.IsEnabled = index > 0;
         NaechsteKnopf.IsEnabled = index < lektionen.Count - 1;
         UebungsReiterText();
+        NaechsteKnopfStil();
 
         offeneStufen.Add(l.Stufe);
         BaueLernpfad();
@@ -70,6 +71,14 @@ public partial class MainWindow
         ReiterQuiz.IsChecked = reiter == "quiz";
         reiterWirdGesetzt = false;
         BaueReiter(reiter, aufgabe);
+    }
+
+    /// <summary>„Nächste Lektion“ leuchtet nur grün, wenn alle Aufgaben der Lektion gelöst sind.</summary>
+    void NaechsteKnopfStil()
+    {
+        if (aktuelleLektion == null) return;
+        bool fertig = aktuelleLektion.Aufgaben.Count == 0 || IstAbgeschlossen(aktuelleLektion);
+        NaechsteKnopf.Style = (Style)FindResource(fertig ? "AkzentKnopf" : "RandKnopf");
     }
 
     void UebungsReiterText()
@@ -113,10 +122,33 @@ public partial class MainWindow
         if (i > 0) OeffneLektion(lektionen[i - 1]);
     }
 
-    void Naechste_Click(object sender, RoutedEventArgs e)
+    async void Naechste_Click(object sender, RoutedEventArgs e)
     {
-        int i = lektionen.IndexOf(aktuelleLektion);
-        if (i >= 0 && i < lektionen.Count - 1) OeffneLektion(lektionen[i + 1]);
+        var l = aktuelleLektion;
+        int i = lektionen.IndexOf(l);
+        if (i < 0 || i >= lektionen.Count - 1) return;
+        int offen = l.Aufgaben.Count - Geloest(l);
+        if (offen > 0)
+        {
+            // Höflich nachfragen – überspringen ist erlaubt.
+            var antwort = await DialogService.ShowAsync("Lektion noch nicht fertig",
+                $"Du hast noch nicht alle Aufgaben dieser Lektion gelöst ({offen} von {l.Aufgaben.Count} offen). Möchtest du trotzdem weitermachen?",
+                DialogKind.Frage, "Trotzdem weiter", "Zurück zu den Aufgaben");
+            if (antwort == DialogAntwort.Primaer)
+            {
+                // Bewusst übersprungen: nicht noch einmal mit „Lektion gesperrt“ nachfragen.
+                if (seite != "lernpfad") NavLernpfad.IsChecked = true;
+                ZeigeLektion(lektionen[i + 1], "theorie");
+            }
+            else if (antwort == DialogAntwort.Sekundaer && aktuelleLektion == l)
+            {
+                aktuelleAufgabe = l.Aufgaben.FirstOrDefault(a => !IstGeloest(a));
+                if (ReiterUebung.IsChecked == true) BaueReiter("uebung", aktuelleAufgabe);
+                else ReiterUebung.IsChecked = true;
+            }
+            return;
+        }
+        OeffneLektion(lektionen[i + 1]);
     }
 
     // ===================================================== Lernpfad (Spalte 2)
@@ -308,9 +340,9 @@ public partial class MainWindow
         var ersteEingabe = aufgabe.Tests.FirstOrDefault()?.Eingabe;
         if (ersteEingabe != null && ersteEingabe.Count > 0)
         {
-            string text = $"Diese Aufgabe liest Eingaben mit `Console.ReadLine()`. Zum Ausprobieren stehen im Tab **Eingabe** schon passende Werte ({string.Join(", ", ersteEingabe)}). Beim Prüfen testet die App {aufgabe.Tests.Count} verschiedene Eingaben.";
+            string text = $"Diese Aufgabe liest Eingaben ein. Wenn du dein Programm mit F5 ausführst, fragt es dich unten nach den Eingaben – probier zum Beispiel {string.Join(", ", ersteEingabe)}. Beim Prüfen testet die App {aufgabe.Tests.Count} verschiedene Eingaben.";
             if (aufgabe.Vergleich == "lenient")
-                text += " Eingabeaufforderungen wie `Console.Write(\"Zahl: \")` darfst du gern ausgeben – geprüft werden nur die geforderten Zeilen.";
+                text += " Eingabeaufforderungen wie „Zahl: “ darfst du gern ausgeben – geprüft werden nur die geforderten Zeilen.";
             LektionInhalt.Children.Add(Ui.Hinweis("Eingaben", text, "Akzent", "\uE765"));
         }
         else
@@ -319,7 +351,8 @@ public partial class MainWindow
         }
 
         var leiste = new WrapPanel { Margin = new Thickness(0, 4, 0, 10) };
-        leiste.Children.Add(Ui.Knopf("Prüfen (F6)", (_, _) => _ = Pruefen(), true, "\uE73E"));
+        bool geloest = IstGeloest(aufgabe);
+        leiste.Children.Add(Ui.Knopf("Prüfen (F6)", (_, _) => _ = Pruefen(), !geloest, "\uE73E"));
         var tippHost = new StackPanel();
         var loesungHost = new StackPanel();
         leiste.Children.Add(Ui.Knopf("Tipp", (_, _) =>
@@ -341,11 +374,32 @@ public partial class MainWindow
             loesungHost.Children.Add(Ui.Text("Es gibt oft mehrere richtige Lösungen – deine darf anders aussehen!", 11.5, "TextGedimmt", rand: new Thickness(0, 0, 0, 4)));
             loesungHost.Children.Add(Ui.CodeKarte(aufgabe.Loesung, "Lösung", CodeInEditor, "In den Editor übernehmen"));
         }, false, "\uE7B3"));
+        leiste.Children.Add(NaechsteAufgabeKnopf(aufgabe, geloest));
         LektionInhalt.Children.Add(leiste);
         LektionInhalt.Children.Add(tippHost);
         pruefErgebnisHost = new StackPanel();
         LektionInhalt.Children.Add(pruefErgebnisHost);
         LektionInhalt.Children.Add(loesungHost);
+    }
+
+    /// <summary>„Nächste Aufgabe“: springt zur folgenden Aufgabe der Lektion; grün, sobald die aktuelle gelöst ist.
+    /// Bei der letzten Aufgabe führt er zum Quiz (falls vorhanden), sonst ist er deaktiviert.</summary>
+    Button NaechsteAufgabeKnopf(Aufgabe aufgabe, bool geloest)
+    {
+        var l = aktuelleLektion;
+        int i = l.Aufgaben.IndexOf(aufgabe);
+        if (i >= 0 && i < l.Aufgaben.Count - 1)
+        {
+            var naechste = l.Aufgaben[i + 1];
+            return Ui.Knopf("Nächste Aufgabe", (_, _) => { LektionInhalt.Children.Clear(); LektionScroller.ScrollToTop(); BaueUebung(naechste); }, geloest, "\uE76C");
+        }
+        if (l.Quiz.Count > 0)
+            return Ui.Knopf("Zum Quiz", (_, _) => ReiterQuiz.IsChecked = true, geloest, "\uE9CE");
+        var k = Ui.Knopf("Nächste Aufgabe", (_, _) => { }, false, "\uE76C");
+        k.IsEnabled = false;
+        k.ToolTip = "Das ist die letzte Aufgabe dieser Lektion.";
+        ToolTipService.SetShowOnDisabled(k, true);
+        return k;
     }
 
     async Task Pruefen()
@@ -419,6 +473,7 @@ public partial class MainWindow
             ZeigePruefergebnis(r, aufgabe);
         }
         UebungsReiterText();
+        NaechsteKnopfStil();
         BaueLernpfad();
         AktualisiereFortschritt();
         PruefeErfolge();

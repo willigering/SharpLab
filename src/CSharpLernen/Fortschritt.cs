@@ -23,6 +23,8 @@ public sealed class Fortschritt
     public int Zeitlimit { get; set; } = 10;
     public bool MatrixRegen { get; set; } = true;
     public double MatrixStufe { get; set; } = 0.7;
+    public double MatrixTempo { get; set; } = 1.0;
+    public bool Autovervollstaendigung { get; set; } = true;
     public DateTime ErsterStart { get; set; } = DateTime.Now;
 
     // Ordnername bleibt bewusst „CSharpLernen“ (alter App-Name), damit gespeicherter Fortschritt nach der Umbenennung in SharpLab erhalten bleibt.

@@ -19,10 +19,16 @@ Die fertige App findest du unter [Releases](../../releases/latest).
 - Theorie, Übung und Quiz pro Lektion
 - Code-Editor mit Syntaxhervorhebung, Eingaben über `Console.ReadLine()` und Stopp-Knopf für Endlosschleifen
 - Freie Spielwiese zum Ausprobieren
-- Fortschritt, Erfolge und regelbarer, flüssiger Matrix-Regen im Hintergrund
+- Autovervollständigung im Editor wie in Visual Studio (Vorschläge nach dem Punkt, beim Tippen und mit Strg+Leertaste; in den Einstellungen abschaltbar)
+- Aufgaben nennen nur das Ziel, nicht den Lösungsweg; Tipps und Hinweise helfen bei Bedarf
+- Knöpfe „Nächste Aufgabe“ und „Nächste Lektion“ (grün, sobald alle Aufgaben gelöst sind; Überspringen ist möglich)
+- Fortschritt und Erfolge
+- Matrixcode im Hintergrund wie im Film (Zeichen bauen sich auf und klingen ab), mit Reglern für Helligkeit und Geschwindigkeit
+
+Dein Fortschritt und dein Code werden unter `%AppData%\CSharpLernen` gespeichert und bleiben bei Updates erhalten.
 
 ## Selbst bauen
 
-`CSharpLernen.sln` in Visual Studio öffnen und starten (Projekt- und Namespace-Namen heißen aus Kompatibilitätsgründen weiter `CSharpLernen`; die erzeugte Datei ist `SharpLab.exe`). Die Lektionen liegen als JSON in der App und lassen sich erweitern.
+`CSharpLernen.sln` in Visual Studio öffnen und starten (Projekt- und Namespace-Namen heißen aus Kompatibilitätsgründen weiter `CSharpLernen`; die erzeugte Datei ist `SharpLab.exe`). Die Lektionen liegen als JSON in der App und werden mit dem Generator unter `werkzeuge/lektionen-generator` erzeugt (`python3 build.py`).
 
 Schriftart: JetBrains Mono (SIL Open Font License).

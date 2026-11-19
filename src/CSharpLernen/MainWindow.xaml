@@ -23,7 +23,7 @@
 
             <!-- ============ 1: Navigation ============ -->
             <Border Grid.Column="0" Style="{StaticResource KartenRahmen}" Background="{DynamicResource Panel}" Margin="0,0,10,0">
-                <Grid Margin="14,18,14,14">
+                <Grid Margin="14,18,14,14" x:Name="NavRaster" SizeChanged="NavRaster_SizeChanged">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
@@ -58,24 +58,33 @@
                     </StackPanel>
 
                     <StackPanel Grid.Row="2">
-                        <!-- Matrix-Regen direkt regeln -->
-                        <Border Style="{StaticResource KartenRahmen}" Background="{DynamicResource KarteHell}" Padding="12,9,12,6" Margin="0,0,0,8">
+                        <!-- Matrixcode direkt regeln -->
+                        <Border Style="{StaticResource KartenRahmen}" Background="{DynamicResource KarteHell}" Padding="12,8,12,5" Margin="0,0,0,8">
                             <StackPanel>
                                 <Grid>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <TextBlock Text="&#xE7F8;" FontFamily="{StaticResource Icons}" FontSize="12" Foreground="{StaticResource Akzent}" Margin="0,1,7,0" VerticalAlignment="Center" />
-                                        <TextBlock Text="Matrix" FontWeight="SemiBold" FontSize="11.5" VerticalAlignment="Center" />
-                                        <TextBlock x:Name="NavMatrixWert" Text="70 %" FontSize="11" Foreground="{StaticResource TextGedimmt}" Margin="8,0,0,0" VerticalAlignment="Center" />
+                                        <TextBlock Text="Matrixcode" FontWeight="SemiBold" FontSize="11.5" VerticalAlignment="Center" />
                                     </StackPanel>
-                                    <CheckBox x:Name="NavMatrixAn" HorizontalAlignment="Right" VerticalAlignment="Center" ToolTip="Matrix-Regen ein/aus" Click="NavMatrixAn_Click" />
+                                    <CheckBox x:Name="NavMatrixAn" HorizontalAlignment="Right" VerticalAlignment="Center" ToolTip="Matrixcode ein/aus" Click="NavMatrixAn_Click" />
                                 </Grid>
-                                <Slider x:Name="NavMatrixRegler" Minimum="0" Maximum="1" SmallChange="0.05" LargeChange="0.1" Margin="0,2,0,0"
-                                        ToolTip="Intensität des Matrix-Regens" ValueChanged="NavMatrixRegler_ValueChanged" />
+                                <Grid Margin="0,5,0,0">
+                                    <TextBlock Text="Helligkeit" FontSize="10.5" Foreground="{StaticResource TextMittel}" />
+                                    <TextBlock x:Name="NavMatrixWert" Text="70 %" FontSize="10.5" Foreground="{StaticResource TextGedimmt}" HorizontalAlignment="Right" />
+                                </Grid>
+                                <Slider x:Name="NavMatrixRegler" Minimum="0" Maximum="1" SmallChange="0.05" LargeChange="0.1" Margin="0,1,0,0"
+                                        ToolTip="Helligkeit des Matrixcodes" ValueChanged="NavMatrixRegler_ValueChanged" />
+                                <Grid Margin="0,3,0,0">
+                                    <TextBlock Text="Geschwindigkeit" FontSize="10.5" Foreground="{StaticResource TextMittel}" />
+                                    <TextBlock x:Name="NavMatrixTempoWert" Text="1,0×" FontSize="10.5" Foreground="{StaticResource TextGedimmt}" HorizontalAlignment="Right" />
+                                </Grid>
+                                <Slider x:Name="NavMatrixTempo" Minimum="0.3" Maximum="2.5" SmallChange="0.1" LargeChange="0.25" Margin="0,1,0,0"
+                                        ToolTip="Geschwindigkeit des Matrixcodes" ValueChanged="NavMatrixTempo_ValueChanged" />
                             </StackPanel>
                         </Border>
 
                         <!-- Dein Fortschritt (kompakt) -->
-                        <Border Style="{StaticResource KartenRahmen}" Background="{DynamicResource KarteHell}" Padding="12,10" CornerRadius="0">
+                        <Border x:Name="NavFortschrittKarte" Style="{StaticResource KartenRahmen}" Background="{DynamicResource KarteHell}" Padding="12,10" CornerRadius="0">
                             <StackPanel>
                                 <TextBlock Text="Dein Fortschritt" FontWeight="SemiBold" FontSize="11.5" Margin="0,0,0,8" />
                                 <Grid>
@@ -163,7 +172,7 @@
                             <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE76B;" FontFamily="{StaticResource Icons}" FontSize="10" Margin="0,2,8,0" /><TextBlock x:Name="VorherigeText" Text="Vorherige Lektion" /></StackPanel>
                         </Button>
                         <Button x:Name="NaechsteKnopf" Style="{StaticResource AkzentKnopf}" HorizontalAlignment="Right" Click="Naechste_Click">
-                            <StackPanel Orientation="Horizontal"><TextBlock x:Name="NaechsteText" Text="Nächste Lektion" Foreground="#0B180F" /><TextBlock Text="&#xE76C;" FontFamily="{StaticResource Icons}" FontSize="10" Margin="8,2,0,0" Foreground="#0B180F" /></StackPanel>
+                            <StackPanel Orientation="Horizontal"><TextBlock x:Name="NaechsteText" Text="Nächste Lektion" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" /><TextBlock Text="&#xE76C;" FontFamily="{StaticResource Icons}" FontSize="10" Margin="8,2,0,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" /></StackPanel>
                         </Button>
                     </Grid>
                 </Grid>

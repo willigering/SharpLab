@@ -678,5 +678,29 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!-- Autovervollständigung (Code-Editor) -->
+        <Style x:Key="VervollstaendigungEintrag" TargetType="ListBoxItem">
+            <Setter Property="Foreground" Value="{StaticResource TextHell}" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Rahmen" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" Padding="6,2,8,2" CornerRadius="0">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Rahmen" Property="Background" Value="#14201A" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Rahmen" Property="Background" Value="#1C3F27" />
+                                <Setter TargetName="Rahmen" Property="BorderBrush" Value="{StaticResource Akzent}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>

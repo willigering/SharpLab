@@ -55,7 +55,7 @@ public partial class MainWindow : Window
         fortschritt = Fortschritt.Laden();
         matrixSpeichern = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
         matrixSpeichern.Tick += (_, _) => { matrixSpeichern.Stop(); fortschritt.Speichern(); };
-        SetzeMatrix(fortschritt.MatrixRegen, fortschritt.MatrixStufe, speichern: false);
+        SetzeMatrix(fortschritt.MatrixRegen, fortschritt.MatrixStufe, fortschritt.MatrixTempo, speichern: false);
         kurs = LadeKurs();
         lektionen = kurs.Lektionen;
 
@@ -96,7 +96,6 @@ public partial class MainWindow : Window
         }
         AktualisiereFortschritt();
         EingabeZaehlerAktualisieren();
-        LogZeile($"SharpLab gestartet · .NET {Environment.Version} · Roslyn {CodeAusfuehrer.RoslynVersion} · {lektionen.Count} Lektionen");
     }
 
     Kurs LadeKurs()
@@ -173,6 +172,8 @@ public partial class MainWindow : Window
         Editor.TextArea.IndentationStrategy = new CSharpIndentationStrategy(Editor.Options);
         Editor.FontSize = fortschritt.Schriftgroesse;
 
+        vervollstaendiger = new CodeVervollstaendiger(Editor, () => fortschritt.Autovervollstaendigung);
+
         markierer = new FehlerMarkierer();
         Editor.TextArea.TextView.BackgroundRenderers.Add(markierer);
 
@@ -204,6 +205,7 @@ public partial class MainWindow : Window
         SpeichereEditor();
         editorSchluessel = schluessel;
         editorStandardCode = standardCode ?? "";
+        vervollstaendiger?.Schliessen();
         ladeEditor = true;
         Editor.Text = fortschritt.Code.TryGetValue(schluessel, out var c) ? c : editorStandardCode;
         Editor.Document.UndoStack.ClearAll();
@@ -213,7 +215,10 @@ public partial class MainWindow : Window
         UngespeichertPunkt.Visibility = Visibility.Collapsed;
         EditorKontext.Text = beschreibung;
         EditorKopfAnpassen();
-        EingabeBox.Text = string.Join(Environment.NewLine, eingabe ?? Array.Empty<string>());
+        // Konsole startet leer: keine Ausgabe vom vorigen Lauf, keine vorausgefüllten Eingaben
+        // (Console.ReadLine fragt beim Ausführen unten nach).
+        EingabeBox.Text = "";
+        KonsoleLeeren();
         markierer.Leeren();
         Editor.TextArea.TextView.InvalidateLayer(KnownLayer.Background);
     }
@@ -299,19 +304,25 @@ public partial class MainWindow : Window
 
     // ===================================================== Matrix-Regen (Menü + Einstellungen)
 
+    CodeVervollstaendiger vervollstaendiger;
     DispatcherTimer matrixSpeichern;
     bool matrixSync;
     CheckBox einstMatrixAn;          // Steuerelemente der Einstellungs-Seite (falls gerade offen)
-    Slider einstMatrixRegler;
-    TextBlock einstMatrixText;
+    Slider einstMatrixRegler, einstMatrixTempo;
+    TextBlock einstMatrixText, einstMatrixTempoText;
 
-    /// <summary>Eine Stelle für den Matrix-Regen: Hintergrund, Panel-Deckkraft, Speichern und alle Regler synchron halten.</summary>
-    void SetzeMatrix(bool an, double stufe, bool speichern = true)
+    static string TempoText(double t) => t.ToString("0.0", CodeAusfuehrer.Deutsch) + "×";
+
+    /// <summary>Eine Stelle für den Matrixcode: Hintergrund, Panel-Deckkraft, Speichern und alle Regler synchron halten.</summary>
+    void SetzeMatrix(bool an, double stufe, double? tempo = null, bool speichern = true)
     {
         stufe = Math.Clamp(stufe, 0, 1);
+        double t = Math.Clamp(tempo ?? fortschritt.MatrixTempo, 0.3, 2.5);
         fortschritt.MatrixRegen = an;
         fortschritt.MatrixStufe = stufe;
+        fortschritt.MatrixTempo = t;
         Regen.Staerke = stufe;
+        Regen.Tempo = t;
         Regen.Visibility = an ? Visibility.Visible : Visibility.Collapsed;
         App.SetzeFlaechenDeckkraft(stufe, an);
 
@@ -320,15 +331,24 @@ public partial class MainWindow : Window
         {
             NavMatrixAn.IsChecked = an;
             if (Math.Abs(NavMatrixRegler.Value - stufe) > 0.0001) NavMatrixRegler.Value = stufe;
+            if (Math.Abs(NavMatrixTempo.Value - t) > 0.0001) NavMatrixTempo.Value = t;
             NavMatrixRegler.IsEnabled = an;
+            NavMatrixTempo.IsEnabled = an;
             NavMatrixWert.Text = an ? $"{stufe * 100:0} %" : "aus";
+            NavMatrixTempoWert.Text = an ? TempoText(t) : "aus";
             if (einstMatrixAn != null) einstMatrixAn.IsChecked = an;
             if (einstMatrixRegler != null)
             {
                 if (Math.Abs(einstMatrixRegler.Value - stufe) > 0.0001) einstMatrixRegler.Value = stufe;
                 einstMatrixRegler.IsEnabled = an;
             }
-            if (einstMatrixText != null) einstMatrixText.Text = $"Intensität: {stufe * 100:0} %";
+            if (einstMatrixTempo != null)
+            {
+                if (Math.Abs(einstMatrixTempo.Value - t) > 0.0001) einstMatrixTempo.Value = t;
+                einstMatrixTempo.IsEnabled = an;
+            }
+            if (einstMatrixText != null) einstMatrixText.Text = $"Helligkeit: {stufe * 100:0} %";
+            if (einstMatrixTempoText != null) einstMatrixTempoText.Text = $"Geschwindigkeit: {TempoText(t)}";
         }
         finally { matrixSync = false; }
 
@@ -341,6 +361,12 @@ public partial class MainWindow : Window
     {
         if (matrixSync || matrixSpeichern == null) return;
         SetzeMatrix(fortschritt.MatrixRegen, NavMatrixRegler.Value);
+    }
+
+    void NavMatrixTempo_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        if (matrixSync || matrixSpeichern == null) return;
+        SetzeMatrix(fortschritt.MatrixRegen, fortschritt.MatrixStufe, NavMatrixTempo.Value);
     }
 
     /// <summary>Bei schmalem Editor: Knöpfe kompakter (nur Symbol), damit nichts abgeschnitten wird.</summary>
@@ -374,6 +400,26 @@ public partial class MainWindow : Window
             summe += c.DesiredSize.Width;
         }
         return summe;
+    }
+
+    double navFortschrittHoehe = 118;
+
+    /// <summary>Bei sehr niedrigem Fenster: Fortschritts-Karte links ausblenden, damit das Menü nicht abgeschnitten wird.</summary>
+    void NavRaster_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        double frei = NavRaster.RowDefinitions[1].ActualHeight;
+        NavListe.Measure(new Size(NavListe.ActualWidth > 0 ? NavListe.ActualWidth : double.PositiveInfinity, double.PositiveInfinity));
+        double noetig = NavListe.DesiredSize.Height;
+        if (NavFortschrittKarte.Visibility == Visibility.Visible)
+        {
+            if (noetig > frei + 0.5)
+            {
+                navFortschrittHoehe = NavFortschrittKarte.ActualHeight + 8;
+                NavFortschrittKarte.Visibility = Visibility.Collapsed;
+            }
+        }
+        else if (frei - noetig > navFortschrittHoehe + 4)
+            NavFortschrittKarte.Visibility = Visibility.Visible;
     }
 
     void LektionSpalte_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -539,6 +585,17 @@ public partial class MainWindow : Window
         if (AusgabeBox.Text.Length > 400_000)
             AusgabeBox.Text = "… (ältere Ausgabe gekürzt)\n" + AusgabeBox.Text[^300_000..];
         AusgabeBox.ScrollToEnd();
+    }
+
+    void KonsoleLeeren()
+    {
+        if (laeuft) return;
+        AusgabeBox.Clear();
+        LaufMeldung.Visibility = Visibility.Collapsed;
+        FehlerListe.Children.Clear();
+        TabFehler.Content = "Fehler (0)";
+        Status("Bereit. Klick auf „Kompilieren & Ausführen“ oder drück F5.", "TextGedimmt");
+        if (TabAusgabe.IsChecked != true && TabEingabe.IsChecked != true) TabAusgabe.IsChecked = true;
     }
 
     void AusgabeLeeren_Click(object sender, RoutedEventArgs e)
