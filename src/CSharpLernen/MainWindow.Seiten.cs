@@ -551,7 +551,19 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
 
         var ueber = new StackPanel();
         ueber.Children.Add(Ui.Text("Über", 15.5, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 8)));
-        ueber.Children.Add(Ui.Text($"C# Lernen – Der interaktive C#-Trainer · Version 1.0 · {lektionen.Count} Lektionen, {lektionen.Sum(l => l.Aufgaben.Count)} Aufgaben, {kurs.Begriffe.Count} Begriffe", 12, "TextMittel"));
+        string version = typeof(MainWindow).Assembly.GetName().Version is { } v ? $"{v.Major}.{v.Minor}.{v.Build}" : "1.0.0";
+        ueber.Children.Add(Ui.Text($"C# Lernen {version} · Entwickelt von Willi Gering · Gering Digital", 12.5, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 4)));
+        ueber.Children.Add(Ui.Text($"Der interaktive C#-Trainer · {lektionen.Count} Lektionen, {lektionen.Sum(l => l.Aufgaben.Count)} Aufgaben, {kurs.Begriffe.Count} Begriffe", 12, "TextMittel", rand: new Thickness(0, 0, 0, 10)));
+        const string repoUrl = "https://github.com/willigering/CSharpLernen";
+        var linkLeiste = new WrapPanel();
+        linkLeiste.Children.Add(Ui.Knopf("Projekt auf GitHub", (_, _) =>
+        {
+            try { Process.Start(new ProcessStartInfo(repoUrl) { UseShellExecute = true }); }
+            catch (Exception ex) { _ = DialogService.ShowAsync("Link nicht geöffnet", "Der Browser konnte nicht gestartet werden:\n" + ex.Message, DialogKind.Warnung, "OK", hint: repoUrl); }
+        }, false, "\uE774"));
+        ueber.Children.Add(linkLeiste);
+        ueber.Children.Add(Ui.Text(repoUrl, 11, "TextGedimmt", rand: new Thickness(0, 6, 0, 0)));
+        ueber.Children.Add(Ui.Text("Schriftart: JetBrains Mono (SIL Open Font License) · Compiler: Roslyn (MIT) · Editor: AvalonEdit (MIT)", 11, "TextGedimmt", rand: new Thickness(0, 4, 0, 0)));
         SeitenInhalt.Children.Add(Ui.Karte(ueber));
     }
 }

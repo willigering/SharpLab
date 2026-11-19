@@ -91,6 +91,12 @@
                                 <ProgressBar x:Name="FortschrittBalken" Minimum="0" Maximum="100" Value="0" Margin="0,10,0,0" />
                             </StackPanel>
                         </Border>
+
+                        <!-- Entwickler -->
+                        <TextBlock Margin="2,8,0,0" FontSize="10" Foreground="{StaticResource TextGedimmt}" TextTrimming="CharacterEllipsis"
+                                   ToolTip="C# Lernen – entwickelt von Willi Gering, Gering Digital">
+                            <Run Text="© Willi Gering · " /><Run Text="Gering Digital" Foreground="{StaticResource AkzentDunkel}" />
+                        </TextBlock>
                     </StackPanel>
                 </Grid>
             </Border>

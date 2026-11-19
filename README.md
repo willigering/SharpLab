@@ -1,5 +1,7 @@
 # C# Lernen – Der interaktive C#-Trainer
 
+Entwickelt von Willi Gering · Gering Digital
+
 Eine Windows-App, mit der du C# von null an lernst: 27 Lektionen in 5 Stufen, 87 automatisch geprüfte Übungen, Quizfragen, ein Begriffstrainer und ein eingebauter C#-Compiler, mit dem du deinen Code direkt in der App ausführst.
 
 ## Download
