@@ -79,7 +79,7 @@ L(5, "l26", "Projekt: Zahlenraten",
 1. Der Computer wählt eine geheime Zahl zwischen 1 und 100.
 2. Der Spieler rät.
 3. Das Programm sagt `Zu klein!` oder `Zu groß!`.
-4. Bei einem Treffer: Glückwunsch und die Anzahl der Versuche.
+4. Bei einem Treffer: Glückwunsch und die Anzahl der Versuche, z. B. `Richtig! Versuche: 3`.
 
 ## Zufallszahlen
 Im echten Spiel nimmst du eine Zufallszahl:
@@ -100,30 +100,30 @@ Console.WriteLine("(Psst, es ist die " + geheim + ")");
       starter='int geheim = 37;\n',
       solution='int geheim = 37;\nint tipp = int.Parse(Console.ReadLine());\nif (tipp < geheim)\n    Console.WriteLine("Zu klein!");\nelse if (tipp > geheim)\n    Console.WriteLine("Zu groß!");\nelse\n    Console.WriteLine("Richtig!");\n',
       tests=[T("Zu klein!", "10"), T("Zu groß!", "80"), T("Richtig!", "37")], compare="lenient"),
-    A("Raten bis zum Treffer", r'''Lass so lange raten, bis die Zahl `37` getroffen ist. Gib nach jedem Tipp `Zu klein!`/`Zu groß!` aus und am Ende `Richtig! Du hast 3 Versuche gebraucht.` Bei `50`, `25`, `37`:
+    A("Raten bis zum Treffer", r'''Lass so lange raten, bis die Zahl `37` getroffen ist. Gib nach jedem Tipp `Zu klein!`/`Zu groß!` aus und am Ende `Richtig! Versuche: 3` Bei `50`, `25`, `37`:
 
 ```
 Zu groß!
 Zu klein!
-Richtig! Du hast 3 Versuche gebraucht.
+Richtig! Versuche: 3
 ```''',
       starter='int geheim = 37;\nint versuche = 0;\n',
-      solution='int geheim = 37;\nint versuche = 0;\nint tipp = 0;\nwhile (tipp != geheim)\n{\n    tipp = int.Parse(Console.ReadLine());\n    versuche++;\n    if (tipp < geheim)\n        Console.WriteLine("Zu klein!");\n    else if (tipp > geheim)\n        Console.WriteLine("Zu groß!");\n}\nConsole.WriteLine($"Richtig! Du hast {versuche} Versuche gebraucht.");\n',
-      tests=[T("Zu groß!\nZu klein!\nRichtig! Du hast 3 Versuche gebraucht.", "50", "25", "37"), T("Richtig! Du hast 1 Versuche gebraucht.", "37")], compare="lenient"),
+      solution='int geheim = 37;\nint versuche = 0;\nint tipp = 0;\nwhile (tipp != geheim)\n{\n    tipp = int.Parse(Console.ReadLine());\n    versuche++;\n    if (tipp < geheim)\n        Console.WriteLine("Zu klein!");\n    else if (tipp > geheim)\n        Console.WriteLine("Zu groß!");\n}\nConsole.WriteLine($"Richtig! Versuche: {versuche}");\n',
+      tests=[T("Zu groß!\nZu klein!\nRichtig! Versuche: 3", "50", "25", "37"), T("Richtig! Versuche: 1", "37")], compare="lenient"),
     A("Mit Schutz und Limit", r'''Erweitere das Spiel:
 - Ungültige Eingaben (keine Zahl) → `Das ist keine Zahl!` (zählt nicht als Versuch). Benutze `int.TryParse`.
 - Nach **5** Versuchen ohne Treffer ist Schluss: `Verloren! Die Zahl war 37.`
-- Bei Treffer: `Richtig! Du hast 2 Versuche gebraucht.`
+- Bei Treffer: `Richtig! Versuche: 2`
 
 Bei `50`, `abc`, `37`:
 ```
 Zu groß!
 Das ist keine Zahl!
-Richtig! Du hast 2 Versuche gebraucht.
+Richtig! Versuche: 2
 ```''',
       starter='int geheim = 37;\nint versuche = 0;\nconst int maxVersuche = 5;\n',
-      solution='int geheim = 37;\nint versuche = 0;\nconst int maxVersuche = 5;\nbool gewonnen = false;\n\nwhile (versuche < maxVersuche && !gewonnen)\n{\n    if (!int.TryParse(Console.ReadLine(), out int tipp))\n    {\n        Console.WriteLine("Das ist keine Zahl!");\n        continue;\n    }\n    versuche++;\n    if (tipp < geheim) Console.WriteLine("Zu klein!");\n    else if (tipp > geheim) Console.WriteLine("Zu groß!");\n    else gewonnen = true;\n}\n\nif (gewonnen)\n    Console.WriteLine($"Richtig! Du hast {versuche} Versuche gebraucht.");\nelse\n    Console.WriteLine($"Verloren! Die Zahl war {geheim}.");\n',
-      tests=[T("Zu groß!\nDas ist keine Zahl!\nRichtig! Du hast 2 Versuche gebraucht.", "50", "abc", "37"),
+      solution='int geheim = 37;\nint versuche = 0;\nconst int maxVersuche = 5;\nbool gewonnen = false;\n\nwhile (versuche < maxVersuche && !gewonnen)\n{\n    if (!int.TryParse(Console.ReadLine(), out int tipp))\n    {\n        Console.WriteLine("Das ist keine Zahl!");\n        continue;\n    }\n    versuche++;\n    if (tipp < geheim) Console.WriteLine("Zu klein!");\n    else if (tipp > geheim) Console.WriteLine("Zu groß!");\n    else gewonnen = true;\n}\n\nif (gewonnen)\n    Console.WriteLine($"Richtig! Versuche: {versuche}");\nelse\n    Console.WriteLine($"Verloren! Die Zahl war {geheim}.");\n',
+      tests=[T("Zu groß!\nDas ist keine Zahl!\nRichtig! Versuche: 2", "50", "abc", "37"),
              T("Zu klein!\nZu klein!\nZu klein!\nZu klein!\nZu klein!\nVerloren! Die Zahl war 37.", "1", "2", "3", "4", "5", "37")], compare="lenient",
       requirements=[(r'TryParse', "Benutze int.TryParse.")],
       hint="continue; springt sofort zum nächsten Schleifendurchlauf."),

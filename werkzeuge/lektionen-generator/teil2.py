@@ -181,6 +181,8 @@ string text = note switch
 };
 ```
 `_` steht für „alles andere“.
+
+Mehrere Werte kannst du mit `or` zusammenfassen: `6 or 7 => "Wochenende"` bedeutet „wenn der Wert 6 **oder** 7 ist“. So ein Vergleich heißt **Muster** (Pattern).
 ''',
   example=r'''string farbe = "grün";
 
@@ -487,7 +489,7 @@ Console.WriteLine("Summe: " + summe);
 
 int[] anzahl3 = new int[100];
 int j = 0;
-while (j < anzahl3.Count())
+while (j < anzahl3.Length)
 {
     anzahl3[j] = j;
     j++;

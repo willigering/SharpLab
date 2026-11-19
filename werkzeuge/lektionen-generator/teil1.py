@@ -273,14 +273,14 @@ Level 13
       solution='int level = 1;\nConsole.WriteLine("Level " + level);\nlevel++;\nConsole.WriteLine("Level " + level);\nlevel++;\nConsole.WriteLine("Level " + level);\nlevel += 10;\nConsole.WriteLine("Level " + level);\n',
       tests=[T("Level 1\nLevel 2\nLevel 3\nLevel 13")],
       requirements=[(r'level\s*\+\+', "Benutze level++."), (r'level\s*\+=', "Benutze level += 10.")]),
-    A("Durchschnitt mit double", r'''Berechne den Durchschnitt der Noten `2`, `3` und `2` als Kommazahl. Tipp: Teile durch `3.0`, damit nicht ganzzahlig geteilt wird. Ausgabe:
+    A("Durchschnitt mit double", r'''Berechne den Durchschnitt der Noten `2`, `3` und `2` als Kommazahl. Tipp: Teile durch `3.0`, damit nicht ganzzahlig geteilt wird. Gib das Ergebnis mit **2 Nachkommastellen** aus (`:F2`):
 
 ```
-Durchschnitt: 2,3333333333333335
+Durchschnitt: 2,33
 ```''',
       starter='int n1 = 2;\nint n2 = 3;\nint n3 = 2;\n\n',
-      solution='int n1 = 2;\nint n2 = 3;\nint n3 = 2;\n\ndouble schnitt = (n1 + n2 + n3) / 3.0;\nConsole.WriteLine("Durchschnitt: " + schnitt);\n',
-      tests=[T("Durchschnitt: 2,3333333333333335")],
+      solution='int n1 = 2;\nint n2 = 3;\nint n3 = 2;\n\ndouble schnitt = (n1 + n2 + n3) / 3.0;\nConsole.WriteLine($"Durchschnitt: {schnitt:F2}");\n',
+      tests=[T("Durchschnitt: 2,33")],
       hint="(n1 + n2 + n3) / 3.0 – die Klammern sind wichtig (Punkt vor Strich)!"),
   ],
   quiz=[

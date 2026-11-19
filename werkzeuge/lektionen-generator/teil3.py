@@ -396,11 +396,11 @@ Console.WriteLine(ganz);
       solution='Console.WriteLine(Hypotenuse(3, 4));\nConsole.WriteLine(Hypotenuse(5, 12));\n\nstatic double Hypotenuse(double a, double b)\n{\n    return Math.Sqrt(a * a + b * b);\n}\n',
       tests=[T("5\n13")],
       requirements=[(r'Math\s*\.\s*Sqrt', "Benutze Math.Sqrt.")]),
-    A("Kreis", r'''Lies einen Radius (Kommazahl) ein und gib Umfang (2·π·r) und Fläche (π·r²) mit 2 Nachkommastellen aus. Bei `2`:
+    A("Kreis", r'''Lies einen Radius (Kommazahl) ein und gib Umfang (2·π·r) und Fläche (π·r²) mit 2 Nachkommastellen aus. Bei `5`:
 
 ```
-Umfang: 12,57
-Fläche: 12,57
+Umfang: 31,42
+Fläche: 78,54
 ```''',
       starter='double r = double.Parse(Console.ReadLine());\n',
       solution='double r = double.Parse(Console.ReadLine());\nConsole.WriteLine($"Umfang: {2 * Math.PI * r:F2}");\nConsole.WriteLine($"Fläche: {Math.PI * Math.Pow(r, 2):F2}");\n',
@@ -409,11 +409,11 @@ Fläche: 12,57
     A("Pizza-Rechner", r'''Für eine Party brauchst du pro Person 3 Pizzastücke. Eine Pizza hat 8 Stücke. Lies die Anzahl der Personen ein und berechne mit `Math.Ceiling`, wie viele Pizzen du **mindestens** bestellen musst. Bei `10`:
 
 ```
-Du brauchst 4 Pizzen.
+Anzahl Pizzen: 4
 ```''',
       starter='int personen = int.Parse(Console.ReadLine());\n',
-      solution='int personen = int.Parse(Console.ReadLine());\nint stuecke = personen * 3;\nint pizzen = (int)Math.Ceiling(stuecke / 8.0);\nConsole.WriteLine($"Du brauchst {pizzen} Pizzen.");\n',
-      tests=[T("Du brauchst 4 Pizzen.", "10"), T("Du brauchst 3 Pizzen.", "8"), T("Du brauchst 1 Pizzen.", "1")], compare="lenient",
+      solution='int personen = int.Parse(Console.ReadLine());\nint stuecke = personen * 3;\nint pizzen = (int)Math.Ceiling(stuecke / 8.0);\nConsole.WriteLine($"Anzahl Pizzen: {pizzen}");\n',
+      tests=[T("Anzahl Pizzen: 4", "10"), T("Anzahl Pizzen: 3", "8"), T("Anzahl Pizzen: 1", "1")], compare="lenient",
       requirements=[(r'Math\s*\.\s*Ceiling', "Benutze Math.Ceiling.")],
       hint="Teile durch 8.0 (nicht 8), sonst wird ganzzahlig geteilt und vorher schon abgerundet!"),
   ],
