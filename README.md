@@ -1,4 +1,4 @@
-# C# Lernen – Der interaktive C#-Trainer
+# SharpLab – Der interaktive C#-Trainer
 
 Entwickelt von Willi Gering · Gering Digital
 
@@ -9,7 +9,7 @@ Eine Windows-App, mit der du C# von null an lernst: 27 Lektionen in 5 Stufen, 87
 Die fertige App findest du unter [Releases](../../releases/latest).
 
 1. ZIP herunterladen und in einen Ordner entpacken.
-2. `CSharpLernen.exe` starten.
+2. `SharpLab.exe` starten.
 3. Falls Windows „Der Computer wurde durch Windows geschützt“ meldet: „Weitere Informationen“ und dann „Trotzdem ausführen“ klicken (die App ist nicht signiert).
 4. Benötigt die [.NET Desktop Runtime](https://dotnet.microsoft.com/de-de/download) 8 oder neuer.
 
@@ -19,10 +19,10 @@ Die fertige App findest du unter [Releases](../../releases/latest).
 - Theorie, Übung und Quiz pro Lektion
 - Code-Editor mit Syntaxhervorhebung, Eingaben über `Console.ReadLine()` und Stopp-Knopf für Endlosschleifen
 - Freie Spielwiese zum Ausprobieren
-- Fortschritt, Erfolge und regelbarer Matrix-Regen im Hintergrund
+- Fortschritt, Erfolge und regelbarer, flüssiger Matrix-Regen im Hintergrund
 
 ## Selbst bauen
 
-`CSharpLernen.sln` in Visual Studio öffnen und starten. Die Lektionen liegen als JSON in der App und lassen sich erweitern.
+`CSharpLernen.sln` in Visual Studio öffnen und starten (Projekt- und Namespace-Namen heißen aus Kompatibilitätsgründen weiter `CSharpLernen`; die erzeugte Datei ist `SharpLab.exe`). Die Lektionen liegen als JSON in der App und lassen sich erweitern.
 
 Schriftart: JetBrains Mono (SIL Open Font License).

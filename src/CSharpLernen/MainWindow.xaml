@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ae="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:local="clr-namespace:CSharpLernen"
-        Title="C# Lernen – Der interaktive C#-Trainer"
+        Title="SharpLab – Der interaktive C#-Trainer"
         Width="1640" Height="960" MinWidth="1180" MinHeight="680"
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource Hintergrund}"
@@ -30,16 +30,20 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <StackPanel Orientation="Horizontal" Margin="4,0,0,22">
-                        <Grid Width="46" Height="50">
-                            <Polygon Points="23,1 44,13 44,37 23,49 2,37 2,13" Fill="#142419" Stroke="{StaticResource Akzent}" StrokeThickness="2.5" />
-                            <TextBlock Text="C#" FontWeight="Bold" FontSize="15.5" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource TextHell}" />
+                    <Grid Margin="2,0,0,22">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Width="38" Height="42" VerticalAlignment="Center">
+                            <Polygon Points="19,1 36,11 36,31 19,41 2,31 2,11" Fill="#142419" Stroke="{StaticResource Akzent}" StrokeThickness="2.5" />
+                            <TextBlock Text="C#" FontWeight="Bold" FontSize="13.5" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource TextHell}" />
                         </Grid>
-                        <StackPanel Margin="10,2,0,0" VerticalAlignment="Center">
-                            <TextBlock Text="C# Lernen" FontSize="16" FontWeight="Bold" />
-                            <TextBlock Text="Von Basics bis Profi" FontSize="11" Foreground="{StaticResource Akzent}" />
+                        <StackPanel Grid.Column="1" Margin="8,1,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="SharpLab" FontSize="16" FontWeight="Bold" TextWrapping="Wrap" />
+                            <TextBlock Text="Von Basics bis Profi" FontSize="9.5" Foreground="{StaticResource Akzent}" TextWrapping="Wrap" Margin="0,1,0,0" />
                         </StackPanel>
-                    </StackPanel>
+                    </Grid>
 
                     <StackPanel Grid.Row="1" x:Name="NavListe">
                         <RadioButton x:Name="NavLernpfad" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE8F1;" Content="Lernpfad" IsChecked="True" Checked="Nav_Checked" />
@@ -92,11 +96,11 @@
                             </StackPanel>
                         </Border>
 
-                        <!-- Entwickler -->
-                        <TextBlock Margin="2,8,0,0" FontSize="10" Foreground="{StaticResource TextGedimmt}" TextTrimming="CharacterEllipsis"
-                                   ToolTip="C# Lernen – entwickelt von Willi Gering, Gering Digital">
-                            <Run Text="© Willi Gering · " /><Run Text="Gering Digital" Foreground="{StaticResource AkzentDunkel}" />
-                        </TextBlock>
+                        <!-- Entwickler (zweizeilig, damit nichts abgeschnitten wird) -->
+                        <StackPanel Margin="2,8,0,0" ToolTip="SharpLab – entwickelt von Willi Gering, Gering Digital">
+                            <TextBlock Text="© Willi Gering" FontSize="10" Foreground="{StaticResource TextGedimmt}" TextWrapping="Wrap" />
+                            <TextBlock Text="Gering Digital" FontSize="10" Foreground="{StaticResource AkzentDunkel}" TextWrapping="Wrap" />
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </Border>

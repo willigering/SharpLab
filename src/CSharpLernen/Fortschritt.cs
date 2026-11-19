@@ -25,6 +25,7 @@ public sealed class Fortschritt
     public double MatrixStufe { get; set; } = 0.7;
     public DateTime ErsterStart { get; set; } = DateTime.Now;
 
+    // Ordnername bleibt bewusst „CSharpLernen“ (alter App-Name), damit gespeicherter Fortschritt nach der Umbenennung in SharpLab erhalten bleibt.
     public static string Ordner => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "CSharpLernen");
     public static string Datei => Path.Combine(Ordner, "fortschritt.json");
 

@@ -96,7 +96,7 @@ public partial class MainWindow : Window
         }
         AktualisiereFortschritt();
         EingabeZaehlerAktualisieren();
-        LogZeile($"C# Lernen gestartet · .NET {Environment.Version} · Roslyn {CodeAusfuehrer.RoslynVersion} · {lektionen.Count} Lektionen");
+        LogZeile($"SharpLab gestartet · .NET {Environment.Version} · Roslyn {CodeAusfuehrer.RoslynVersion} · {lektionen.Count} Lektionen");
     }
 
     Kurs LadeKurs()

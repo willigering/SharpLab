@@ -139,7 +139,7 @@ public partial class MainWindow
             kopf.ColumnDefinitions.Add(new ColumnDefinition());
             kopf.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             kopf.Children.Add(Ui.Icon(offen ? "\uE70D" : "\uE76C", 10, "TextGedimmt"));
-            var titel = new TextBlock { Text = $"Stufe {stufe.Nummer}: {stufe.Titel}", FontWeight = FontWeights.SemiBold, FontSize = 11.5, Foreground = Ui.B("TextHell"), TextTrimming = TextTrimming.CharacterEllipsis };
+            var titel = new TextBlock { Text = $"Stufe {stufe.Nummer}: {stufe.Titel}", FontWeight = FontWeights.SemiBold, FontSize = 11.5, Foreground = Ui.B("TextHell"), TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 6, 0) };
             Grid.SetColumn(titel, 1);
             kopf.Children.Add(titel);
             var zahl = new TextBlock { Text = $"{fertig}/{inStufe.Count}", FontSize = 11, Foreground = fertig == inStufe.Count ? Ui.B("Gruen") : Ui.B("TextGedimmt") };

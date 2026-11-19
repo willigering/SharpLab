@@ -552,9 +552,9 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
         var ueber = new StackPanel();
         ueber.Children.Add(Ui.Text("Über", 15.5, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 8)));
         string version = typeof(MainWindow).Assembly.GetName().Version is { } v ? $"{v.Major}.{v.Minor}.{v.Build}" : "1.0.0";
-        ueber.Children.Add(Ui.Text($"C# Lernen {version} · Entwickelt von Willi Gering · Gering Digital", 12.5, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 4)));
+        ueber.Children.Add(Ui.Text($"SharpLab {version} · Entwickelt von Willi Gering · Gering Digital", 12.5, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 4)));
         ueber.Children.Add(Ui.Text($"Der interaktive C#-Trainer · {lektionen.Count} Lektionen, {lektionen.Sum(l => l.Aufgaben.Count)} Aufgaben, {kurs.Begriffe.Count} Begriffe", 12, "TextMittel", rand: new Thickness(0, 0, 0, 10)));
-        const string repoUrl = "https://github.com/willigering/CSharpLernen";
+        const string repoUrl = "https://github.com/willigering/SharpLab";
         var linkLeiste = new WrapPanel();
         linkLeiste.Children.Add(Ui.Knopf("Projekt auf GitHub", (_, _) =>
         {
