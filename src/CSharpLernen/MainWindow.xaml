@@ -1,0 +1,347 @@
+<Window x:Class="CSharpLernen.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ae="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:local="clr-namespace:CSharpLernen"
+        Title="C# Lernen – Der interaktive C#-Trainer"
+        Width="1640" Height="960" MinWidth="1180" MinHeight="680"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource Hintergrund}"
+        Foreground="{StaticResource TextHell}"
+        FontFamily="{StaticResource UiSchrift}" FontSize="12.5"
+        Icon="Ressourcen/app.ico">
+    <Grid x:Name="Wurzel">
+        <local:MatrixRegen x:Name="Regen" />
+        <Grid Margin="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="226" />
+                <ColumnDefinition Width="280" />
+                <ColumnDefinition Width="*" MinWidth="330" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" MinWidth="400" />
+            </Grid.ColumnDefinitions>
+
+            <!-- ============ 1: Navigation ============ -->
+            <Border Grid.Column="0" Style="{StaticResource KartenRahmen}" Background="{DynamicResource Panel}" Margin="0,0,10,0">
+                <Grid Margin="14,18,14,14">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Margin="4,0,0,22">
+                        <Grid Width="46" Height="50">
+                            <Polygon Points="23,1 44,13 44,37 23,49 2,37 2,13" Fill="#142419" Stroke="{StaticResource Akzent}" StrokeThickness="2.5" />
+                            <TextBlock Text="C#" FontWeight="Bold" FontSize="15.5" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource TextHell}" />
+                        </Grid>
+                        <StackPanel Margin="10,2,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="C# Lernen" FontSize="16" FontWeight="Bold" />
+                            <TextBlock Text="Von Basics bis Profi" FontSize="11" Foreground="{StaticResource Akzent}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" x:Name="NavListe">
+                        <RadioButton x:Name="NavLernpfad" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE8F1;" Content="Lernpfad" IsChecked="True" Checked="Nav_Checked" />
+                        <RadioButton x:Name="NavUebungen" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE73A;" Content="Übungen" Checked="Nav_Checked" />
+                        <RadioButton x:Name="NavEditor" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE943;" Content="Code-Editor" Checked="Nav_Checked" />
+                        <RadioButton x:Name="NavProjekte" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE8B7;" Content="Projekte" Checked="Nav_Checked" />
+                        <RadioButton x:Name="NavCompiler" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE90F;" Content="Compiler" Checked="Nav_Checked" />
+                        <RadioButton x:Name="NavBegriffe" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE82D;" Content="Begriffe" Checked="Nav_Checked" />
+                        <RadioButton x:Name="NavFortschritt" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE9D2;" Content="Fortschritt" Checked="Nav_Checked" />
+                        <RadioButton x:Name="NavErfolge" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE734;" Content="Erfolge" Checked="Nav_Checked" />
+                        <RadioButton x:Name="NavEinstellungen" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE713;" Content="Einstellungen" Checked="Nav_Checked" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2">
+                        <!-- Matrix-Regen direkt regeln -->
+                        <Border Style="{StaticResource KartenRahmen}" Background="{DynamicResource KarteHell}" Padding="12,9,12,6" Margin="0,0,0,8">
+                            <StackPanel>
+                                <Grid>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="&#xE7F8;" FontFamily="{StaticResource Icons}" FontSize="12" Foreground="{StaticResource Akzent}" Margin="0,1,7,0" VerticalAlignment="Center" />
+                                        <TextBlock Text="Matrix" FontWeight="SemiBold" FontSize="11.5" VerticalAlignment="Center" />
+                                        <TextBlock x:Name="NavMatrixWert" Text="70 %" FontSize="11" Foreground="{StaticResource TextGedimmt}" Margin="8,0,0,0" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                    <CheckBox x:Name="NavMatrixAn" HorizontalAlignment="Right" VerticalAlignment="Center" ToolTip="Matrix-Regen ein/aus" Click="NavMatrixAn_Click" />
+                                </Grid>
+                                <Slider x:Name="NavMatrixRegler" Minimum="0" Maximum="1" SmallChange="0.05" LargeChange="0.1" Margin="0,2,0,0"
+                                        ToolTip="Intensität des Matrix-Regens" ValueChanged="NavMatrixRegler_ValueChanged" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Dein Fortschritt (kompakt) -->
+                        <Border Style="{StaticResource KartenRahmen}" Background="{DynamicResource KarteHell}" Padding="12,10" CornerRadius="0">
+                            <StackPanel>
+                                <TextBlock Text="Dein Fortschritt" FontWeight="SemiBold" FontSize="11.5" Margin="0,0,0,8" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Width="54" Height="54">
+                                        <Ellipse Stroke="#1F2C23" StrokeThickness="6" />
+                                        <Path x:Name="FortschrittsRing" Stroke="{StaticResource Akzent}" StrokeThickness="6" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" />
+                                        <TextBlock x:Name="FortschrittProzent" Text="0%" FontSize="12.5" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+                                    <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock x:Name="FortschrittText" Text="0 von 0 Lektionen" Foreground="{StaticResource TextMittel}" FontSize="11" TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Grid>
+                                <ProgressBar x:Name="FortschrittBalken" Minimum="0" Maximum="100" Value="0" Margin="0,10,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- ============ 2: Lernpfad ============ -->
+            <Border Grid.Column="1" x:Name="LernpfadSpalte" Style="{StaticResource KartenRahmen}" Background="{DynamicResource Panel}" Margin="0,0,10,0">
+                <Grid Margin="0,16,0,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Margin="16,0,16,12">
+                        <TextBlock FontSize="14.5" FontWeight="Bold">
+                            <Run Text="Lernpfad: " /><Run Text="C#" Foreground="{StaticResource Akzent}" />
+                        </TextBlock>
+                        <TextBlock x:Name="LernpfadUntertitel" Text="" FontSize="11" Foreground="{StaticResource TextGedimmt}" Margin="0,2,0,0" />
+                    </StackPanel>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="10,0,6,0">
+                        <StackPanel x:Name="LernpfadListe" />
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- ============ 3: Lektion ============ -->
+            <Border Grid.Column="2" x:Name="LektionSpalte" Style="{StaticResource KartenRahmen}" SizeChanged="LektionSpalte_SizeChanged">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Margin="26,20,26,6">
+                        <TextBlock x:Name="Brotkrumen" FontSize="11" Foreground="{StaticResource TextGedimmt}" Text="Lernpfad" />
+                        <WrapPanel Margin="0,8,0,0">
+                            <TextBlock x:Name="LektionTitel" FontSize="23.5" FontWeight="Bold" Text="" TextWrapping="Wrap" Margin="0,0,12,0" />
+                            <Border x:Name="StufenAbzeichen" CornerRadius="0" Background="{StaticResource AkzentHintergrund}" BorderBrush="{StaticResource AkzentDunkel}" BorderThickness="1" Padding="10,3" VerticalAlignment="Center">
+                                <TextBlock x:Name="StufenAbzeichenText" Text="Stufe 1" FontSize="11" Foreground="{StaticResource Akzent}" FontWeight="SemiBold" />
+                            </Border>
+                        </WrapPanel>
+                        <TextBlock x:Name="LektionEinleitung" TextWrapping="Wrap" Foreground="{StaticResource TextMittel}" FontSize="12.5" Margin="0,8,0,0" LineHeight="19" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="22,10,22,0">
+                        <RadioButton x:Name="ReiterTheorie" Style="{StaticResource ReiterKnopf}" FontSize="12" Padding="10,8" Margin="0,0,2,0" GroupName="LektionReiter" IsChecked="True" Checked="LektionReiter_Checked">
+                            <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE8A5;" FontFamily="{StaticResource Icons}" Margin="0,2,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" /><TextBlock Text="Theorie" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" /></StackPanel>
+                        </RadioButton>
+                        <RadioButton x:Name="ReiterUebung" Style="{StaticResource ReiterKnopf}" FontSize="12" Padding="10,8" Margin="0,0,2,0" GroupName="LektionReiter" Checked="LektionReiter_Checked">
+                            <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE943;" FontFamily="{StaticResource Icons}" Margin="0,2,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" /><TextBlock x:Name="ReiterUebungText" Text="Übung" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" /></StackPanel>
+                        </RadioButton>
+                        <RadioButton x:Name="ReiterQuiz" Style="{StaticResource ReiterKnopf}" FontSize="12" Padding="10,8" Margin="0,0,2,0" GroupName="LektionReiter" Checked="LektionReiter_Checked">
+                            <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE9CE;" FontFamily="{StaticResource Icons}" Margin="0,2,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" /><TextBlock Text="Quiz" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" /></StackPanel>
+                        </RadioButton>
+                    </StackPanel>
+                    <Border Grid.Row="1" Height="1" Background="{StaticResource Rand}" VerticalAlignment="Bottom" Margin="22,0" />
+                    <ScrollViewer Grid.Row="2" x:Name="LektionScroller" VerticalScrollBarVisibility="Auto" Padding="26,18,20,10">
+                        <StackPanel x:Name="LektionInhalt" />
+                    </ScrollViewer>
+                    <Grid Grid.Row="3" Margin="26,8,26,18">
+                        <Button x:Name="VorherigeKnopf" Style="{StaticResource RandKnopf}" HorizontalAlignment="Left" Click="Vorherige_Click">
+                            <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE76B;" FontFamily="{StaticResource Icons}" FontSize="10" Margin="0,2,8,0" /><TextBlock x:Name="VorherigeText" Text="Vorherige Lektion" /></StackPanel>
+                        </Button>
+                        <Button x:Name="NaechsteKnopf" Style="{StaticResource AkzentKnopf}" HorizontalAlignment="Right" Click="Naechste_Click">
+                            <StackPanel Orientation="Horizontal"><TextBlock x:Name="NaechsteText" Text="Nächste Lektion" Foreground="#0B180F" /><TextBlock Text="&#xE76C;" FontFamily="{StaticResource Icons}" FontSize="10" Margin="8,2,0,0" Foreground="#0B180F" /></StackPanel>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- ============ Seiten (Übungen, Projekte, …) – überdecken Spalte 2+3 ============ -->
+            <Border Grid.Column="1" Grid.ColumnSpan="2" x:Name="SeitenSpalte" Style="{StaticResource KartenRahmen}" Visibility="Collapsed">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="28,22,24,22">
+                    <StackPanel x:Name="SeitenInhalt" />
+                </ScrollViewer>
+            </Border>
+
+            <GridSplitter Grid.Column="3" Width="10" HorizontalAlignment="Stretch" Background="Transparent" ResizeBehavior="PreviousAndNext" Cursor="SizeWE" />
+
+            <!-- ============ 4: Editor ============ -->
+            <Border Grid.Column="4" Style="{StaticResource KartenRahmen}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" MinHeight="140" />
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="360" MinHeight="190" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Kopfzeile mit Datei-Reiter und Werkzeugen -->
+                    <Grid x:Name="EditorKopf" Margin="12,10,10,0" SizeChanged="EditorKopf_SizeChanged">
+                        <Border x:Name="DateiReiter" CornerRadius="0" Background="#0F1812" BorderBrush="{StaticResource Rand}" BorderThickness="1,1,1,0" Padding="12,8" HorizontalAlignment="Left">
+                            <StackPanel Orientation="Horizontal">
+                                <Border Background="#5B2A86" CornerRadius="0" Width="22" Height="18" Margin="0,0,8,0">
+                                    <TextBlock Text="C#" FontSize="9" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
+                                </Border>
+                                <TextBlock x:Name="DateiName" Text="Program.cs" FontFamily="{StaticResource CodeSchrift}" FontSize="11.5" VerticalAlignment="Center" />
+                                <TextBlock x:Name="UngespeichertPunkt" Text=" ●" Foreground="{StaticResource Akzent}" VerticalAlignment="Center" Visibility="Collapsed" />
+                                <TextBlock x:Name="EditorKontext" Text="" Foreground="{StaticResource TextGedimmt}" FontSize="11" Margin="12,0,0,0" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+                        <StackPanel x:Name="Werkzeuge" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <Button Style="{StaticResource IconKnopf}" Content="&#xE74E;" ToolTip="Speichern (Strg+S)" Click="Speichern_Click" />
+                            <Button Style="{StaticResource IconKnopf}" Content="&#xE7A7;" ToolTip="Rückgängig (Strg+Z)" Click="Rueckgaengig_Click" />
+                            <Button Style="{StaticResource IconKnopf}" Content="&#xE7A6;" ToolTip="Wiederholen (Strg+Y)" Click="Wiederholen_Click" />
+                            <Button Style="{StaticResource IconKnopf}" Content="&#xE72C;" ToolTip="Code zurücksetzen (Startcode laden)" Click="Zuruecksetzen_Click" />
+                            <Button x:Name="KnopfOeffnen" Style="{StaticResource IconKnopf}" Content="&#xE8E5;" ToolTip="C#-Datei öffnen …" Click="DateiOeffnen_Click" />
+                            <Button Style="{StaticResource IconKnopf}" Content="&#xE896;" ToolTip="Als .cs-Datei exportieren (z. B. für Visual Studio)" Click="DateiExport_Click" />
+                            <Button x:Name="KnopfKleiner" Style="{StaticResource IconKnopf}" Content="&#xE71F;" ToolTip="Schrift kleiner (Strg+Mausrad)" Click="SchriftKleiner_Click" />
+                            <Button x:Name="KnopfGroesser" Style="{StaticResource IconKnopf}" Content="&#xE8A3;" ToolTip="Schrift größer (Strg+Mausrad)" Click="SchriftGroesser_Click" />
+                            <Button Style="{StaticResource IconKnopf}" Content="&#xE713;" ToolTip="Einstellungen" Click="EinstellungenOeffnen_Click" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Border Grid.Row="1" Margin="12,0,12,0" Background="{StaticResource CodeHintergrund}" BorderBrush="{StaticResource Rand}" BorderThickness="1" CornerRadius="0">
+                        <ae:TextEditor x:Name="Editor" Margin="4,6,2,4"
+                                       FontFamily="{StaticResource CodeSchrift}" FontSize="13.5"
+                                       ShowLineNumbers="True" WordWrap="False"
+                                       Background="Transparent" Foreground="#B3CCBB"
+                                       LineNumbersForeground="#476150"
+                                       HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+                    </Border>
+
+                    <GridSplitter Grid.Row="2" Height="8" HorizontalAlignment="Stretch" Background="Transparent" ResizeBehavior="PreviousAndNext" Cursor="SizeNS" />
+
+                    <!-- Ausgabe / Fehler / Compiler-Log / Eingabe -->
+                    <Grid Grid.Row="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                    <!-- Ausführen-Leiste -->
+                    <Grid x:Name="LaufLeiste" Margin="12,2,12,10" SizeChanged="LaufLeiste_SizeChanged">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="AusfuehrenKnopf" Style="{StaticResource AkzentKnopf}" Click="Ausfuehren_Click" ToolTip="F5" Padding="14,11">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE768;" FontFamily="{StaticResource Icons}" Margin="0,2,10,0" Foreground="#0B180F" />
+                                <TextBlock x:Name="AusfuehrenText" Text="Kompilieren &amp; Ausführen" Foreground="#0B180F" FontSize="13" />
+                                <TextBlock x:Name="AusfuehrenF5" Text="  F5" Foreground="#21442D" FontSize="11" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="StoppKnopf" Grid.Column="1" Style="{StaticResource RandKnopf}" Margin="8,0,0,0" IsEnabled="False" Click="Stopp_Click" ToolTip="Programm stoppen (Umschalt+F5)" Padding="14,11">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="StoppIcon" Text="&#xE71A;" FontFamily="{StaticResource Icons}" Margin="0,2,8,0" Foreground="{StaticResource Rot}" />
+                                <TextBlock x:Name="StoppText" Text="Stopp" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="PruefenKnopf" Grid.Column="2" Style="{StaticResource RandKnopf}" Margin="8,0,0,0" Click="Pruefen_Click" ToolTip="Aufgabe prüfen (F6)" Padding="14,11" Visibility="Collapsed">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="PruefenIcon" Text="&#xE73E;" FontFamily="{StaticResource Icons}" Margin="0,2,8,0" Foreground="{StaticResource Gruen}" />
+                                <TextBlock x:Name="PruefenText" Text="Prüfen" />
+                            </StackPanel>
+                        </Button>
+                        <ComboBox x:Name="FrameworkAuswahl" Grid.Column="3" Width="116" FontSize="11.5" Margin="8,0,0,0" SelectedIndex="0" ToolTip="Zielplattform">
+                            <ComboBoxItem Content=".NET 8 (C#)" />
+                        </ComboBox>
+                    </Grid>
+
+                    <Border Grid.Row="1" Margin="12,0,12,12" Background="#0C110E" BorderBrush="{StaticResource Rand}" BorderThickness="1" CornerRadius="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid Margin="8,4,8,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <RadioButton x:Name="TabAusgabe" Style="{StaticResource ReiterKnopf}" GroupName="UntenReiter" Content="Ausgabe" IsChecked="True" Checked="UntenReiter_Checked" FontSize="11.5" Padding="10,8" Margin="0,0,2,0" />
+                                    <RadioButton x:Name="TabFehler" Style="{StaticResource ReiterKnopf}" GroupName="UntenReiter" Content="Fehler (0)" Checked="UntenReiter_Checked" FontSize="11.5" Padding="10,8" Margin="0,0,2,0" />
+                                    <RadioButton x:Name="TabLog" Style="{StaticResource ReiterKnopf}" GroupName="UntenReiter" Content="Compiler-Log" Checked="UntenReiter_Checked" FontSize="11.5" Padding="10,8" Margin="0,0,2,0" />
+                                    <RadioButton x:Name="TabEingabe" Style="{StaticResource ReiterKnopf}" GroupName="UntenReiter" Content="Eingabe" Checked="UntenReiter_Checked" FontSize="11.5" Padding="10,8" Margin="0,0,2,0" />
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Ausgabe -->
+                            <Grid Grid.Row="1" x:Name="SeiteAusgabe" Margin="10,6,10,10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock x:Name="StatusZeile" Text="Bereit. Klick auf „Kompilieren &amp; Ausführen“ oder drück F5." Foreground="{StaticResource TextGedimmt}" FontSize="11.5" Margin="2,0,0,6" TextWrapping="Wrap" />
+                                    <Button Grid.Column="1" VerticalAlignment="Top" Margin="6,-6,0,0" Style="{StaticResource IconKnopf}" Content="&#xE74D;" ToolTip="Ausgabe leeren" Click="AusgabeLeeren_Click" />
+                                </Grid>
+                                <TextBox Grid.Row="1" x:Name="AusgabeBox" IsReadOnly="True" FontFamily="{StaticResource CodeSchrift}" FontSize="12.5"
+                                         Background="#070B08" BorderThickness="0" Foreground="#B4D2BE" TextWrapping="Wrap"
+                                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="8" />
+                                <Border Grid.Row="2" x:Name="LaufMeldung" Visibility="Collapsed" Margin="0,8,0,0" CornerRadius="0" BorderThickness="1" Padding="10,8" Background="#2A1414" BorderBrush="#6B2B2B">
+                                    <TextBlock x:Name="LaufMeldungText" TextWrapping="Wrap" FontSize="11.5" />
+                                </Border>
+                                <Border Grid.Row="3" x:Name="EingabeZeile" Visibility="Collapsed" Margin="0,8,0,0" CornerRadius="0" BorderThickness="1" BorderBrush="{StaticResource Akzent}" Background="#131F17" Padding="8,6">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Dein Programm wartet auf eine Eingabe:" VerticalAlignment="Center" Foreground="{StaticResource Akzent}" FontSize="11.5" Margin="0,0,8,0" />
+                                        <TextBox Grid.Column="1" x:Name="InteraktivBox" FontFamily="{StaticResource CodeSchrift}" FontSize="12.5" KeyDown="InteraktivBox_KeyDown" />
+                                        <Button Grid.Column="2" Style="{StaticResource AkzentKnopf}" Content="Senden ⏎" Padding="12,5" Margin="8,0,0,0" Click="EingabeSenden_Click" />
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                            <!-- Fehler -->
+                            <ScrollViewer Grid.Row="1" x:Name="SeiteFehler" Visibility="Collapsed" VerticalScrollBarVisibility="Auto" Margin="10,6,6,10">
+                                <StackPanel x:Name="FehlerListe" />
+                            </ScrollViewer>
+
+                            <!-- Compiler-Log -->
+                            <TextBox Grid.Row="1" x:Name="LogBox" Visibility="Collapsed" IsReadOnly="True" FontFamily="{StaticResource CodeSchrift}" FontSize="11"
+                                     Background="#070B08" BorderThickness="0" Foreground="#8FA596" Margin="10,6,10,10" Padding="8"
+                                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
+
+                            <!-- Eingabe vorab -->
+                            <Grid Grid.Row="1" x:Name="SeiteEingabe" Visibility="Collapsed" Margin="10,6,10,10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock TextWrapping="Wrap" FontSize="11" Foreground="{StaticResource TextGedimmt}" Margin="2,0,0,6"
+                                           Text="Hier kannst du Eingaben vorab eintragen – eine Zeile pro Console.ReadLine(). Sind sie aufgebraucht, fragt dich das Programm direkt im Tab „Ausgabe“." />
+                                <TextBox Grid.Row="1" x:Name="EingabeBox" AcceptsReturn="True" FontFamily="{StaticResource CodeSchrift}" FontSize="12.5"
+                                         VerticalScrollBarVisibility="Auto" TextChanged="EingabeBox_TextChanged" Padding="8" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Meldung oben rechts (z. B. „Erfolg freigeschaltet“) -->
+        <Border x:Name="ToastRahmen" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,24,32,0" Padding="16,12" CornerRadius="0"
+                Background="#18261D" BorderBrush="{StaticResource Akzent}" BorderThickness="1"
+                Visibility="Collapsed" IsHitTestVisible="False" MaxWidth="380">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="ToastIcon" Text="&#xE734;" FontFamily="{StaticResource Icons}" FontSize="20" Foreground="{StaticResource Gelb}" VerticalAlignment="Center" Margin="0,0,12,0" />
+                <StackPanel>
+                    <TextBlock x:Name="ToastTitel" FontWeight="Bold" FontSize="12.5" Text="" />
+                    <TextBlock x:Name="ToastText" FontSize="11.5" Foreground="{StaticResource TextMittel}" Text="" TextWrapping="Wrap" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

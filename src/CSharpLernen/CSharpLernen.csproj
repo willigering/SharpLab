@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>CSharpLernen</RootNamespace>
+    <AssemblyName>CSharpLernen</AssemblyName>
+    <ApplicationIcon>Ressourcen\app.ico</ApplicationIcon>
+    <Version>1.0.0</Version>
+    <Product>C# Lernen – Der interaktive C#-Trainer</Product>
+    <Title>C# Lernen</Title>
+    <SatelliteResourceLanguages>de</SatelliteResourceLanguages>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <!-- Veröffentlichen als eine einzige .exe -->
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CSharpLernen.Engine\CSharpLernen.Engine.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Ressourcen\CSharpDunkel.xshd" LogicalName="CSharpLernen.CSharpDunkel.xshd" />
+    <Resource Include="Ressourcen\app.ico" />
+    <Resource Include="Ressourcen\Schrift\*.ttf" />
+  </ItemGroup>
+</Project>

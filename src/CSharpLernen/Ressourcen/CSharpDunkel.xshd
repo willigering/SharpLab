@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<SyntaxDefinition name="C# Dunkel" extensions=".cs" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Kommentar" foreground="#76907F" fontStyle="italic" />
+  <Color name="Text" foreground="#F2C185" />
+  <Color name="Zeichen" foreground="#F2C185" />
+  <Color name="Zahl" foreground="#99C4A7" />
+  <Color name="Schluesselwort" foreground="#5FB8FF" />
+  <Color name="Steuerung" foreground="#E08CF0" />
+  <Color name="Typ" foreground="#6CBC87" />
+  <Color name="Methode" foreground="#F3E9A0" />
+  <Color name="Wert" foreground="#5FB8FF" />
+  <Color name="Interpolation" foreground="#9CDCFE" />
+
+  <RuleSet ignoreCase="false">
+    <Span color="Kommentar" begin="//" />
+    <Span color="Kommentar" multiline="true" begin="/\*" end="\*/" />
+
+    <Span color="Text" ruleSet="Interpoliert">
+      <Begin>\$"</Begin>
+      <End>"</End>
+    </Span>
+    <Span color="Text" multiline="true">
+      <Begin>@"</Begin>
+      <End>"</End>
+      <RuleSet><Span begin='""' end="" /></RuleSet>
+    </Span>
+    <Span color="Text">
+      <Begin>"</Begin>
+      <End>"</End>
+      <RuleSet><Span begin="\\" end="." /></RuleSet>
+    </Span>
+    <Span color="Zeichen">
+      <Begin>'</Begin>
+      <End>'</End>
+      <RuleSet><Span begin="\\" end="." /></RuleSet>
+    </Span>
+
+    <Keywords color="Steuerung">
+      <Word>if</Word><Word>else</Word><Word>switch</Word><Word>case</Word><Word>default</Word>
+      <Word>while</Word><Word>do</Word><Word>for</Word><Word>foreach</Word><Word>in</Word>
+      <Word>break</Word><Word>continue</Word><Word>return</Word><Word>goto</Word>
+      <Word>try</Word><Word>catch</Word><Word>finally</Word><Word>throw</Word><Word>yield</Word><Word>await</Word>
+    </Keywords>
+    <Keywords color="Typ">
+      <Word>int</Word><Word>long</Word><Word>short</Word><Word>byte</Word><Word>double</Word><Word>float</Word>
+      <Word>decimal</Word><Word>bool</Word><Word>char</Word><Word>string</Word><Word>object</Word><Word>void</Word>
+      <Word>var</Word><Word>uint</Word><Word>ulong</Word><Word>dynamic</Word>
+      <Word>Console</Word><Word>Math</Word><Word>List</Word><Word>Dictionary</Word><Word>Random</Word><Word>String</Word>
+      <Word>Program</Word><Word>DateTime</Word><Word>Convert</Word><Word>Exception</Word>
+    </Keywords>
+    <Keywords color="Wert">
+      <Word>true</Word><Word>false</Word><Word>null</Word><Word>this</Word><Word>base</Word><Word>value</Word>
+    </Keywords>
+    <Keywords color="Schluesselwort">
+      <Word>using</Word><Word>namespace</Word><Word>class</Word><Word>struct</Word><Word>interface</Word><Word>enum</Word>
+      <Word>record</Word><Word>public</Word><Word>private</Word><Word>protected</Word><Word>internal</Word>
+      <Word>static</Word><Word>readonly</Word><Word>const</Word><Word>new</Word><Word>override</Word><Word>virtual</Word>
+      <Word>abstract</Word><Word>sealed</Word><Word>get</Word><Word>set</Word><Word>init</Word><Word>out</Word><Word>ref</Word>
+      <Word>params</Word><Word>is</Word><Word>as</Word><Word>typeof</Word><Word>nameof</Word><Word>async</Word>
+      <Word>and</Word><Word>or</Word><Word>not</Word><Word>when</Word><Word>global</Word><Word>partial</Word>
+    </Keywords>
+
+    <Rule color="Methode">\b[A-Za-z_][A-Za-z0-9_]*(?=\s*\()</Rule>
+    <Rule color="Zahl">\b0[xX][0-9a-fA-F]+|\b\d+(\.\d+)?([eE][+-]?\d+)?[fFdDmMlL]?</Rule>
+  </RuleSet>
+
+  <RuleSet name="Interpoliert">
+    <Span begin="\\" end="." />
+    <Span color="Interpolation" begin="\{" end="\}" />
+  </RuleSet>
+</SyntaxDefinition>

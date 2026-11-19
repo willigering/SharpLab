@@ -1,0 +1,20 @@
+C# Lernen – Der interaktive C#-Trainer
+======================================
+
+Starten:
+1. Entpacke die ZIP-Datei in einen Ordner (z. B. Dokumente\CSharpLernen).
+   Wichtig: nicht direkt aus der ZIP heraus starten, sondern erst entpacken.
+2. Doppelklicke auf CSharpLernen.exe.
+3. Falls Windows "Der Computer wurde durch Windows geschützt" anzeigt:
+   Klicke auf "Weitere Informationen" und dann auf "Trotzdem ausführen".
+   (Das kommt, weil die App nicht digital signiert ist.)
+
+Du brauchst nichts zu installieren – .NET 8 und der C#-Compiler sind eingebaut.
+
+Bedienung:
+- F5 = Kompilieren & Ausführen, Umschalt+F5 = Stopp, F6 = Aufgabe prüfen, Strg+S = Speichern
+- Dein Fortschritt wird gespeichert in: %AppData%\CSharpLernen
+- Spielwiese / Code-Editor: Hier kannst du beliebigen Code ausprobieren.
+- Begriffe: Alle Fachbegriffe (inkrementieren, deklarieren, ...) mit Karteikarten.
+
+Viel Spaß beim Lernen!
