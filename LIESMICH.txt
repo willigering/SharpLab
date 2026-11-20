@@ -4,8 +4,8 @@ https://github.com/willigering/SharpLab
 
 1. Diesen Ordner entpacken (nicht direkt aus der ZIP starten).
 2. SharpLab.exe doppelklicken.
-3. Falls "Der Computer wurde durch Windows geschützt" erscheint:
-   "Weitere Informationen" und dann "Trotzdem ausführen" klicken.
+3. Falls Windows SmartScreen warnt: Prüfe Downloadquelle und SHA-256-Prüfsumme.
+   Die Anwendung ist derzeit nicht digital signiert. Sicherheitswarnungen nicht ungeprüft umgehen.
 4. Falls Windows meldet, dass .NET fehlt: die ".NET Desktop Runtime" (Version 8 oder neuer)
    von https://dotnet.microsoft.com/de-de/download installieren.
 
@@ -24,3 +24,7 @@ SharpLab steht unter der MIT-Lizenz (siehe LICENSE).
 
 Lizenzen der mitgelieferten Komponenten Dritter: siehe THIRD-PARTY-NOTICES.txt
 (in der App: Einstellungen > Über > "Lizenzen").
+
+Sicherheit: Der Code-Editor ist keine isolierte Sandbox. Nur vertrauenswürdigen Code ausführen.
+Feedback wird nur auf deinen Klick gesendet; ein Fehlerprotokoll nur bei ausdrücklicher Auswahl.
+Es kann persönliche Informationen enthalten. Datenschutz: https://geringdigital.de/datenschutz.php#sharplab

@@ -28,3 +28,7 @@ Updates: SharpLab sucht beim Start nach einer neuen Version und fragt, bevor es 
 
 © 2026 Willi Gering, Gering Digital
 SharpLab steht unter der MIT-Lizenz (siehe LICENSE).
+
+Sicherheit: Eingegebener C#-Code läuft im App-Prozess, nicht in einer isolierten Sandbox.
+Führe nur vertrauenswürdigen Code aus. Feedback und optionales Fehlerprotokoll werden
+nur nach deiner Auswahl gesendet; Details: https://geringdigital.de/datenschutz.php#sharplab

@@ -15,7 +15,7 @@ Eine Windows-App, mit der du C# von null an lernst: 27 Lektionen in 5 Stufen, 21
 **[⬇ SharpLab-Setup.exe herunterladen](https://github.com/willigering/SharpLab/releases/latest/download/SharpLab-Setup.exe)** (empfohlen)
 
 1. `SharpLab-Setup.exe` starten. Die Installation läuft nur für dein Benutzerkonto, ohne Administratorrechte, nach `%LocalAppData%\Programs\SharpLab` – mit Startmenü- und (optional) Desktop-Verknüpfung.
-2. Falls Windows „Der Computer wurde durch Windows geschützt“ meldet: „Weitere Informationen“ und dann „Trotzdem ausführen“ klicken (die App ist nicht signiert).
+2. Die App ist bislang nicht digital signiert. Wenn Windows SmartScreen warnt, prüfe die Herkunft des Downloads und die veröffentlichte SHA-256-Prüfsumme, bevor du eine Ausführung in Betracht ziehst. Eine Warnung nicht ungeprüft umgehen.
 3. Benötigt die [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) (x64) oder neuer. Fehlt sie, bietet das Setup den Download an.
 
 Portabel ohne Installation: [`SharpLab-Windows.zip`](https://github.com/willigering/SharpLab/releases/latest/download/SharpLab-Windows.zip) entpacken und `SharpLab.exe` starten. Alle Versionen: [Releases](../../releases).
@@ -46,3 +46,5 @@ Dein Fortschritt und dein Code werden unter `%AppData%\CSharpLernen` gespeichert
 ## Lizenz
 
 SharpLab steht unter der [MIT-Lizenz](LICENSE). Die Lizenzen der mitgelieferten Komponenten (Roslyn, AvalonEdit, JetBrains Mono u. a.) stehen in [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt).
+
+**Sicherheit und Datenschutz:** Der Code-Editor führt eingegebenen C#-Code im App-Prozess aus und ist keine Sicherheits-Sandbox. Führe nur Code aus vertrauenswürdigen Quellen aus. Feedback wird nur nach Klick auf „Senden“ übertragen; ein Fehlerprotokoll nur, wenn du die Option ausdrücklich auswählst. Details: https://geringdigital.de/datenschutz.php#sharplab. Automatische Updates setzen eine SHA-256-Prüfsumme im Release voraus; sie werden bei fehlender oder falscher Prüfsumme abgebrochen. Eine Prüfsumme ersetzt keine digitale Signatur.

@@ -248,10 +248,12 @@ public partial class MainWindow
             string text = await client.GetStringAsync(r.Sha256AssetUrl, ct);
             soll = Aktualisierung.HashAusText(text, r.AssetName);
         }
-        status.Text = soll != null ? "Prüfe Prüfsumme (SHA-256) …" : "Entpacke …";
+        if (string.IsNullOrWhiteSpace(soll))
+            throw new AktualisierungsFehler("Das Release enthält keine überprüfbare SHA-256-Prüfsumme. Aus Sicherheitsgründen wurde das automatische Update abgebrochen. Bitte prüfe die Release-Seite.");
+        status.Text = "Prüfe Prüfsumme (SHA-256) …";
         string exeOrdner = await Task.Run(() =>
         {
-            if (soll != null && !string.Equals(Aktualisierung.Sha256(zip), soll, StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals(Aktualisierung.Sha256(zip), soll, StringComparison.OrdinalIgnoreCase))
                 throw new AktualisierungsFehler("Die Prüfsumme des Downloads stimmt nicht (Datei beschädigt oder verändert). Es wurde nichts geändert.");
             return Aktualisierung.Entpacken(zip, basis);
         }, ct);
