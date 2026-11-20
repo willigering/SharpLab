@@ -474,12 +474,25 @@ public partial class MainWindow
                 try { BaueUebung(aufgabe); } finally { ausgabeBehalten = false; }
             }
             ZeigePruefergebnis(r, aufgabe);
+            // BaueUebung setzt die Konsole zurück. Die bestandene Ausgabe danach noch einmal hineinschreiben.
+            if (r.Bestanden) ZeigeGepruefteAusgabe(r);
         }
         UebungsReiterText();
         NaechsteKnopfStil();
         BaueLernpfad();
         AktualisiereFortschritt();
         PruefeErfolge();
+    }
+
+    void ZeigeGepruefteAusgabe(Pruefergebnis r)
+    {
+        if (r.Lauf == null) return;
+        AusgabeBox.Text = r.Lauf.Ausgabe.Length == 0
+            ? "(Dein Programm hat nichts ausgegeben.)"
+            : r.Lauf.Ausgabe;
+        AusgabeBox.ScrollToHome();
+        TabAusgabe.IsChecked = true;
+        Status("✓ Kompilierung erfolgreich · Richtig! Aufgabe gelöst. 🎉", "Gruen");
     }
 
     void ZeigePruefergebnis(Pruefergebnis r, Aufgabe aufgabe)

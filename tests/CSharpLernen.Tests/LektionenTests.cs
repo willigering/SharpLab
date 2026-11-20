@@ -47,6 +47,11 @@ public class LektionenTests
             log.WriteLine("Ausgabe:\n" + r.TatsaechlicheAusgabe);
         }
         Assert.True(r.Bestanden, $"{id}: {r.Titel} – {r.Details}");
+        Assert.NotNull(r.Lauf);
+        var letzter = a.Tests[^1];
+        Assert.True(
+            AufgabenPruefer.Vergleichen(letzter.Erwartet, r.Lauf!.Ausgabe, a.Vergleich == "lenient").Gleich,
+            $"{id}: die zurückgegebene Ausgabe passt nicht zum letzten Test.\n{r.Lauf.Ausgabe}");
     }
 
     [Theory]

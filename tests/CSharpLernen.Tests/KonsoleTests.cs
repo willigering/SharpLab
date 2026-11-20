@@ -70,12 +70,13 @@ public class KonsoleTests
         var box = Regex.Match(xaml, @"<TextBox[^>]*x:Name=""AusgabeBox""[^>]*>");
         Assert.True(box.Success);
         Assert.DoesNotMatch(new Regex(@"\bText\s*="), box.Value);
-        // AusgabeBox wird nur hier beschrieben: Lauf, Echo der Eingabe, Kürzen, „nichts ausgegeben“, Prüfergebnis.
+        // AusgabeBox wird nur hier beschrieben: Lauf, Echo der Eingabe, Kürzen, „nichts ausgegeben“,
+        // Prüfergebnis und noch einmal nach dem Neuaufbau einer bestandenen Aufgabe.
         var schreiber = Directory.GetFiles(Path.Combine(Wurzel(), "src", "CSharpLernen"), "*.cs")
             .SelectMany(f => File.ReadAllLines(f).Select((z, i) => (Datei: Path.GetFileName(f), Zeile: z.Trim())))
             .Where(t => Regex.IsMatch(t.Zeile, @"AusgabeBox\.(Text\s*=|AppendText)"))
             .Select(t => t.Datei).ToList();
-        Assert.Equal(5, schreiber.Count);
+        Assert.Equal(6, schreiber.Count);
         Assert.DoesNotContain(schreiber, d => d.Contains("Seiten") || d.Contains("Lernstand"));
     }
 }

@@ -1,0 +1,7 @@
+SharpLab 1.0.6
+Willi Gering · Gering Digital
+
+21.11.2026
+- Alle 216 Aufgabenstellungen sind eindeutiger: jede erwartete Ausgabe steht vollständig da, jeder Testlauf mit seinen Eingaben, und die Vorgaben passen zur Musterlösung.
+- Aufgaben-IDs sind unverändert. Der Lernstand (gelöste Aufgaben, Quiz, eigener Code) bleibt beim Update erhalten.
+- Nach „Richtig!“ zeigt die Konsole die Programmausgabe.

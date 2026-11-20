@@ -35,6 +35,7 @@ public static class AufgabenPruefer
         }
 
         var tests = aufgabe.Tests.Count > 0 ? aufgabe.Tests : new List<Testfall> { new() };
+        Laufergebnis? letzterLauf = null;
         for (int i = 0; i < tests.Count; i++)
         {
             var t = tests[i];
@@ -44,6 +45,7 @@ public static class AufgabenPruefer
                 Zeitlimit = Zeitlimit,
                 Abbruch = abbruch,
             }).ConfigureAwait(false);
+            letzterLauf = lauf;
 
             string testName = tests.Count > 1 ? $"Test {i + 1} von {tests.Count}" : "Test";
             string eingabeText = t.Eingabe.Count > 0 ? $"\nEingabe beim {testName}: {string.Join(" | ", t.Eingabe)}" : "";
@@ -87,6 +89,8 @@ public static class AufgabenPruefer
             Bestanden = true,
             Titel = "Richtig! 🎉",
             Details = tests.Count > 1 ? $"Alle {tests.Count} Tests bestanden. Super gemacht!" : "Deine Ausgabe stimmt genau. Super gemacht!",
+            // Die Konsole zeigt genau diesen Lauf. Ohne Lauf bliebe die Ausgabe nach „Richtig!“ leer.
+            Lauf = letzterLauf,
         };
     }
 
