@@ -1,5 +1,5 @@
-SharpLab - Der interaktive C#-Trainer
-Version 1.0.4 · Entwickelt von Willi Gering · Gering Digital
+﻿SharpLab - Der interaktive C#-Trainer
+Version 1.0.5 · Entwickelt von Willi Gering · Gering Digital
 https://github.com/willigering/SharpLab
 
 1. Diesen Ordner entpacken (nicht direkt aus der ZIP starten).
@@ -12,5 +12,15 @@ https://github.com/willigering/SharpLab
 Tasten: F5 ausführen, Umschalt+F5 stoppen, F6 Übung prüfen, Strg+S speichern.
 Fortschritt: %AppData%\CSharpLernen\fortschritt.json
 (Der Ordner heißt weiter "CSharpLernen", damit dein bisheriger Fortschritt erhalten bleibt.)
+Mehrere Rechner: Einstellungen > Lernstand > "Ordner wählen…" oder "OneDrive verwenden".
+Der Lernstand liegt dann in <Ordner>\SharpLab\fortschritt.json; Einstellungen bleiben lokal.
+
+Feedback: Knopf "Feedback" unten in der linken Leiste (geht an Gering Digital).
+Updates: SharpLab sucht beim Start nach einer neuen Version und fragt, bevor es etwas ändert
+(abschaltbar unter Einstellungen > Updates). Dein Lernstand bleibt dabei erhalten.
 
 © 2026 Willi Gering, Gering Digital
+SharpLab steht unter der MIT-Lizenz (siehe LICENSE).
+
+Lizenzen der mitgelieferten Komponenten Dritter: siehe THIRD-PARTY-NOTICES.txt
+(in der App: Einstellungen > Über > "Lizenzen").

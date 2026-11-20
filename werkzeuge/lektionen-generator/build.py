@@ -1,7 +1,7 @@
 import json, sys, importlib
 sys.path.insert(0, '.')
 import gen
-for m in ['teil1','teil2','teil3','teil4','teil5','begriffe','review','aufgabentexte']:
+for m in ['teil1','teil2','teil3','teil4','teil5','begriffe','review','aufgabentexte','startcode','neu_l01_l09','neu_l10_l18','neu_l19_l27']:
     try: importlib.import_module(m)
     except ModuleNotFoundError as e:
         if e.name != m: raise

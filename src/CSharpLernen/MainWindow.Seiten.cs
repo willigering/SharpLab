@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -86,7 +86,7 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
                 var sp = new StackPanel();
                 var kopf = new Grid();
                 kopf.Children.Add(Ui.Text($"{lektionen.IndexOf(l) + 1}. {l.Titel}", 13.5, "TextHell", FontWeights.SemiBold));
-                var status = Ui.Text(IstAbgeschlossen(l) ? "✓ abgeschlossen" : IstFreigeschaltet(l) ? $"{Geloest(l)}/{l.Aufgaben.Count} gelöst" : "🔒 gesperrt", 11,
+                var status = Ui.Text(IstKomplett(l) ? $"✓ alle {l.Aufgaben.Count} gelöst" : IstAbgeschlossen(l) ? $"✓ abgeschlossen · {Geloest(l)}/{l.Aufgaben.Count} gelöst" : IstFreigeschaltet(l) ? $"{Geloest(l)}/{l.Aufgaben.Count} gelöst" : "🔒 gesperrt", 11,
                     IstAbgeschlossen(l) ? "Gruen" : "TextGedimmt");
                 status.HorizontalAlignment = HorizontalAlignment.Right;
                 kopf.Children.Add(status);
@@ -407,7 +407,10 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
 
         var weiter = new StackPanel();
         weiter.Children.Add(Ui.Text("Als Nächstes", 15.5, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 8)));
-        var naechste = lektionen.SelectMany(l => l.Aufgaben.Select(a => (l, a))).FirstOrDefault(x => !IstGeloest(x.a));
+        // Zuerst die erste noch nicht abgeschlossene Lektion (5 von 8), danach offene Zusatz-Aufgaben von vorn.
+        var offen = lektionen.SelectMany(l => l.Aufgaben.Select(a => (l, a))).Where(x => !IstGeloest(x.a)).ToList();
+        var naechste = offen.FirstOrDefault(x => !IstAbgeschlossen(x.l));
+        if (naechste.a == null) naechste = offen.FirstOrDefault();
         if (naechste.a != null)
         {
             weiter.Children.Add(Ui.Text($"Lektion „{naechste.l.Titel}“ – Aufgabe „{naechste.a.Titel}“", 12.5, "TextMittel", rand: new Thickness(0, 0, 0, 10)));
@@ -524,46 +527,30 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
             BaueLernpfad();
         };
         lernen.Children.Add(frei);
-        lernen.Children.Add(Ui.Text("Normalerweise wird eine Lektion freigeschaltet, sobald du alle Aufgaben der vorigen gelöst hast.", 11, "TextGedimmt", rand: new Thickness(0, 6, 0, 0)));
+        lernen.Children.Add(Ui.Text("Normalerweise wird eine Lektion freigeschaltet, sobald du 5 Aufgaben der vorigen gelöst hast.", 11, "TextGedimmt", rand: new Thickness(0, 6, 0, 0)));
         SeitenInhalt.Children.Add(Ui.Karte(lernen));
 
-        var daten = new StackPanel();
-        daten.Children.Add(Ui.Text("Daten", 15.5, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 10)));
-        daten.Children.Add(Ui.Text("Dein Fortschritt und dein Code werden hier gespeichert:", 12.5, "TextMittel"));
-        daten.Children.Add(new TextBox { Text = Fortschritt.Datei, IsReadOnly = true, FontFamily = Ui.CodeSchrift, FontSize = 11, Margin = new Thickness(0, 6, 0, 10), BorderThickness = new Thickness(1) });
-        daten.Children.Add(Ui.Text($"Eigene Lektionen: Lege eine Datei „Lektionen.json“ (gleiches Format wie die eingebaute) in diesen Ordner – dann lädt die App beim nächsten Start deine Lektionen.", 11, "TextGedimmt", rand: new Thickness(0, 0, 0, 10)));
-        var leiste = new WrapPanel();
-        leiste.Children.Add(Ui.Knopf("Ordner öffnen", (_, _) =>
+        lernstandHost = new StackPanel();
+        BaueLernstandKarte();
+        SeitenInhalt.Children.Add(Ui.Karte(lernstandHost));
+
+        var updates = new StackPanel();
+        updates.Children.Add(Ui.Text("Updates", 15.5, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 8)));
+        var updateStart = new CheckBox { Content = "Beim Start nach Updates suchen", IsChecked = fortschritt.UpdateBeimStart, FontSize = 12.5, Foreground = Ui.B("TextHell"), Margin = new Thickness(0, 0, 0, 4) };
+        updateStart.Click += (_, _) =>
         {
-            try
-            {
-                Directory.CreateDirectory(Fortschritt.Ordner);
-                Process.Start(new ProcessStartInfo("explorer.exe", Fortschritt.Ordner) { UseShellExecute = true });
-            }
-            catch (Exception ex) { _ = DialogService.ShowAsync("Ordner nicht geöffnet", ex.Message, DialogKind.Gefahr, "OK"); }
-        }, false, "\uE8B7"));
-        leiste.Children.Add(Ui.Knopf("Fortschritt zurücksetzen", async (_, _) =>
-        {
-            if (await DialogService.ShowAsync("Fortschritt zurücksetzen?",
-                    "Wirklich ALLES zurücksetzen? Gelöste Aufgaben, Quiz-Ergebnisse und dein gespeicherter Code werden gelöscht.",
-                    DialogKind.Gefahr, "Alles löschen", "Abbrechen", "Das kann nicht rückgängig gemacht werden.") != DialogAntwort.Primaer) return;
-            fortschritt.GeloesteAufgaben.Clear();
-            fortschritt.Code.Clear();
-            fortschritt.QuizPunkte.Clear();
-            fortschritt.GeleseneLektionen.Clear();
-            fortschritt.Ausfuehrungen = fortschritt.ErfolgreicheLaeufe = fortschritt.SpielwieseLaeufe = 0;
-            fortschritt.FehlerBehoben = fortschritt.EndlosschleifeGestoppt = false;
-            fortschritt.ErsterStart = DateTime.Now;
+            fortschritt.UpdateBeimStart = updateStart.IsChecked == true;
             fortschritt.Speichern();
-            bekannteErfolge = Erfolge.Erreicht(fortschritt, kurs);
-            editorSchluessel = null;
-            editorGeaendert = false;
-            AktualisiereFortschritt();
-            BaueLernpfad();
-            Toast("Zurückgesetzt", "Alles auf Anfang – viel Spaß beim Lernen!", "\uE72C", "Akzent");
-        }, false, "\uE74D"));
-        daten.Children.Add(leiste);
-        SeitenInhalt.Children.Add(Ui.Karte(daten));
+        };
+        updates.Children.Add(updateStart);
+        updates.Children.Add(Ui.Text("Fragt beim Start kurz bei GitHub nach, ob es eine neue Version gibt. Offline passiert einfach nichts. Dein Lernstand bleibt beim Aktualisieren erhalten.", 11, "TextGedimmt", rand: new Thickness(0, 0, 0, 10)));
+        var updateLeiste = new WrapPanel();
+        updateLeiste.Children.Add(Ui.Knopf("Jetzt nach Updates suchen", async (_, _) =>
+        {
+            await NachUpdatesSuchenAsync(manuell: true);
+        }, false, "\uE895"));
+        updates.Children.Add(updateLeiste);
+        SeitenInhalt.Children.Add(Ui.Karte(updates));
 
         var ueber = new StackPanel();
         ueber.Children.Add(Ui.Text("Über", 15.5, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 8)));
@@ -577,9 +564,61 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
             try { Process.Start(new ProcessStartInfo(repoUrl) { UseShellExecute = true }); }
             catch (Exception ex) { _ = DialogService.ShowAsync("Link nicht geöffnet", "Der Browser konnte nicht gestartet werden:\n" + ex.Message, DialogKind.Warnung, "OK", hint: repoUrl); }
         }, false, "\uE774"));
+        var lizenzKnopf = Ui.Knopf("Lizenzen", (_, _) => ZeigeLizenzen(), false, "\uE8A5");
+        lizenzKnopf.Margin = new Thickness(8, 0, 0, 0);
+        linkLeiste.Children.Add(lizenzKnopf);
+        var feedbackKnopf = Ui.Knopf("Feedback senden", (_, _) => _ = FeedbackOeffnen(), true, "\uED15");
+        feedbackKnopf.Margin = new Thickness(8, 0, 0, 0);
+        linkLeiste.Children.Add(feedbackKnopf);
         ueber.Children.Add(linkLeiste);
         ueber.Children.Add(Ui.Text(repoUrl, 11, "TextGedimmt", rand: new Thickness(0, 6, 0, 0)));
-        ueber.Children.Add(Ui.Text("Schriftart: JetBrains Mono (SIL Open Font License) · Compiler: Roslyn (MIT) · Editor: AvalonEdit (MIT)", 11, "TextGedimmt", rand: new Thickness(0, 4, 0, 0)));
+        ueber.Children.Add(Ui.Text("Schriftart: JetBrains Mono (SIL Open Font License) · Compiler: Roslyn (MIT) · Editor: AvalonEdit (MIT) · Details unter „Lizenzen“", 11, "TextGedimmt", rand: new Thickness(0, 4, 0, 0)));
         SeitenInhalt.Children.Add(Ui.Karte(ueber));
+    }
+
+    /// <summary>Zeigt die Lizenztexte der mitgelieferten Komponenten (THIRD-PARTY-NOTICES.txt).</summary>
+    void ZeigeLizenzen()
+    {
+        static string Lies(string name)
+        {
+            try
+            {
+                using var s = typeof(MainWindow).Assembly.GetManifestResourceStream("CSharpLernen." + name);
+                return s == null ? name + " wurde nicht gefunden." : new System.IO.StreamReader(s).ReadToEnd().Trim();
+            }
+            catch (Exception ex) { return name + " konnte nicht geladen werden: " + ex.Message; }
+        }
+        string linie = new string('=', 78);
+        // Oben SharpLabs eigene MIT-Lizenz, danach die Hinweise zu Komponenten Dritter.
+        string text = "SharpLab – Lizenz\n" + linie + "\n\n" + Lies("LICENSE") + "\n\n\n" + Lies("THIRD-PARTY-NOTICES.txt");
+        var box = new TextBox
+        {
+            Text = text,
+            IsReadOnly = true,
+            TextWrapping = TextWrapping.Wrap,
+            VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
+            FontFamily = Ui.CodeSchrift,
+            FontSize = 12,
+            Background = Ui.B("Hintergrund"),
+            Foreground = Ui.B("TextHell"),
+            BorderThickness = new Thickness(0),
+            Padding = new Thickness(14),
+        };
+        var fenster = new Window
+        {
+            Title = "SharpLab – Lizenzen",
+            Width = 820,
+            Height = 640,
+            Owner = this,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            Background = Ui.B("Hintergrund"),
+            Foreground = Ui.B("TextHell"),
+            FontFamily = Ui.UiSchrift,
+            ShowInTaskbar = false,
+            Content = box,
+        };
+        fenster.PreviewKeyDown += (_, e) => { if (e.Key == System.Windows.Input.Key.Escape) fenster.Close(); };
+        fenster.Show();
     }
 }

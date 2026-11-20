@@ -7,7 +7,7 @@ public sealed record Erfolg(string Id, string Titel, string Beschreibung, string
 public static class Erfolge
 {
     static bool StufeFertig(Fortschritt f, Kurs k, int stufe) =>
-        k.Lektionen.Where(l => l.Stufe == stufe).SelectMany(l => l.Aufgaben).All(a => f.GeloesteAufgaben.Contains(a.Id));
+        k.Lektionen.Where(l => l.Stufe == stufe).All(l => Lektionsstatus.IstAbgeschlossen(l, f.GeloesteAufgaben));
 
     static int AlleAufgaben(Kurs k) => k.Lektionen.Sum(l => l.Aufgaben.Count);
 

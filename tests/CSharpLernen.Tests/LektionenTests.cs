@@ -25,7 +25,7 @@ public class LektionenTests
         foreach (var l in Kurs.Lektionen)
         {
             Assert.False(string.IsNullOrWhiteSpace(l.Erklaerung), l.Id);
-            Assert.InRange(l.Aufgaben.Count, 2, 4);
+            Assert.Equal(8, l.Aufgaben.Count);
             Assert.True(l.Quiz.Count >= 2, l.Id + " Quiz");
             Assert.Contains(Kurs.Stufen, s => s.Nummer == l.Stufe);
             foreach (var q in l.Quiz) Assert.InRange(q.Richtig, 0, q.Antworten.Count - 1);

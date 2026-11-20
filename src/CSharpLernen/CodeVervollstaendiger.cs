@@ -7,6 +7,7 @@ using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Editing;
+using ICSharpCode.AvalonEdit.Snippets;
 
 namespace CSharpLernen;
 
@@ -63,13 +64,25 @@ public sealed class CodeVervollstaendiger
         if (fenster != null)
         {
             if (e.Key is Key.Up or Key.Down or Key.PageUp or Key.PageDown) weichAusgewaehlt = false;
-            if ((e.Key == Key.Enter || e.Key == Key.Tab) && (weichAusgewaehlt || fenster.CompletionList.SelectedItem == null))
+            bool nichtsAusgewaehlt = fenster.CompletionList.SelectedItem == null;
+            // Tab übernimmt den markierten Vorschlag immer (wie in Visual Studio), Enter nur bei fester Auswahl.
+            if ((e.Key == Key.Tab && nichtsAusgewaehlt) || (e.Key == Key.Enter && (weichAusgewaehlt || nichtsAusgewaehlt)))
             {
                 // nichts Passendes ausgewählt: Enter/Tab wirkt ganz normal
                 fenster.Close();
                 return;
             }
             return;   // Pfeile, Enter, Tab, Esc erledigt das Vervollständigungsfenster
+        }
+        // Läuft gerade ein Codeausschnitt mit Feldern, springt Tab dort von Feld zu Feld (AvalonEdit-Snippet-Modus).
+        if (e.Key == Key.Tab && !editor.TextArea.StackedInputHandlers.IsEmpty) return;
+        // Kürzel + Tab (bzw. Tab Tab, wenn die Liste das Kürzel gerade übernommen hat) → Codeausschnitt
+        if (e.Key == Key.Tab && Keyboard.Modifiers == ModifierKeys.None && editor.SelectionLength == 0
+            && Codeausschnitte.KannErweitern(doc.Text, caret, out var ausschnitt, out int start))
+        {
+            e.Handled = true;
+            Erweitern(ausschnitt!, start, caret);
+            return;
         }
         // Backspace zwischen einem leeren Paar ( ) [ ] " " löscht beide Zeichen
         if (e.Key == Key.Back && editor.SelectionLength == 0 && caret > 0 && caret < doc.TextLength)
@@ -94,8 +107,8 @@ public sealed class CodeVervollstaendiger
         {
             var auswahl = fenster.CompletionList.SelectedItem as Eintrag;
             string getippt = doc.GetText(fenster.StartOffset, Math.Max(0, caret - fenster.StartOffset));
-            bool passt = auswahl != null && !weichAusgewaehlt && getippt.Length > 0
-                         && auswahl.Text.StartsWith(getippt, StringComparison.OrdinalIgnoreCase);
+            // Die Liste zeigt nur passende Einträge (Präfix/CamelCase wie in VS) – die Auswahl passt also immer zum Getippten.
+            bool passt = auswahl != null && !weichAusgewaehlt && getippt.Length > 0;
             if (passt && Array.IndexOf(UebernahmeZeichen, c) >= 0) fenster.CompletionList.RequestInsertion(e);
             else fenster.Close();
             caret = editor.CaretOffset;
@@ -149,6 +162,37 @@ public sealed class CodeVervollstaendiger
         }
     }
 
+    /// <summary>Ersetzt das Kürzel durch den Ausschnitt. Felder (z. B. „i“ in for) sind markiert; Tab springt zum nächsten,
+    /// Enter oder Esc beendet. Gleiche Felder (i … i … i++) ändern sich gemeinsam.</summary>
+    void Erweitern(Codeausschnitt a, int start, int ende)
+    {
+        var snippet = new Snippet();
+        var felder = new Dictionary<int, SnippetReplaceableTextElement>();
+        foreach (var t in a.Teile)
+        {
+            switch (t)
+            {
+                case AusschnittText x: snippet.Elements.Add(new SnippetTextElement { Text = x.Text }); break;
+                case AusschnittFeld f:
+                    var r = new SnippetReplaceableTextElement { Text = f.Vorgabe };
+                    felder[f.Nummer] = r;
+                    snippet.Elements.Add(r);
+                    break;
+                case AusschnittVerweis v when felder.TryGetValue(v.Nummer, out var ziel):
+                    snippet.Elements.Add(new SnippetBoundElement { TargetElement = ziel });
+                    break;
+                case AusschnittEnde: snippet.Elements.Add(new SnippetCaretElement()); break;
+            }
+        }
+        var doc = editor.Document;
+        using (doc.RunUpdate())
+        {
+            doc.Remove(start, ende - start);
+            editor.CaretOffset = start;
+            snippet.Insert(editor.TextArea);
+        }
+    }
+
     // ============================================================ Anfrage
 
     async Task AnfragenAsync(char? zeichen, bool explizit)
@@ -189,7 +233,7 @@ public sealed class CodeVervollstaendiger
             Background = (Brush)Application.Current.FindResource("Hintergrund"),
             BorderBrush = (Brush)Application.Current.FindResource("Rand"),
             BorderThickness = new Thickness(1),
-            FontFamily = (FontFamily)Application.Current.FindResource("CodeSchrift"),
+            FontFamily = Ui.CodeSchrift,
             FontSize = 12,
             Foreground = (Brush)Application.Current.FindResource("TextHell"),
             ResizeMode = ResizeMode.NoResize,
@@ -205,22 +249,46 @@ public sealed class CodeVervollstaendiger
             lb.Padding = new Thickness(0);
         }
 
-        var daten = w.CompletionList.CompletionData;
-        Eintrag vorausgewaehlt = null;
+        // Gefiltert und vorausgewählt wird wie in Visual Studio von der Engine (VervollstaendigungsListe.Filtern),
+        // nicht von AvalonEdits eigenem Filter.
+        w.CompletionList.IsFiltering = false;
+        var eintraege = new Dictionary<Vorschlag, Eintrag>();
         foreach (var v in liste.Vorschlaege)
         {
             var e = new Eintrag(v);
-            daten.Add(e);
-            if (vorausgewaehlt == null && v.Vorausgewaehlt) vorausgewaehlt = e;
+            eintraege[v] = e;
+            w.CompletionList.CompletionData.Add(e);
         }
         weichAusgewaehlt = liste.Vorschlagsmodus;
 
         fenster = w;
-        w.Closed += (_, _) => { if (fenster == w) fenster = null; };
-        string getippt = editor.Document.GetText(liste.Start, caret - liste.Start);
+        void Anwenden()
+        {
+            if (fenster != w) return;
+            int pos = editor.CaretOffset;
+            if (pos < w.StartOffset) return;
+            string getippt = editor.Document.GetText(w.StartOffset, pos - w.StartOffset);
+            var erg = liste.Filtern(getippt);
+            if (erg.Sichtbar.Count == 0) { w.Close(); return; }
+            var lb = w.CompletionList.ListBox;
+            if (lb == null) return;
+            lb.ItemsSource = erg.Sichtbar.Select(v => eintraege[v]).ToList();
+            if (erg.Auswahl != null && eintraege.TryGetValue(erg.Auswahl, out var sel))
+            {
+                lb.SelectedItem = sel;
+                lb.ScrollIntoView(sel);
+            }
+            else lb.SelectedIndex = -1;
+        }
+        EventHandler caretGeaendert = (_, _) => Anwenden();
+        editor.TextArea.Caret.PositionChanged += caretGeaendert;
+        w.Closed += (_, _) =>
+        {
+            editor.TextArea.Caret.PositionChanged -= caretGeaendert;
+            if (fenster == w) fenster = null;
+        };
         w.Show();
-        w.CompletionList.SelectItem(getippt);
-        if (getippt.Length == 0 && vorausgewaehlt != null) w.CompletionList.SelectedItem = vorausgewaehlt;
+        Anwenden();
     }
 
     // ============================================================ Eintrag
@@ -235,7 +303,7 @@ public sealed class CodeVervollstaendiger
 
         public ImageSource Image => null;
         public string Text => v.FilterText;
-        public double Priority => v.Vorausgewaehlt ? 1 : 0;
+        public double Priority => 0;   // Vorauswahl macht die Engine (Roslyn-Matching + zuletzt benutzt)
 
         public object Content => inhalt ??= BaueInhalt();
 
@@ -264,6 +332,7 @@ public sealed class CodeVervollstaendiger
         public void Complete(TextArea textArea, ISegment segment, EventArgs e)
         {
             textArea.Document.Replace(segment, v.Einfuegen);
+            Vervollstaendigung.Benutzt(v);
         }
 
         object BaueInhalt()
@@ -314,6 +383,7 @@ public sealed class CodeVervollstaendiger
                 [VorschlagArt.Parameter] = ("P", blau),
                 [VorschlagArt.Typparameter] = ("T", gruen),
                 [VorschlagArt.Schluesselwort] = ("#", grau),
+                [VorschlagArt.Codeausschnitt] = ("{}", gruen),
             };
         }
     }

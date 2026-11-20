@@ -14,4 +14,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\CSharpLernen.Engine\CSharpLernen.Engine.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <!-- Fortschritt.cs hängt nicht von WPF ab: direkt mitkompilieren, um das Laden alter Dateien zu testen. -->
+    <Compile Include="..\..\src\CSharpLernen\Fortschritt.cs" Link="App\Fortschritt.cs" />
+    <Compile Include="..\..\src\CSharpLernen\Speicherort.cs" Link="App\Speicherort.cs" />
+  </ItemGroup>
 </Project>

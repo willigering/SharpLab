@@ -40,7 +40,7 @@ Ich heiße Max.
 Ich bin 20 Jahre alt.
 Meine Lieblingsfarbe ist Blau.
 ```''',
-      starter='Console.WriteLine("Ich heiße Max.");\n',
+      starter='// Schreib hier deinen Code\n',
       solution='Console.WriteLine("Ich heiße Max.");\nConsole.WriteLine("Ich bin 20 Jahre alt.");\nConsole.WriteLine("Meine Lieblingsfarbe ist Blau.");\n',
       tests=[T("Ich heiße Max.\nIch bin 20 Jahre alt.\nMeine Lieblingsfarbe ist Blau.")]),
     A("Write ohne Zeilenumbruch", r'''Benutze **dreimal** `Console.Write` (nicht WriteLine!), sodass diese **eine** Zeile entsteht:
@@ -48,7 +48,7 @@ Meine Lieblingsfarbe ist Blau.
 ```
 Eins Zwei Drei
 ```''',
-      starter='Console.Write("Eins ");\n',
+      starter='// Schreib hier deinen Code\n',
       solution='Console.Write("Eins ");\nConsole.Write("Zwei ");\nConsole.Write("Drei");\n',
       tests=[T("Eins Zwei Drei")],
       requirements=[(r'Console\s*\.\s*Write\s*\(', "Benutze Console.Write (ohne Line).")],
@@ -269,7 +269,7 @@ Level 2
 Level 3
 Level 13
 ```''',
-      starter='int level = 1;\nConsole.WriteLine("Level " + level);\n',
+      starter='int level = 1;\n',
       solution='int level = 1;\nConsole.WriteLine("Level " + level);\nlevel++;\nConsole.WriteLine("Level " + level);\nlevel++;\nConsole.WriteLine("Level " + level);\nlevel += 10;\nConsole.WriteLine("Level " + level);\n',
       tests=[T("Level 1\nLevel 2\nLevel 3\nLevel 13")],
       requirements=[(r'level\s*\+\+', "Benutze level++."), (r'level\s*\+=', "Benutze level += 10.")]),
@@ -399,7 +399,7 @@ Console.WriteLine($"Hallo {name}! In 10 Jahren bist du {alter + 10}.");
 Hallo Lena!
 ```
 (Eine Frage wie „Name: “ davor darfst du gern ausgeben.)''',
-      starter='Console.Write("Wie heißt du? ");\n',
+      starter='// Schreib hier deinen Code\n',
       solution='Console.Write("Wie heißt du? ");\nstring name = Console.ReadLine();\nConsole.WriteLine($"Hallo {name}!");\n',
       tests=[T("Hallo Lena!", "Lena"), T("Hallo Ben!", "Ben")], compare="lenient"),
     A("Verdoppeln", r'''Lies eine ganze Zahl ein und gib das Doppelte aus. Bei Eingabe `21`:
@@ -407,7 +407,7 @@ Hallo Lena!
 ```
 Das Doppelte ist 42
 ```''',
-      starter='Console.Write("Zahl: ");\n',
+      starter='// Schreib hier deinen Code\n',
       solution='Console.Write("Zahl: ");\nint zahl = int.Parse(Console.ReadLine());\nConsole.WriteLine("Das Doppelte ist " + (zahl * 2));\n',
       tests=[T("Das Doppelte ist 42", "21"), T("Das Doppelte ist -10", "-5")], compare="lenient",
       requirements=[(r'int\s*\.\s*Parse', "Wandle die Eingabe mit int.Parse(...) in eine Zahl um.")]),

@@ -18,14 +18,14 @@ public partial class MainWindow
     // ===================================================== Status von Lektionen
 
     bool IstGeloest(Aufgabe a) => fortschritt.GeloesteAufgaben.Contains(a.Id);
-    bool IstAbgeschlossen(Lektion l) => l.Aufgaben.Count > 0 && l.Aufgaben.All(IstGeloest);
-    int Geloest(Lektion l) => l.Aufgaben.Count(IstGeloest);
+    /// <summary>Ab 5 gelösten Aufgaben (siehe <see cref="Lektionsstatus"/>) – schaltet die nächste Lektion frei.</summary>
+    bool IstAbgeschlossen(Lektion l) => Lektionsstatus.IstAbgeschlossen(l, fortschritt.GeloesteAufgaben);
+    /// <summary>Alle Aufgaben gelöst.</summary>
+    bool IstKomplett(Lektion l) => Lektionsstatus.IstKomplett(l, fortschritt.GeloesteAufgaben);
+    int Geloest(Lektion l) => Lektionsstatus.Geloest(l, fortschritt.GeloesteAufgaben);
 
-    bool IstFreigeschaltet(Lektion l)
-    {
-        int i = lektionen.IndexOf(l);
-        return fortschritt.AllesFreigeschaltet || i <= 0 || IstAbgeschlossen(lektionen[i - 1]) || Geloest(l) > 0;
-    }
+    bool IstFreigeschaltet(Lektion l) =>
+        Lektionsstatus.IstFreigeschaltet(lektionen, lektionen.IndexOf(l), fortschritt.GeloesteAufgaben, fortschritt.AllesFreigeschaltet);
 
     string StufenName(int nr) => kurs.Stufen.FirstOrDefault(s => s.Nummer == nr)?.Titel ?? "";
 
@@ -37,7 +37,7 @@ public partial class MainWindow
             int i = lektionen.IndexOf(l);
             string vorher = i > 0 ? lektionen[i - 1].Titel : "";
             var antwort = await DialogService.ShowAsync("Lektion gesperrt",
-                $"„{l.Titel}“ ist noch gesperrt. Schließe zuerst alle Aufgaben von „{vorher}“ ab, dann wird sie automatisch freigeschaltet.",
+                $"„{l.Titel}“ ist noch gesperrt. Sobald du {Lektionsstatus.Schwelle} Aufgaben von „{vorher}“ gelöst hast, wird sie automatisch freigeschaltet.",
                 DialogKind.Gesperrt, "Trotzdem öffnen", "Abbrechen", "Tipp: In den Einstellungen kannst du alle Lektionen freischalten.");
             if (antwort != DialogAntwort.Primaer) return;
         }
@@ -58,9 +58,7 @@ public partial class MainWindow
         LektionEinleitung.Text = l.Einleitung;
         LektionEinleitung.Visibility = string.IsNullOrWhiteSpace(l.Einleitung) ? Visibility.Collapsed : Visibility.Visible;
         VorherigeKnopf.IsEnabled = index > 0;
-        NaechsteKnopf.IsEnabled = index < lektionen.Count - 1;
         UebungsReiterText();
-        NaechsteKnopfStil();
 
         offeneStufen.Add(l.Stufe);
         BaueLernpfad();
@@ -73,12 +71,27 @@ public partial class MainWindow
         BaueReiter(reiter, aufgabe);
     }
 
-    /// <summary>„Nächste Lektion“ leuchtet nur grün, wenn alle Aufgaben der Lektion gelöst sind.</summary>
+    /// <summary>Rechter Knopf unten: auf der Theorie-Seite „Zu den Übungen“ (primär). Im Übungs- und Quiz-Bereich
+    /// „Nächste Lektion“ – unsichtbar bis 5 Aufgaben gelöst sind, dann im Rahmen-Stil, grün erst bei allen 8.</summary>
     void NaechsteKnopfStil()
     {
         if (aktuelleLektion == null) return;
-        bool fertig = aktuelleLektion.Aufgaben.Count == 0 || IstAbgeschlossen(aktuelleLektion);
-        NaechsteKnopf.Style = (Style)FindResource(fertig ? "AkzentKnopf" : "RandKnopf");
+        var l = aktuelleLektion;
+        bool letzte = lektionen.IndexOf(l) >= lektionen.Count - 1;
+        if (aktuellerReiter == "theorie" && l.Aufgaben.Count > 0)
+        {
+            NaechsteText.Text = "Zu den Übungen";
+            NaechsteKnopf.Style = (Style)FindResource("AkzentKnopf");
+            NaechsteKnopf.Visibility = Visibility.Visible;
+            NaechsteKnopf.IsEnabled = true;
+            NaechsteKnopf.ToolTip = $"{l.Aufgaben.Count} Übungen zu dieser Lektion";
+            return;
+        }
+        NaechsteText.Text = "Nächste Lektion";
+        NaechsteKnopf.IsEnabled = !letzte;
+        NaechsteKnopf.Visibility = !letzte && Lektionsstatus.NaechsteSichtbar(l, fortschritt.GeloesteAufgaben) ? Visibility.Visible : Visibility.Collapsed;
+        NaechsteKnopf.Style = (Style)FindResource(Lektionsstatus.NaechsteHervorgehoben(l, fortschritt.GeloesteAufgaben) ? "AkzentKnopf" : "RandKnopf");
+        NaechsteKnopf.ToolTip = IstKomplett(l) ? "Alle Aufgaben gelöst – weiter geht's!" : $"{Geloest(l)} von {l.Aufgaben.Count} Aufgaben gelöst";
     }
 
     void UebungsReiterText()
@@ -97,6 +110,7 @@ public partial class MainWindow
     void BaueReiter(string reiter, Aufgabe aufgabe)
     {
         aktuellerReiter = reiter;
+        NaechsteKnopfStil();
         LektionInhalt.Children.Clear();
         LektionScroller.ScrollToTop();
         switch (reiter)
@@ -122,32 +136,18 @@ public partial class MainWindow
         if (i > 0) OeffneLektion(lektionen[i - 1]);
     }
 
-    async void Naechste_Click(object sender, RoutedEventArgs e)
+    void Naechste_Click(object sender, RoutedEventArgs e)
     {
         var l = aktuelleLektion;
-        int i = lektionen.IndexOf(l);
-        if (i < 0 || i >= lektionen.Count - 1) return;
-        int offen = l.Aufgaben.Count - Geloest(l);
-        if (offen > 0)
+        if (l == null) return;
+        if (aktuellerReiter == "theorie" && l.Aufgaben.Count > 0)
         {
-            // Höflich nachfragen – überspringen ist erlaubt.
-            var antwort = await DialogService.ShowAsync("Lektion noch nicht fertig",
-                $"Du hast noch nicht alle Aufgaben dieser Lektion gelöst ({offen} von {l.Aufgaben.Count} offen). Möchtest du trotzdem weitermachen?",
-                DialogKind.Frage, "Trotzdem weiter", "Zurück zu den Aufgaben");
-            if (antwort == DialogAntwort.Primaer)
-            {
-                // Bewusst übersprungen: nicht noch einmal mit „Lektion gesperrt“ nachfragen.
-                if (seite != "lernpfad") NavLernpfad.IsChecked = true;
-                ZeigeLektion(lektionen[i + 1], "theorie");
-            }
-            else if (antwort == DialogAntwort.Sekundaer && aktuelleLektion == l)
-            {
-                aktuelleAufgabe = l.Aufgaben.FirstOrDefault(a => !IstGeloest(a));
-                if (ReiterUebung.IsChecked == true) BaueReiter("uebung", aktuelleAufgabe);
-                else ReiterUebung.IsChecked = true;
-            }
+            ReiterUebung.IsChecked = true;   // „Zu den Übungen“
             return;
         }
+        int i = lektionen.IndexOf(l);
+        if (i < 0 || i >= lektionen.Count - 1 || !Lektionsstatus.NaechsteSichtbar(l, fortschritt.GeloesteAufgaben)) return;
+        // Ab 5 gelösten Aufgaben ist die nächste Lektion frei – ohne Nachfrage weiter.
         OeffneLektion(lektionen[i + 1]);
     }
 
@@ -229,7 +229,7 @@ public partial class MainWindow
         };
         Grid.SetColumn(titel, 1);
         raster.Children.Add(titel);
-        if (!fertig && geloest > 0)
+        if (!IstKomplett(l) && geloest > 0)
         {
             var teil = new TextBlock { Text = $"{geloest}/{l.Aufgaben.Count}", FontSize = 10, Foreground = Ui.B("TextGedimmt"), VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(6, 0, 0, 0) };
             Grid.SetColumn(teil, 2);
@@ -241,7 +241,7 @@ public partial class MainWindow
             Style = (Style)FindResource("LektionKnopf"),
             Content = raster,
             Margin = new Thickness(0, 1, 0, 1),
-            ToolTip = fertig ? "Abgeschlossen" : frei ? $"{geloest} von {l.Aufgaben.Count} Aufgaben gelöst" : "Noch gesperrt – schließe zuerst die vorige Lektion ab",
+            ToolTip = IstKomplett(l) ? "Alle Aufgaben gelöst" : fertig ? $"Abgeschlossen – {geloest} von {l.Aufgaben.Count} Aufgaben gelöst" : frei ? $"{geloest} von {l.Aufgaben.Count} Aufgaben gelöst" : $"Noch gesperrt – löse zuerst {Lektionsstatus.Schwelle} Aufgaben der vorigen Lektion",
         };
         if (aktuell)
         {
@@ -280,7 +280,7 @@ public partial class MainWindow
             LektionInhalt.Children.Add(Ui.Text("Das Beispiel steht schon rechts im Editor. Drück F5, um es auszuführen – und ändere ruhig etwas daran!", 12, "TextGedimmt", rand: new Thickness(0, 0, 0, 6)));
             LektionInhalt.Children.Add(Ui.CodeKarte(l.Beispiel, "Beispiel – Program.cs", CodeInEditor, "Wieder in den Editor"));
             if (l.BeispielEingabe.Count > 0)
-                LektionInhalt.Children.Add(Ui.Text($"Dieses Beispiel liest Eingaben. Im Tab „Eingabe“ sind schon eingetragen: {string.Join(", ", l.BeispielEingabe)}", 11.5, "TextGedimmt", rand: new Thickness(0, -6, 0, 12)));
+                LektionInhalt.Children.Add(Ui.Text("Dieses Beispiel liest Eingaben – beim Ausführen tippst du sie unten in der Konsole ein.", 11.5, "TextGedimmt", rand: new Thickness(0, -6, 0, 12)));
         }
         if (!string.IsNullOrWhiteSpace(l.Hinweis))
             LektionInhalt.Children.Add(Ui.Hinweis("Hinweis", l.Hinweis));
@@ -414,7 +414,7 @@ public partial class MainWindow
         var aufgabe = aktuelleAufgabe;
         SpeichereEditor();
         string code = Editor.Text;
-        LaufStart();
+        int nr = LaufStart();
         TabAusgabe.IsChecked = true;
         Status($"⏳ Prüfe deine Lösung mit {Math.Max(1, aufgabe.Tests.Count)} Test(s) …", "TextMittel");
         LogZeile($"Prüfe Aufgabe „{aufgabe.Titel}“ ({aufgabe.Id}) mit {aufgabe.Tests.Count} Test(s)");
@@ -429,6 +429,8 @@ public partial class MainWindow
         {
             LaufEnde();
         }
+        // Während der Prüfung woanders hin gewechselt: Ergebnis nicht in die neue (leere) Konsole schreiben.
+        if (nr != laufNr) return;
         fortschritt.Ausfuehrungen++;
 
         if (r.Lauf != null)
@@ -468,7 +470,8 @@ public partial class MainWindow
             {
                 // Seite neu aufbauen (Häkchen), dann Ergebnis anzeigen
                 LektionInhalt.Children.Clear();
-                BaueUebung(aufgabe);
+                ausgabeBehalten = true;
+                try { BaueUebung(aufgabe); } finally { ausgabeBehalten = false; }
             }
             ZeigePruefergebnis(r, aufgabe);
         }
@@ -485,7 +488,7 @@ public partial class MainWindow
         var sp = new StackPanel();
         sp.Children.Add(Ui.Text(r.Titel, 16, r.Bestanden ? "Gruen" : "Gelb", FontWeights.Bold, new Thickness(0, 0, 0, 6)));
         if (!string.IsNullOrWhiteSpace(r.Details))
-            sp.Children.Add(new TextBlock { Text = r.Details, FontFamily = r.Bestanden ? null : Ui.CodeSchrift, FontSize = 11.5, Foreground = Ui.B("TextHell"), TextWrapping = TextWrapping.Wrap, LineHeight = 18 });
+            sp.Children.Add(new TextBlock { Text = r.Details, FontFamily = r.Bestanden ? Ui.UiSchrift : Ui.CodeSchrift, FontSize = 11.5, Foreground = Ui.B("TextHell"), TextWrapping = TextWrapping.Wrap, LineHeight = 18 });
 
         if (!r.Bestanden && r.ErwarteteAusgabe != null && r.TatsaechlicheAusgabe != null)
         {
@@ -578,7 +581,7 @@ public partial class MainWindow
                 {
                     Style = (Style)FindResource("AntwortKnopf"),
                     GroupName = $"quiz_{l.Id}_{i}",
-                    Content = new TextBlock { Text = q.Antworten[j], TextWrapping = TextWrapping.Wrap, FontFamily = q.Antworten[j].Contains('(') || q.Antworten[j].Contains(';') ? Ui.CodeSchrift : null },
+                    Content = new TextBlock { Text = q.Antworten[j], TextWrapping = TextWrapping.Wrap, FontFamily = q.Antworten[j].Contains('(') || q.Antworten[j].Contains(';') ? Ui.CodeSchrift : Ui.UiSchrift },
                 };
                 knoepfe.Add(rb);
                 sp.Children.Add(rb);

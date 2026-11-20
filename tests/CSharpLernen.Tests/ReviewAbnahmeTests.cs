@@ -20,7 +20,9 @@ public class ReviewAbnahmeTests
     static readonly string Json = LadeJson();
     static readonly Kurs Kurs = KursLader.AusJson(Json);
 
-    static readonly HashSet<string> NurAusgabeErlaubt = new() { "l01a1", "l01a2", "l04a1", "l07a2" };
+    /// <summary>Reine Ausgabe-Übungen: l01a1/l01a2/l04a1/l07a2 wie bisher, dazu l01a6 (Sternen-Dreieck) und l01a7 (Visitenkarte) –
+    /// in Lektion 1 ist das Abtippen der Ausgabe selbst der Lerninhalt.</summary>
+    static readonly HashSet<string> NurAusgabeErlaubt = new() { "l01a1", "l01a2", "l01a6", "l01a7", "l04a1", "l07a2" };
 
     static string LadeJson()
     {
@@ -33,12 +35,90 @@ public class ReviewAbnahmeTests
     static Aufgabe A(string id) => Alle.Single(a => a.Id == id);
     static Lektion L(string id) => Kurs.Lektionen.Single(l => l.Id == id);
 
+    public const string StandardStartcode = "// Schreib hier deinen Code";
+
+    /// <summary>Startcode, der Zeilen der Lösung enthalten darf, weil sie zwingend Material der Aufgabe sind
+    /// (gleiche Liste wie startcode.py im Generator).</summary>
+    public static readonly Dictionary<string, string> StartcodeMaterial = new()
+    {
+        ["l02a1"] = "Kommentar-Übung: die Zeilen sind das Material",
+        ["l02a2"] = "Kommentar-Übung: die Zeile ist das Material",
+        ["l02a3"] = "Kommentar-Übung: die Zeilen sind das Material",
+        ["l07a1"] = "Der klassische Aufbau ist das Material – ergänzt wird nur der Befehl",
+        ["l07a2"] = "Reparatur-Übung: das kaputte Programm ist das Material",
+        ["l13a3"] = "gegebene Daten (Array)",
+        ["l14a1"] = "gegebene Daten (Array)",
+        ["l14a2"] = "gegebene Daten (Array)",
+        ["l15a3"] = "gegebene Daten (Gästeliste)",
+        ["l24a2"] = "gegebene Daten (Produktliste mit Klasse)",
+        ["l16a2"] = "Testcode ruft die zu schreibende Methode auf",
+        ["l16a3"] = "Testcode ruft die zu schreibende Methode auf",
+        ["l17a1"] = "Testcode ruft die zu schreibende Methode auf",
+        ["l21a1"] = "Testcode nutzt die zu schreibende Klasse",
+        ["l21a3"] = "Testcode nutzt die zu schreibende Klasse",
+        ["l22a2"] = "Testcode nutzt die zu schreibende Klasse",
+        ["l22a3"] = "Testcode nutzt die zu schreibende Klasse",
+        ["l23a2"] = "Testcode nutzt die zu schreibende Klasse",
+        ["l22a1"] = "vorgegebene Klasse, die ergänzt wird",
+        ["l23a1"] = "vorgegebene Klasse, die ergänzt wird",
+        ["l23a3"] = "vorgegebene Klasse, die ergänzt wird",
+        ["l24a1"] = "vorgegebene Klasse und Liste, die befüllt wird",
+        ["l24a3"] = "vorgegebene Klasse und Liste, die befüllt wird",
+        ["l27a3"] = "vorgegebene Klasse und Liste",
+        ["l27a2"] = "Fortsetzung von l27a1",
+    };
+
+    /// <summary>Zeilen ohne Kommentare und ohne Leerraum; reine Klammerzeilen zählen nicht.</summary>
+    public static HashSet<string> NormierteZeilen(string code)
+    {
+        string ohne = Regex.Replace(code.Replace("\r", ""), @"/\*[\s\S]*?\*/", "");
+        return ohne.Split('\n')
+            .Select(z => Regex.Replace(Regex.Replace(z, @"//.*$", ""), @"\s+", ""))
+            .Where(z => z.Length > 0 && !Regex.IsMatch(z, @"^[{}();,]+$"))
+            .ToHashSet();
+    }
+
+    /// <summary>Willi (1.0.5): „ich habe noch nichts eingetragen, aber die konsole ist vorausgefüllt.“
+    /// Kein Startcode enthält eine Zeile der Lösung (normalisiert verglichen) – außer bei Material (Liste oben).</summary>
+    [Fact]
+    public void Startcode_enthaelt_keine_Zeile_der_Loesung()
+    {
+        var treffer = new List<string>();
+        foreach (var a in Alle)
+        {
+            var gemeinsam = NormierteZeilen(a.Startcode).Intersect(NormierteZeilen(a.Loesung)).ToList();
+            if (gemeinsam.Count > 0 && !StartcodeMaterial.ContainsKey(a.Id))
+                treffer.Add($"{a.Id}: {string.Join(" | ", gemeinsam)}");
+        }
+        Assert.True(treffer.Count == 0, string.Join(Environment.NewLine, treffer));
+    }
+
+    [Fact]
+    public void Ohne_Material_steht_nur_der_Standard_Startcode()
+    {
+        foreach (var a in Alle.Where(a => !StartcodeMaterial.ContainsKey(a.Id)))
+            Assert.True(a.Startcode.Trim() == StandardStartcode, $"{a.Id}: Startcode ist nicht der Standard");
+    }
+
+    [Fact]
+    public void Material_Ausnahmen_sind_noch_noetig()
+    {
+        foreach (var (id, grund) in StartcodeMaterial)
+        {
+            Assert.False(string.IsNullOrWhiteSpace(grund));
+            var a = A(id);
+            Assert.NotEqual(StandardStartcode, a.Startcode.Trim());
+        }
+        Assert.True(StartcodeMaterial.Count <= 25, "Die Ausnahmeliste soll kurz bleiben");
+    }
+
     [Fact]
     public void Json_ist_valide_und_laedt()
     {
         using var _ = System.Text.Json.JsonDocument.Parse(Json);
         Assert.Equal(27, Kurs.Lektionen.Count);
-        Assert.Equal(87, Alle.Count());
+        Assert.Equal(216, Alle.Count());
+        Assert.All(Kurs.Lektionen, l => Assert.Equal(8, l.Aufgaben.Count));
     }
 
     static string Literal(string s) => "\"" + s.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\r", "").Replace("\n", "\\n") + "\"";
@@ -56,7 +136,7 @@ public class ReviewAbnahmeTests
     }
 
     /// <summary>Ein Programm, das nur die erwartete Ausgabe des ersten Tests druckt (eine Zeile pro WriteLine),
-    /// darf nur noch bei l01a1, l01a2, l04a1 und l07a2 bestehen.</summary>
+    /// darf nur noch bei den reinen Ausgabe-Übungen (NurAusgabeErlaubt) bestehen.</summary>
     [Fact]
     public async Task Fest_eingetippte_Ausgabe_besteht_nur_bei_den_vier_Ausnahmen()
     {

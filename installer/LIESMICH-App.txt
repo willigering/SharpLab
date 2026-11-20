@@ -1,0 +1,30 @@
+SharpLab - Der interaktive C#-Trainer
+Version 1.0.5 · Entwickelt von Willi Gering · Gering Digital
+https://github.com/willigering/SharpLab
+
+Installation (empfohlen): SharpLab-Setup.exe ausführen. Installiert nur für dich, ohne
+Adminrechte, nach %LocalAppData%\Programs\SharpLab, mit Startmenü- und Desktop-Verknüpfung.
+Entfernen: Windows-Einstellungen > Apps > SharpLab. Dein Lernstand bleibt dabei erhalten.
+
+Portabel (ZIP): Ordner entpacken (nicht direkt aus der ZIP starten), SharpLab.exe doppelklicken.
+
+Falls "Der Computer wurde durch Windows geschützt" erscheint:
+"Weitere Informationen" und dann "Trotzdem ausführen" klicken (die App ist nicht signiert).
+Falls Windows meldet, dass .NET fehlt: die ".NET Desktop Runtime" (Version 8 oder neuer)
+von https://dotnet.microsoft.com/download/dotnet/8.0 installieren.
+
+Tasten: F5 ausführen, Umschalt+F5 stoppen, F6 Übung prüfen, Strg+S speichern.
+Fortschritt: %AppData%\CSharpLernen\fortschritt.json
+(Der Ordner heißt weiter "CSharpLernen", damit dein bisheriger Fortschritt erhalten bleibt.)
+Mehrere Rechner: Einstellungen > Lernstand > "Ordner wählen…" oder "OneDrive verwenden".
+Der Lernstand liegt dann in <Ordner>\SharpLab\fortschritt.json; Einstellungen bleiben lokal.
+
+Lizenzen der mitgelieferten Komponenten (Roslyn, AvalonEdit, JetBrains Mono u. a.):
+THIRD-PARTY-NOTICES.txt oder Einstellungen > Über > "Lizenzen".
+
+Feedback: Knopf "Feedback" unten in der linken Leiste (geht an Gering Digital).
+Updates: SharpLab sucht beim Start nach einer neuen Version und fragt, bevor es etwas ändert
+(abschaltbar unter Einstellungen > Updates). Dein Lernstand bleibt dabei erhalten.
+
+© 2026 Willi Gering, Gering Digital
+SharpLab steht unter der MIT-Lizenz (siehe LICENSE).

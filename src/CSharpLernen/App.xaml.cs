@@ -1,4 +1,5 @@
 using System.Windows;
+using CSharpLernen.Engine;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -9,6 +10,15 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         DispatcherUnhandledException += BeiUnbehandeltemFehler;
+        AppDomain.CurrentDomain.UnhandledException += (_, a) =>
+        {
+            if (a.ExceptionObject is Exception ex) Protokollieren(ex, "AppDomain.UnhandledException");
+        };
+        TaskScheduler.UnobservedTaskException += (_, a) =>
+        {
+            Protokollieren(a.Exception, "TaskScheduler.UnobservedTaskException");
+            a.SetObserved();
+        };
         base.OnStartup(e);
     }
 
@@ -38,13 +48,21 @@ public partial class App : Application
         }
     }
 
+    /// <summary>Fehlerprotokoll mit Stacktrace: %AppData%\CSharpLernen\fehler.log</summary>
+    public static string FehlerDatei => System.IO.Path.Combine(Fortschritt.Ordner, "fehler.log");
+
+    static void Protokollieren(Exception ex, string quelle) =>
+        FehlerProtokoll.Schreiben(FehlerDatei, ex, quelle, typeof(App).Assembly.GetName().Version?.ToString(3));
+
     void BeiUnbehandeltemFehler(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
         e.Handled = true;
+        Protokollieren(e.Exception, "Oberfläche");
         try
         {
             _ = DialogService.ShowAsync("Ups, ein Fehler", "In der App ist ein Fehler aufgetreten:\n" + e.Exception.Message,
-                DialogKind.Warnung, "Weitermachen", hint: "Dein Fortschritt ist gespeichert. Du kannst einfach weitermachen.");
+                DialogKind.Warnung, "Weitermachen",
+                hint: "Dein Fortschritt ist gespeichert. Du kannst einfach weitermachen. Details: %AppData%\\CSharpLernen\\fehler.log");
         }
         catch { }
     }

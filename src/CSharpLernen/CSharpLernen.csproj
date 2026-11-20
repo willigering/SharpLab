@@ -10,12 +10,13 @@
     <RootNamespace>CSharpLernen</RootNamespace>
     <AssemblyName>SharpLab</AssemblyName>
     <ApplicationIcon>Ressourcen\app.ico</ApplicationIcon>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
     <Product>SharpLab – Der interaktive C#-Trainer</Product>
     <Title>SharpLab</Title>
     <Authors>Willi Gering</Authors>
     <Company>Gering Digital</Company>
-    <Copyright>© 2026 Willi Gering, Gering Digital</Copyright>
+    <Copyright>Copyright (c) 2026 Willi Gering, Gering Digital</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>SharpLab – interaktiver C#-Trainer mit eingebautem Compiler</Description>
     <SatelliteResourceLanguages>de</SatelliteResourceLanguages>
     <InvariantGlobalization>false</InvariantGlobalization>
@@ -32,6 +33,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Ressourcen\CSharpDunkel.xshd" LogicalName="CSharpLernen.CSharpDunkel.xshd" />
+    <EmbeddedResource Include="..\..\LICENSE" LogicalName="CSharpLernen.LICENSE" Link="Ressourcen\LICENSE" />
+    <EmbeddedResource Include="..\..\THIRD-PARTY-NOTICES.txt" LogicalName="CSharpLernen.THIRD-PARTY-NOTICES.txt" Link="Ressourcen\THIRD-PARTY-NOTICES.txt" />
     <Resource Include="Ressourcen\app.ico" />
     <Resource Include="Ressourcen\Schrift\*.ttf" />
   </ItemGroup>

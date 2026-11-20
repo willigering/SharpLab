@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -36,6 +36,10 @@ public partial class MainWindow : Window
 
     // Lauf-Zustand
     bool laeuft;
+    /// <summary>Nummer des aktuellen Laufs. Wird beim Kontextwechsel erhöht – Ausgaben und Ergebnisse älterer Läufe werden dann verworfen.</summary>
+    volatile int laufNr;
+    /// <summary>Nur während eine Übung nach dem Prüfen neu aufgebaut wird: Ausgabe der Prüfung stehen lassen.</summary>
+    bool ausgabeBehalten;
     CancellationTokenSource laufCts;
     BlockingCollection<string> eingabeWarteschlange;
     readonly ConcurrentQueue<string> ausgabePuffer = new();
@@ -53,6 +57,7 @@ public partial class MainWindow : Window
         DialogService.Host = Wurzel;
         PruefenKnopf.IsVisibleChanged += (_, _) => LaufLeisteAnpassen();
         fortschritt = Fortschritt.Laden();
+        SpeicherortHinweiseEinrichten();
         matrixSpeichern = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
         matrixSpeichern.Tick += (_, _) => { matrixSpeichern.Stop(); fortschritt.Speichern(); };
         SetzeMatrix(fortschritt.MatrixRegen, fortschritt.MatrixStufe, fortschritt.MatrixTempo, speichern: false);
@@ -74,6 +79,7 @@ public partial class MainWindow : Window
             if (SystemParameters.WorkArea.Width < 1660 || SystemParameters.WorkArea.Height < 960)
                 WindowState = WindowState.Maximized;
             Task.Run(CodeAusfuehrer.Vorwaermen);
+            UpdateBeimStartEinrichten();
         };
         PreviewKeyDown += Tasten;
         Closing += (_, _) =>
@@ -201,7 +207,13 @@ public partial class MainWindow : Window
     /// <summary>Wechselt, welcher Code im Editor steht (Beispiel, Aufgabe, Spielwiese). Der alte Code wird gespeichert.</summary>
     void SetzeEditorKontext(string schluessel, string standardCode, IEnumerable<string> eingabe, string beschreibung)
     {
-        if (schluessel == editorSchluessel) return;
+        if (schluessel == editorSchluessel)
+        {
+            // Gleiche Aufgabe erneut geöffnet (z. B. zurück vom Quiz oder aus den Einstellungen):
+            // auch dann startet die Konsole leer – außer direkt nach dem Prüfen.
+            if (!ausgabeBehalten) KonsoleZuruecksetzen();
+            return;
+        }
         SpeichereEditor();
         editorSchluessel = schluessel;
         editorStandardCode = standardCode ?? "";
@@ -218,7 +230,7 @@ public partial class MainWindow : Window
         // Konsole startet leer: keine Ausgabe vom vorigen Lauf, keine vorausgefüllten Eingaben
         // (Console.ReadLine fragt beim Ausführen unten nach).
         EingabeBox.Text = "";
-        KonsoleLeeren();
+        KonsoleZuruecksetzen();
         markierer.Leeren();
         Editor.TextArea.TextView.InvalidateLayer(KnownLayer.Background);
     }
@@ -453,8 +465,9 @@ public partial class MainWindow : Window
         Status("■ Stoppe Programm …", "TextGedimmt");
     }
 
-    void LaufStart()
+    int LaufStart()
     {
+        int nr = ++laufNr;
         laeuft = true;
         laufCts = new CancellationTokenSource();
         eingabeWarteschlange = new BlockingCollection<string>();
@@ -465,6 +478,7 @@ public partial class MainWindow : Window
         while (ausgabePuffer.TryDequeue(out _)) { }
         AusgabeBox.Clear();
         ausgabeTimer.Start();
+        return nr;
     }
 
     void LaufEnde()
@@ -492,7 +506,7 @@ public partial class MainWindow : Window
         SpeichereEditor();
         string code = Editor.Text;
         var eingaben = VorabEingaben();
-        LaufStart();
+        int nr = LaufStart();
         TabAusgabe.IsChecked = true;
         Status("⏳ Kompiliere …", "TextMittel");
         LogZeile($"Kompiliere {CodeAusfuehrer.Dateiname} ({Editor.Document.LineCount} Zeilen) · C# 12 · .NET 8 · implizite usings: System, System.Collections.Generic, System.IO, System.Linq, …");
@@ -506,10 +520,11 @@ public partial class MainWindow : Window
             {
                 Eingabe = eingaben,
                 InteraktiveEingabe = WarteAufEingabe,
-                BeiAusgabe = s => ausgabePuffer.Enqueue(s),
-                BeiLoeschen = () => ausgabePuffer.Enqueue(LoeschMarke),
+                BeiAusgabe = s => { if (nr == laufNr) ausgabePuffer.Enqueue(s); },
+                BeiLoeschen = () => { if (nr == laufNr) ausgabePuffer.Enqueue(LoeschMarke); },
                 BeiStart = () => Dispatcher.BeginInvoke(() =>
                 {
+                    if (nr != laufNr) return;
                     Status("▶ Programm läuft … (Stopp mit Umschalt+F5)", "Akzent");
                     LogZeile($"Kompilierung erfolgreich nach {uhr.Elapsed.TotalSeconds:0.00} s – Programm startet");
                 }),
@@ -521,6 +536,8 @@ public partial class MainWindow : Window
         {
             LaufEnde();
         }
+        // Inzwischen eine andere Aufgabe geöffnet? Dann gehört nichts davon in die (leere) Konsole.
+        if (nr != laufNr) return;
 
         fortschritt.Ausfuehrungen++;
         if (editorSchluessel == "spielwiese") fortschritt.SpielwieseLaeufe++;
@@ -587,9 +604,26 @@ public partial class MainWindow : Window
         AusgabeBox.ScrollToEnd();
     }
 
+    /// <summary>Leert die Konsole beim Wechsel der Aufgabe/Lektion/Seite. Läuft noch ein Programm (z. B. eines, das auf
+    /// Console.ReadLine wartet), wird es gestoppt und seine restliche Ausgabe verworfen.</summary>
+    void KonsoleZuruecksetzen()
+    {
+        bool gestoppt = false;
+        if (laeuft)
+        {
+            laufNr++;
+            try { laufCts?.Cancel(); } catch { }
+            gestoppt = true;
+        }
+        while (ausgabePuffer.TryDequeue(out _)) { }
+        EingabeZeile.Visibility = Visibility.Collapsed;
+        InteraktivBox.Clear();
+        KonsoleLeeren();
+        if (gestoppt) Status("■ Das vorige Programm wurde gestoppt. Bereit für F5.", "TextGedimmt");
+    }
+
     void KonsoleLeeren()
     {
-        if (laeuft) return;
         AusgabeBox.Clear();
         LaufMeldung.Visibility = Visibility.Collapsed;
         FehlerListe.Children.Clear();

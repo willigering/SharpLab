@@ -1,4 +1,4 @@
-<Window x:Class="CSharpLernen.MainWindow"
+﻿<Window x:Class="CSharpLernen.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ae="http://icsharpcode.net/sharpdevelop/avalonedit"
@@ -55,6 +55,7 @@
                         <RadioButton x:Name="NavFortschritt" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE9D2;" Content="Fortschritt" Checked="Nav_Checked" />
                         <RadioButton x:Name="NavErfolge" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE734;" Content="Erfolge" Checked="Nav_Checked" />
                         <RadioButton x:Name="NavEinstellungen" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE713;" Content="Einstellungen" Checked="Nav_Checked" />
+                        <Button x:Name="NavFeedback" Style="{StaticResource NavAktionKnopf}" Tag="&#xED15;" Content="Feedback" ToolTip="Lob, Fehler, Wünsche – direkt an Gering Digital" Click="Feedback_Click" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="2">

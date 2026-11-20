@@ -208,7 +208,9 @@ public sealed class MatrixRegen : FrameworkElement
 
         var familien = new List<FontFamily>();
         try { familien.Add(new FontFamily(new Uri("pack://application:,,,/"), "./Ressourcen/Schrift/#JetBrains Mono NL")); } catch { }
-        foreach (var name in Schriften) familien.Add(new FontFamily(name));
+        foreach (var name in Schriften)
+            if (!string.IsNullOrWhiteSpace(name))
+                try { familien.Add(new FontFamily(name)); } catch { }
 
         var texte = new List<string>();
         var schriften = new List<FontFamily>();

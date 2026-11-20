@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,17 +24,20 @@ public static class DialogService
     public static Panel Host { get; set; }
     static int offen;
     public static bool IstOffen => offen > 0;
+    /// <summary>Für eigene Ebenen (z. B. Update-Dialog), damit <see cref="IstOffen"/> stimmt.</summary>
+    internal static void EbeneGeoeffnet() => offen++;
+    internal static void EbeneGeschlossen() => offen = Math.Max(0, offen - 1);
 
     public static Task<DialogAntwort> ShowAsync(string title, string message, DialogKind kind = DialogKind.Info,
-        string primaryText = "OK", string secondaryText = null, string hint = null)
+        string primaryText = "OK", string secondaryText = null, string hint = null, string cancelText = null)
     {
         var tcs = new TaskCompletionSource<DialogAntwort>();
         void Starten()
         {
             try
             {
-                if (Host != null) AlsEbene(title, message, kind, primaryText, secondaryText, hint, tcs);
-                else AlsFenster(title, message, kind, primaryText, secondaryText, hint, tcs);
+                if (Host != null) AlsEbene(title, message, kind, primaryText, secondaryText, hint, cancelText, tcs);
+                else AlsFenster(title, message, kind, primaryText, secondaryText, hint, cancelText, tcs);
             }
             catch (Exception ex) { tcs.TrySetException(ex); }
         }
@@ -45,7 +48,7 @@ public static class DialogService
 
     // ------------------------------------------------------------------ Ebene im Fenster
 
-    static void AlsEbene(string titel, string text, DialogKind art, string primaer, string sekundaer, string hinweis, TaskCompletionSource<DialogAntwort> tcs)
+    static void AlsEbene(string titel, string text, DialogKind art, string primaer, string sekundaer, string hinweis, string abbrechen, TaskCompletionSource<DialogAntwort> tcs)
     {
         var vorherFokus = Keyboard.FocusedElement as IInputElement;
         var ebene = new Grid
@@ -78,12 +81,12 @@ public static class DialogService
             ebene.BeginAnimation(UIElement.OpacityProperty, aus);
         }
 
-        var karte = BaueKarte(titel, text, art, primaer, sekundaer, hinweis, Schliessen, out primaerKnopf);
+        var karte = BaueKarte(titel, text, art, primaer, sekundaer, hinweis, abbrechen, Schliessen, out primaerKnopf);
         ebene.Children.Add(karte);
 
         ebene.PreviewKeyDown += (_, e) =>
         {
-            if (e.Key == Key.Escape) { Schliessen(sekundaer != null ? DialogAntwort.Sekundaer : DialogAntwort.Abgebrochen); e.Handled = true; }
+            if (e.Key == Key.Escape) { Schliessen(abbrechen == null && sekundaer != null ? DialogAntwort.Sekundaer : DialogAntwort.Abgebrochen); e.Handled = true; }
             else if (e.Key == Key.Enter) { Schliessen(DialogAntwort.Primaer); e.Handled = true; }
         };
 
@@ -96,7 +99,7 @@ public static class DialogService
 
     // ------------------------------------------------------------------ Eigenes Fenster (Rückfall)
 
-    static void AlsFenster(string titel, string text, DialogKind art, string primaer, string sekundaer, string hinweis, TaskCompletionSource<DialogAntwort> tcs)
+    static void AlsFenster(string titel, string text, DialogKind art, string primaer, string sekundaer, string hinweis, string abbrechen, TaskCompletionSource<DialogAntwort> tcs)
     {
         var fenster = new Window
         {
@@ -108,7 +111,7 @@ public static class DialogService
             ShowInTaskbar = false,
             Topmost = true,
             Title = titel,
-            FontFamily = (FontFamily)Application.Current.Resources["UiSchrift"],
+            FontFamily = Ui.UiSchrift,
             Foreground = Ui.B("TextHell"),
         };
         var haupt = Application.Current?.MainWindow;
@@ -116,12 +119,12 @@ public static class DialogService
         else fenster.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
         DialogAntwort ergebnis = DialogAntwort.Abgebrochen;
-        var karte = BaueKarte(titel, text, art, primaer, sekundaer, hinweis, r => { ergebnis = r; fenster.Close(); }, out var primaerKnopf);
+        var karte = BaueKarte(titel, text, art, primaer, sekundaer, hinweis, abbrechen, r => { ergebnis = r; fenster.Close(); }, out var primaerKnopf);
         karte.Margin = new Thickness(30);
         fenster.Content = karte;
         fenster.PreviewKeyDown += (_, e) =>
         {
-            if (e.Key == Key.Escape) { ergebnis = sekundaer != null ? DialogAntwort.Sekundaer : DialogAntwort.Abgebrochen; fenster.Close(); e.Handled = true; }
+            if (e.Key == Key.Escape) { ergebnis = abbrechen == null && sekundaer != null ? DialogAntwort.Sekundaer : DialogAntwort.Abgebrochen; fenster.Close(); e.Handled = true; }
             else if (e.Key == Key.Enter) { ergebnis = DialogAntwort.Primaer; fenster.Close(); e.Handled = true; }
         };
         karte.MouseLeftButtonDown += (_, e) => { if (e.OriginalSource is not Button) try { fenster.DragMove(); } catch { } };
@@ -143,7 +146,7 @@ public static class DialogService
         _ => ("\uE946", "Akzent"),
     };
 
-    static FrameworkElement BaueKarte(string titel, string text, DialogKind art, string primaer, string sekundaer, string hinweis,
+    static FrameworkElement BaueKarte(string titel, string text, DialogKind art, string primaer, string sekundaer, string hinweis, string abbrechen,
         Action<DialogAntwort> schliessen, out Button primaerKnopf)
     {
         var (glyph, farbe) = Symbol(art);
@@ -180,11 +183,18 @@ public static class DialogService
         }
         raster.Children.Add(inhalt);
 
-        var leiste = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 24, 0, 0) };
+        // WrapPanel: werden die Knöpfe zu breit, rutschen sie in eine neue Zeile statt abgeschnitten zu werden.
+        var leiste = new WrapPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 24, 0, 0) };
         Grid.SetRow(leiste, 1); Grid.SetColumnSpan(leiste, 2);
+        if (abbrechen != null)
+        {
+            var ab = new Button { Content = abbrechen, Style = (Style)Application.Current.Resources["RandKnopf"], FontSize = 12.5, Padding = new Thickness(18, 10, 18, 10), Margin = new Thickness(0, 0, 10, 8), MinWidth = 100 };
+            ab.Click += (_, _) => schliessen(DialogAntwort.Abgebrochen);
+            leiste.Children.Add(ab);
+        }
         if (sekundaer != null)
         {
-            var sek = new Button { Content = sekundaer, Style = (Style)Application.Current.Resources["GeisterKnopf"], Margin = new Thickness(0, 0, 10, 0), MinWidth = 110, IsCancel = false };
+            var sek = new Button { Content = sekundaer, Style = (Style)Application.Current.Resources["GeisterKnopf"], Margin = new Thickness(0, 0, 10, abbrechen != null ? 8 : 0), MinWidth = 110, IsCancel = false };
             sek.Click += (_, _) => schliessen(DialogAntwort.Sekundaer);
             leiste.Children.Add(sek);
         }
@@ -193,6 +203,7 @@ public static class DialogService
             Content = primaer,
             Style = (Style)Application.Current.Resources[art == DialogKind.Gefahr ? "GefahrKnopf" : "AkzentKnopf"],
             MinWidth = 130,
+            Margin = new Thickness(0, 0, 0, abbrechen != null ? 8 : 0),
         };
         prim.Click += (_, _) => schliessen(DialogAntwort.Primaer);
         leiste.Children.Add(prim);
@@ -206,7 +217,7 @@ public static class DialogService
             BorderBrush = Ui.B("RandHell"),
             BorderThickness = new Thickness(1),
             Effect = new DropShadowEffect { Color = Colors.Black, BlurRadius = 24, ShadowDepth = 4, Direction = 270, Opacity = 0.5 },
-            MinWidth = 400, MaxWidth = 540,
+            MinWidth = 400, MaxWidth = abbrechen != null ? 680 : 540,
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
             Child = raster,

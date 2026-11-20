@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using CSharpLernen.Engine;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -11,8 +12,52 @@ namespace CSharpLernen;
 public static class Ui
 {
     public static Brush B(string key) => (Brush)Application.Current.Resources[key];
-    public static FontFamily CodeSchrift => (FontFamily)Application.Current.Resources["CodeSchrift"];
-    public static FontFamily Icons => (FontFamily)Application.Current.Resources["Icons"];
+    public static FontFamily CodeSchrift => Ressourcenschrift("CodeSchrift", SchriftNamen.ThemeSchrift);
+    public static FontFamily UiSchrift => Ressourcenschrift("UiSchrift", SchriftNamen.ThemeSchrift);
+    public static FontFamily Icons => Ressourcenschrift("Icons", "Segoe MDL2 Assets, Segoe Fluent Icons");
+
+    static FontFamily Ressourcenschrift(string key, string ersatz) =>
+        Application.Current?.TryFindResource(key) as FontFamily ?? SichereSchrift(ersatz);
+
+    static readonly Dictionary<string, FontFamily> schriftCache = new();
+
+    /// <summary>
+    /// Macht aus einem Schriftnamen (aus Text, Einstellungen, Daten) immer eine gültige FontFamily.
+    /// Leere, nur aus Leerzeichen bestehende oder nicht installierte Namen ergeben die Theme-Schrift
+    /// (JetBrains Mono NL, dann Cascadia Mono, Consolas). Nie null – WPF wirft bei FontFamily = null
+    /// „'' ist kein gültiger Wert für die Eigenschaft 'FontFamily'“.
+    /// </summary>
+    public static FontFamily SichereSchrift(string name)
+    {
+        string bereinigt = SchriftNamen.Bereinige(name, SchriftNamen.ThemeSchrift, IstInstalliert);
+        lock (schriftCache)
+        {
+            if (schriftCache.TryGetValue(bereinigt, out var f)) return f;
+            try
+            {
+                f = bereinigt.StartsWith("pack://", StringComparison.OrdinalIgnoreCase)
+                    ? new FontFamily(new Uri("pack://application:,,,/"), "./" + bereinigt["pack://application:,,,/".Length..])
+                    : new FontFamily(bereinigt);
+            }
+            catch
+            {
+                f = new FontFamily("Cascadia Mono, Consolas, Courier New");
+            }
+            schriftCache[bereinigt] = f;
+            return f;
+        }
+    }
+
+    static HashSet<string> installiert;
+    static bool IstInstalliert(string familie)
+    {
+        try
+        {
+            installiert ??= new HashSet<string>(Fonts.SystemFontFamilies.Select(x => x.Source), StringComparer.OrdinalIgnoreCase);
+            return installiert.Contains(familie);
+        }
+        catch { return true; }
+    }
     public static Brush Farbe(string hex) { var b = new SolidColorBrush((Color)ColorConverter.ConvertFromString(hex)); b.Freeze(); return b; }
 
     public static TextBlock Text(string text, double groesse = 14, string farbe = "TextHell", FontWeight? gewicht = null, Thickness? rand = null)
