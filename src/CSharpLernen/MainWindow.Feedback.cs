@@ -106,7 +106,7 @@ public partial class MainWindow
         hinweis.Children.Add(new TextBlock { Text = "\uEA80", FontFamily = Ui.Icons, FontSize = 11, Foreground = Ui.B("TextGedimmt"), Margin = new Thickness(0, 2, 7, 0), VerticalAlignment = VerticalAlignment.Top });
         hinweis.Children.Add(new TextBlock
         {
-            Text = $"Deine Nachricht geht an Gering Digital ({Feedback.Empfaenger}). Mitgeschickt werden nur die SharpLab-Version ({version}) und deine Windows-Version – kein Code und kein Lernstand.",
+            Text = $"Deine Nachricht geht an Gering Digital ({Feedback.Empfaenger}). Zusätzlich zu deiner Nachricht werden die SharpLab-Version ({version}) und deine Windows-Version übertragen. Deine E-Mail ist freiwillig. Ein Fehlerprotokoll wird nur mit deiner Auswahl angehängt und kann persönliche Daten oder Codeausschnitte enthalten. Prüfe es vor dem Senden. Dein gespeicherter Lernstand wird nicht automatisch übertragen. Datenschutz: geringdigital.de/datenschutz.php#sharplab.",
             FontSize = 11, Foreground = Ui.B("TextGedimmt"), TextWrapping = TextWrapping.Wrap, MaxWidth = 510,
         });
         inhalt.Children.Add(hinweis);
