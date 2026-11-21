@@ -1,4 +1,4 @@
-Nach 1.0.6 (noch nicht veröffentlicht)
+SharpLab 1.0.7
 Willi Gering · Gering Digital
 
 21.11.2026
