@@ -264,16 +264,14 @@ public class ReviewAbnahmeTests
         Assert.Contains("Versuche: 3", L("l26").Erklaerung);
 
         var l04a4 = A("l04a4");
-        Assert.Equal("Durchschnitt: 2,33", l04a4.Tests.Single().Erwartet);
-        Assert.Contains("Durchschnitt: 2,33", l04a4.Aufgabentext);
-        Assert.Contains(":F2", l04a4.Loesung);
+        Assert.Equal("Durchschnitt: 2,5", l04a4.Tests.Single().Erwartet);
+        Assert.Contains("Durchschnitt: 2,5", l04a4.Aufgabentext);
 
         Assert.DoesNotContain("Count()", L("l13").Beispiel);
         Assert.Contains("anzahl3.Length", L("l13").Beispiel);
         Assert.Contains("6 or 7", L("l10").Erklaerung);
 
         var l20a2 = A("l20a2");
-        Assert.Contains("`5`", l20a2.Aufgabentext);
         Assert.Contains("Umfang: 31,42", l20a2.Aufgabentext);
         Assert.Contains("Fläche: 78,54", l20a2.Aufgabentext);
         Assert.Equal(3, l20a2.Tests.Count);

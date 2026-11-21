@@ -176,4 +176,69 @@ namespace MeinProgramm
         Assert.Contains("Groß", v.Erklaerung);
         Assert.True(AufgabenPruefer.Vergleichen("Hallo Anna!", "Wie heißt du? Hallo Anna!", true).Gleich);
     }
+
+    [Fact]
+    public void Vergessene_Leerzeichen_sind_kein_Fehler_nur_ein_Hinweis()
+    {
+        var v = AufgabenPruefer.Vergleichen("Hallo, Welt!", "Hallo,Welt!", false);
+        Assert.True(v.Gleich);
+        Assert.Contains("Leerzeichen", v.Schoenheitshinweis);
+        Assert.Contains("Zeile 1", v.Schoenheitshinweis);
+
+        var zu = AufgabenPruefer.Vergleichen("A B", "A  B", false);
+        Assert.True(zu.Gleich);
+        Assert.Contains("zu viel", zu.Schoenheitshinweis);
+
+        // Leerzeilen dazwischen sind ebenfalls nur Kosmetik
+        Assert.True(AufgabenPruefer.Vergleichen("A\nB", "A\n\nB", false).Gleich);
+
+        // Streng bleibt: andere Zeichen, Groß-/Kleinschreibung, Zeilenumbrüche
+        Assert.False(AufgabenPruefer.Vergleichen("Hallo", "Hallo?", false).Gleich);
+        Assert.False(AufgabenPruefer.Vergleichen("Hallo", "hallo", false).Gleich);
+        Assert.False(AufgabenPruefer.Vergleichen("A B", "A\nB", false).Gleich);
+        Assert.Null(AufgabenPruefer.Vergleichen("A\nB", "A\nB", false).Schoenheitshinweis);
+    }
+
+    [Fact]
+    public void Nachsichtiger_Vergleich_toleriert_Leerzeichen()
+    {
+        var v = AufgabenPruefer.Vergleichen("Name: Mia", "Wie heißt du? Name:Mia", true);
+        Assert.True(v.Gleich);
+        Assert.NotNull(v.Schoenheitshinweis);
+    }
+
+    [Fact]
+    public async Task Pruefung_besteht_mit_Schoenheitshinweis()
+    {
+        var a = new Aufgabe { Id = "x", Titel = "x", Tests = { new Testfall { Erwartet = "Hallo, Welt!" } } };
+        var r = await AufgabenPruefer.PruefenAsync(a, "Console.WriteLine(\"Hallo,Welt!\");");
+        Assert.True(r.Bestanden);
+        Assert.Contains("Leerzeichen", r.Details);
+        var sauber = await AufgabenPruefer.PruefenAsync(a, "Console.WriteLine(\"Hallo, Welt!\");");
+        Assert.True(sauber.Bestanden);
+        Assert.DoesNotContain("Leerzeichen", sauber.Details);
+    }
+
+    [Fact]
+    public void Satzzeichen_und_kleine_Tippfehler_sind_nur_ein_Hinweis()
+    {
+        var p = AufgabenPruefer.Vergleichen("Hallo, Welt!", "Hallo, Welt.", false);
+        Assert.True(p.Gleich);
+        Assert.Contains("Satzzeichen", p.Schoenheitshinweis);
+        Assert.True(AufgabenPruefer.Vergleichen("Hallo, Welt!", "Hallo, Welt", false).Gleich);
+
+        var t = AufgabenPruefer.Vergleichen("Schön, dass du da bist.", "Schön, das du da bist.", false);
+        Assert.True(t.Gleich);
+        Assert.Contains("Tippfehler", t.Schoenheitshinweis);
+
+        // Zahlen, kurze Wörter und Groß-/Kleinschreibung bleiben streng
+        Assert.False(AufgabenPruefer.Vergleichen("Level 13", "Level 12", false).Gleich);
+        Assert.False(AufgabenPruefer.Vergleichen("Rot", "Rat", false).Gleich);
+        Assert.False(AufgabenPruefer.Vergleichen("gerade", "ungerade", false).Gleich);
+        Assert.False(AufgabenPruefer.Vergleichen("Zahl ist gerade.", "Zahl ist ungerade.", false).Gleich);
+        Assert.False(AufgabenPruefer.Vergleichen("Hallo Welt", "hallo welt", false).Gleich);
+        Assert.False(AufgabenPruefer.Vergleichen("True", "False", false).Gleich);
+
+        Assert.True(AufgabenPruefer.Vergleichen("Hallo Anna!", "Wie heißt du? Hallo Anna.", true).Gleich);
+    }
 }

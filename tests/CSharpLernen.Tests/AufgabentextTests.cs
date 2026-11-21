@@ -37,11 +37,9 @@ public class AufgabentextTests
         ("Trim/Substring", @"\b(Trim|Substring|ToUpper|ToLower)\b"), ("Ceiling/Sqrt", @"\b(Ceiling|Sqrt|Pow)\b"),
     };
 
-    /// <summary>Ausnahmen mit Begründung.</summary>
+    /// <summary>Ausnahmen mit Begründung (aktuell keine: alle Aufgabentexte kommen ohne verratene Bausteine aus).</summary>
     static readonly Dictionary<string, (string[] Namen, string Grund)> Erlaubt = new()
     {
-        ["l04a4"] = (new[] { ":F" }, "Formatierung kommt erst in Lektion 5 – die Ausgabezeile ist vorgegeben, Lernziel ist das Teilen als Kommazahl."),
-        ["l22a2"] = (new[] { ":F" }, "Der gezeigte Hauptcode ist vorgegeben (Testprogramm), nicht Teil der Lösung."),
     };
 
     [Fact]
