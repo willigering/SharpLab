@@ -13,11 +13,13 @@ public partial class CodeNotizenSeite : UserControl
     readonly CodeNotizen ablage = new(Path.Combine(Fortschritt.Ordner, "CodeNotizen"));
     readonly Func<string> editorCode;
     readonly Action<string> inEditorLaden;
+    readonly CodeVervollstaendiger vervollstaendiger;
     List<CodeNotiz> notizen = new();
     CodeNotiz aktuell;
     bool laden;
 
-    public CodeNotizenSeite(Func<string> editorCode, Action<string> inEditorLaden, IHighlightingDefinition highlighting)
+    public CodeNotizenSeite(Func<string> editorCode, Action<string> inEditorLaden,
+        IHighlightingDefinition highlighting, Func<bool> autovervollstaendigungAktiv)
     {
         this.editorCode = editorCode;
         this.inEditorLaden = inEditorLaden;
@@ -30,6 +32,12 @@ public partial class CodeNotizenSeite : UserControl
         Code.Options.EnableHyperlinks = false;
         Code.Options.EnableEmailHyperlinks = false;
         Code.TextArea.IndentationStrategy = new CSharpIndentationStrategy(Code.Options);
+        vervollstaendiger = new CodeVervollstaendiger(Code,
+            () => Code.IsVisible && Code.IsKeyboardFocusWithin && autovervollstaendigungAktiv());
+        Code.IsVisibleChanged += (_, _) =>
+        {
+            if (!Code.IsVisible) vervollstaendiger.Schliessen();
+        };
 
         int fehler = 0;
         try
@@ -57,6 +65,7 @@ public partial class CodeNotizenSeite : UserControl
     void FormularLaden(CodeNotiz notiz, string startcode = "")
     {
         laden = true;
+        vervollstaendiger.Schliessen();
         aktuell = notiz;
         Titel.Text = notiz?.Titel ?? "";
         Kommentar.Text = notiz?.Kommentar ?? "";

@@ -1,5 +1,4 @@
-SharpLab 1.0.10
+SharpLab 1.0.11
 
-- Neuer Design-Reiter mit Matrix, Dark Silver und Dark Gold.
-- Das Farbschema wechselt sofort und wird pro Gerät gespeichert.
-- Dark Silver und Dark Gold verwenden das vorhandene Layout ohne Matrixregen.
+- Der C#-Editor in den Code-Notizen verwendet jetzt dieselbe Autovervollständigung wie der Haupteditor.
+- Vorschläge beim Tippen, Strg+Leertaste und Codeausschnitte folgen der vorhandenen Autovervollständigungs-Einstellung.

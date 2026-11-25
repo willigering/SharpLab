@@ -69,7 +69,8 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
         NotizenHost.Visibility = notizen ? Visibility.Visible : Visibility.Collapsed;
         if (notizen)
         {
-            notizSeite ??= new CodeNotizenSeite(() => Editor.Text, CodeInEditor, Editor.SyntaxHighlighting);
+            notizSeite ??= new CodeNotizenSeite(() => Editor.Text, CodeInEditor, Editor.SyntaxHighlighting,
+                () => fortschritt.Autovervollstaendigung);
             NotizenHost.Content = notizSeite;
             return;
         }
