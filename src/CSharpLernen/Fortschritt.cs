@@ -26,6 +26,26 @@ public sealed class Fortschritt
     public int Zeitlimit { get; set; } = 10;
     public string Design { get; set; } = "matrix";
     public bool MatrixRegen { get; set; } = true;
+    public bool MatrixRegenSilber { get; set; }
+    public bool MatrixRegenGold { get; set; }
+
+    public bool MatrixRegenAktiv() => Design switch
+    {
+        "silber" => MatrixRegenSilber,
+        "gold" => MatrixRegenGold,
+        _ => MatrixRegen,
+    };
+
+    public void MatrixRegenSetzen(bool an)
+    {
+        switch (Design)
+        {
+            case "silber": MatrixRegenSilber = an; break;
+            case "gold": MatrixRegenGold = an; break;
+            default: MatrixRegen = an; break;
+        }
+    }
+
     public double MatrixStufe { get; set; } = 0.7;
     public double MatrixTempo { get; set; } = 1.0;
     public bool Autovervollstaendigung { get; set; } = true;
@@ -50,7 +70,7 @@ public sealed class Fortschritt
 
     /// <summary>Diese Werte bleiben auf jedem Rechner lokal (einstellungen.json), nur der Rest wandert mit dem Lernstand.</summary>
     public static readonly string[] EinstellungsFelder =
-        { nameof(Schriftgroesse), nameof(Zeitlimit), nameof(Design), nameof(MatrixRegen), nameof(MatrixStufe), nameof(MatrixTempo), nameof(Autovervollstaendigung), nameof(AllesFreigeschaltet),
+        { nameof(Schriftgroesse), nameof(Zeitlimit), nameof(Design), nameof(MatrixRegen), nameof(MatrixRegenSilber), nameof(MatrixRegenGold), nameof(MatrixStufe), nameof(MatrixTempo), nameof(Autovervollstaendigung), nameof(AllesFreigeschaltet),
           nameof(UpdateBeimStart), nameof(UpdateUebersprungen) };
 
     static readonly JsonSerializerOptions Optionen = new() { WriteIndented = true };

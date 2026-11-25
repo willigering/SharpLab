@@ -23,6 +23,26 @@ public sealed class SpeicherortTests : IDisposable
         Fortschritt.LernstandOrdner = null;
     }
 
+    [Fact]
+    public void MatrixregenWirdProDesignGetrenntGespeichert()
+    {
+        var fortschritt = Fortschritt.AusJson("""{"Design":"gold","MatrixRegen":true}""");
+        Assert.False(fortschritt.MatrixRegenAktiv());
+
+        fortschritt.Design = "silber";
+        Assert.False(fortschritt.MatrixRegenAktiv());
+        fortschritt.MatrixRegenSetzen(true);
+        fortschritt.Speichern();
+
+        var geladen = Fortschritt.Laden();
+        Assert.Equal("silber", geladen.Design);
+        Assert.True(geladen.MatrixRegenAktiv());
+        geladen.Design = "gold";
+        Assert.False(geladen.MatrixRegenAktiv());
+        geladen.Design = "matrix";
+        Assert.True(geladen.MatrixRegenAktiv());
+    }
+
     public void Dispose()
     {
         Speicherort.StandardOrdnerUeberschrieben = null;

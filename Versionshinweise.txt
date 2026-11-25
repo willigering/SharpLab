@@ -1,4 +1,4 @@
-SharpLab 1.0.11
+SharpLab 1.0.12
 
-- Der C#-Editor in den Code-Notizen verwendet jetzt dieselbe Autovervollständigung wie der Haupteditor.
-- Vorschläge beim Tippen, Strg+Leertaste und Codeausschnitte folgen der vorhandenen Autovervollständigungs-Einstellung.
+- Matrixcode lässt sich auch in Dark Silver und Dark Gold einschalten.
+- In beiden Designs ist der Matrixregen standardmäßig aus. Die Einstellung wird pro Design gespeichert.

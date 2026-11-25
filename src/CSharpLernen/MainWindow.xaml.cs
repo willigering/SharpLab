@@ -62,7 +62,7 @@ public partial class MainWindow : Window
         matrixSpeichern = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
         matrixSpeichern.Tick += (_, _) => { matrixSpeichern.Stop(); fortschritt.Speichern(); };
         Farbdesign.Anwenden(fortschritt.Design);
-        SetzeMatrix(fortschritt.MatrixRegen, fortschritt.MatrixStufe, fortschritt.MatrixTempo, speichern: false);
+        SetzeMatrix(fortschritt.MatrixRegenAktiv(), fortschritt.MatrixStufe, fortschritt.MatrixTempo, speichern: false);
         kurs = LadeKurs();
         lektionen = kurs.Lektionen;
 
@@ -343,27 +343,24 @@ public partial class MainWindow : Window
     {
         stufe = Math.Clamp(stufe, 0, 1);
         double t = Math.Clamp(tempo ?? fortschritt.MatrixTempo, 0.3, 2.5);
-        fortschritt.MatrixRegen = an;
+        fortschritt.MatrixRegenSetzen(an);
         fortschritt.MatrixStufe = stufe;
         fortschritt.MatrixTempo = t;
         Regen.Staerke = stufe;
         Regen.Tempo = t;
-        bool matrixDesign = fortschritt.Design == "matrix";
-        bool sichtbar = an && matrixDesign;
-        Regen.Visibility = sichtbar ? Visibility.Visible : Visibility.Collapsed;
-        App.SetzeFlaechenDeckkraft(stufe, sichtbar);
+        Regen.Visibility = an ? Visibility.Visible : Visibility.Collapsed;
+        App.SetzeFlaechenDeckkraft(stufe, an);
 
         matrixSync = true;
         try
         {
-            NavMatrixAn.IsEnabled = matrixDesign;
-            NavMatrixAn.IsChecked = sichtbar;
+            NavMatrixAn.IsChecked = an;
             if (Math.Abs(NavMatrixRegler.Value - stufe) > 0.0001) NavMatrixRegler.Value = stufe;
             if (Math.Abs(NavMatrixTempo.Value - t) > 0.0001) NavMatrixTempo.Value = t;
-            NavMatrixRegler.IsEnabled = sichtbar;
-            NavMatrixTempo.IsEnabled = sichtbar;
-            NavMatrixWert.Text = sichtbar ? $"{stufe * 100:0} %" : "aus";
-            NavMatrixTempoWert.Text = sichtbar ? TempoText(t) : "aus";
+            NavMatrixRegler.IsEnabled = an;
+            NavMatrixTempo.IsEnabled = an;
+            NavMatrixWert.Text = an ? $"{stufe * 100:0} %" : "aus";
+            NavMatrixTempoWert.Text = an ? TempoText(t) : "aus";
             if (einstMatrixAn != null) einstMatrixAn.IsChecked = an;
             if (einstMatrixRegler != null)
             {
@@ -388,13 +385,13 @@ public partial class MainWindow : Window
     void NavMatrixRegler_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
         if (matrixSync || matrixSpeichern == null) return;
-        SetzeMatrix(fortschritt.MatrixRegen, NavMatrixRegler.Value);
+        SetzeMatrix(fortschritt.MatrixRegenAktiv(), NavMatrixRegler.Value);
     }
 
     void NavMatrixTempo_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
         if (matrixSync || matrixSpeichern == null) return;
-        SetzeMatrix(fortschritt.MatrixRegen, fortschritt.MatrixStufe, NavMatrixTempo.Value);
+        SetzeMatrix(fortschritt.MatrixRegenAktiv(), fortschritt.MatrixStufe, NavMatrixTempo.Value);
     }
 
     /// <summary>Bei schmalem Editor: Knöpfe kompakter (nur Symbol), damit nichts abgeschnitten wird.</summary>
