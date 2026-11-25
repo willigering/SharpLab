@@ -298,7 +298,10 @@
                                               ToolTip="F5 startet das Programm in einem eigenen Fenster. Eingaben erfolgen direkt dort." />
                                     <Button x:Name="ExeExportKnopf" Content="EXE exportieren …" Click="ExeExport_Click"
                                             Style="{StaticResource RandKnopf}" FontSize="11.5" Margin="6,0,0,0" Padding="8,5"
-                                            ToolTip="Erstellt eine Windows-x64-EXE mit eingebetteter Laufzeit. Benötigt das .NET 8 SDK." />
+                                            ToolTip="Erstellt eine Windows-x64-EXE mit eingebetteter Laufzeit. Benötigt ein .NET SDK." />
+                                    <Button Content=".NET SDK" Click="SdkDownload_Click" Style="{StaticResource GeisterKnopf}"
+                                            FontSize="11.5" Padding="8,5" Margin="4,0,0,0"
+                                            ToolTip="Offizielle Microsoft-Downloadseite für das .NET 10 SDK öffnen" />
                                 </WrapPanel>
                             </Grid>
 

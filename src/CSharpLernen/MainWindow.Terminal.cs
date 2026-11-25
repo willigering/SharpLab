@@ -8,6 +8,20 @@ namespace CSharpLernen;
 
 public partial class MainWindow
 {
+    const string SdkDownload = "https://dotnet.microsoft.com/download/dotnet/10.0";
+
+    async void SdkDownload_Click(object sender, RoutedEventArgs e) => await SdkDownloadOeffnen();
+
+    async Task SdkDownloadOeffnen()
+    {
+        try { Process.Start(new ProcessStartInfo(SdkDownload) { UseShellExecute = true }); }
+        catch (Exception ex)
+        {
+            Fortschritt.Protokoll(ex, "SDK-Download öffnen");
+            await DialogService.ShowAsync("Downloadseite nicht geöffnet", SdkDownload, DialogKind.Warnung, "OK");
+        }
+    }
+
     void TerminalAuswahl_Click(object sender, RoutedEventArgs e)
     {
         fortschritt.ExternesTerminal = TerminalAuswahl.IsChecked == true;
@@ -139,7 +153,7 @@ public partial class MainWindow
             if (prozess.ExitCode != 0 || !File.Exists(ergebnis))
             {
                 TabLog.IsChecked = true;
-                throw new InvalidOperationException("Der Build ist fehlgeschlagen. Prüfe das Compiler-Log und ob das .NET 8 SDK installiert ist.");
+                throw new InvalidOperationException("Der Build ist fehlgeschlagen. Details stehen im Compiler-Log.");
             }
 
             string temporaer = dlg.FileName + "." + Guid.NewGuid().ToString("N") + ".tmp";
@@ -157,8 +171,11 @@ public partial class MainWindow
         catch (Exception ex)
         {
             Fortschritt.Protokoll(ex, "EXE exportieren");
-            await DialogService.ShowAsync("EXE-Export fehlgeschlagen", ex.Message, DialogKind.Warnung, "OK",
-                hint: "Der Export benötigt das .NET 8 SDK. Details stehen im Compiler-Log oder Fehlerprotokoll.");
+            if (await DialogService.ShowAsync("EXE-Export fehlgeschlagen", ex.Message, DialogKind.Warnung,
+                    "SDK-Download öffnen", "Schließen",
+                    hint: "Für den Export brauchst du ein .NET SDK. Wähle auf der Microsoft-Seite unter SDK den Windows-x64-Installer.")
+                == DialogAntwort.Primaer)
+                await SdkDownloadOeffnen();
         }
         finally
         {

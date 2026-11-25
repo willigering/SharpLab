@@ -1,5 +1,5 @@
-SharpLab 1.0.18
+SharpLab 1.0.19
 
-- Eigene Projekte sind zunächst eingeklappt. Ein Klick auf den Titel zeigt Aktionen und Versionsverlauf.
-- Projekte und einzelne Versionen lassen sich über Papierkörbe mit Bestätigung löschen.
-- Die Nummern der übrigen Versionen bleiben beim Löschen erhalten.
+- Direkt beim EXE-Export führt „.NET SDK“ zur offiziellen Microsoft-Downloadseite.
+- Auch im Fehlerdialog des EXE-Exports ist der SDK-Download erreichbar.
+- Das .NET 10 SDK kann für den Export verwendet werden. Die exportierte Anwendung zielt weiterhin auf .NET 8.
