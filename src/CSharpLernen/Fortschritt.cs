@@ -24,6 +24,7 @@ public sealed class Fortschritt
     public bool AllesFreigeschaltet { get; set; }
     public double Schriftgroesse { get; set; } = 15;
     public int Zeitlimit { get; set; } = 10;
+    public string Design { get; set; } = "matrix";
     public bool MatrixRegen { get; set; } = true;
     public double MatrixStufe { get; set; } = 0.7;
     public double MatrixTempo { get; set; } = 1.0;
@@ -49,7 +50,7 @@ public sealed class Fortschritt
 
     /// <summary>Diese Werte bleiben auf jedem Rechner lokal (einstellungen.json), nur der Rest wandert mit dem Lernstand.</summary>
     public static readonly string[] EinstellungsFelder =
-        { nameof(Schriftgroesse), nameof(Zeitlimit), nameof(MatrixRegen), nameof(MatrixStufe), nameof(MatrixTempo), nameof(Autovervollstaendigung), nameof(AllesFreigeschaltet),
+        { nameof(Schriftgroesse), nameof(Zeitlimit), nameof(Design), nameof(MatrixRegen), nameof(MatrixStufe), nameof(MatrixTempo), nameof(Autovervollstaendigung), nameof(AllesFreigeschaltet),
           nameof(UpdateBeimStart), nameof(UpdateUebersprungen) };
 
     static readonly JsonSerializerOptions Optionen = new() { WriteIndented = true };
@@ -148,6 +149,7 @@ public sealed class Fortschritt
         if (string.IsNullOrWhiteSpace(LetzteLektion)) LetzteLektion = null;
         Schriftgroesse = Zahl(Schriftgroesse, 10, 30, 15);
         Zeitlimit = Zeitlimit < 3 || Zeitlimit > 60 ? 10 : Zeitlimit;
+        if (Design is not ("matrix" or "silber" or "gold")) Design = "matrix";
         MatrixStufe = Zahl(MatrixStufe, 0, 1, 0.7);
         MatrixTempo = Zahl(MatrixTempo, 0.3, 2.5, 1.0);
         if (ErsterStart == default || ErsterStart > DateTime.Now.AddDays(1)) ErsterStart = DateTime.Now;

@@ -120,7 +120,7 @@ public partial class MainWindow
         inhalt.Children.Add(new TextBlock { Text = "Neu in dieser Version", FontSize = 11.5, FontWeight = FontWeights.SemiBold, Foreground = Ui.B("TextGedimmt"), Margin = new Thickness(0, 16, 0, 6) });
         inhalt.Children.Add(new Border
         {
-            BorderBrush = Ui.B("Rand"), BorderThickness = new Thickness(1), Background = Ui.Farbe("#0B0F0C"),
+            BorderBrush = Ui.B("Rand"), BorderThickness = new Thickness(1), Background = Ui.B("Hintergrund"),
             Child = new ScrollViewer
             {
                 MaxHeight = 220, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Padding = new Thickness(12, 10, 12, 10),
@@ -146,7 +146,7 @@ public partial class MainWindow
 
         var karte = new Border
         {
-            Padding = new Thickness(26, 24, 26, 22), Background = Ui.Farbe("#121914"), BorderBrush = Ui.B("RandHell"), BorderThickness = new Thickness(1),
+            Padding = new Thickness(26, 24, 26, 22), Background = Ui.B("DialogFlaeche"), BorderBrush = Ui.B("RandHell"), BorderThickness = new Thickness(1),
             Effect = new DropShadowEffect { Color = Colors.Black, BlurRadius = 24, ShadowDepth = 4, Direction = 270, Opacity = 0.5 },
             Width = 600, Child = inhalt,
         };

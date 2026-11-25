@@ -96,7 +96,7 @@ public static class Ui
     public static Button Knopf(string text, RoutedEventHandler klick, bool akzent = false, string icon = null)
     {
         var sp = new StackPanel { Orientation = Orientation.Horizontal };
-        var farbe = akzent ? Farbe("#0B180F") : B("TextHell");
+        var farbe = akzent ? B("AkzentText") : B("TextHell");
         if (icon != null)
             sp.Children.Add(new TextBlock { Text = icon, FontFamily = Icons, Margin = new Thickness(0, 2, 8, 0), Foreground = farbe, FontSize = 11.5 });
         sp.Children.Add(new TextBlock { Text = text, Foreground = farbe });
@@ -123,7 +123,7 @@ public static class Ui
         sp.Children.Add(tb);
         return new Border
         {
-            Background = Farbe("#121F16"),
+            Background = B("HinweisFlaeche"),
             BorderBrush = B(farbe),
             BorderThickness = new Thickness(3, 0, 0, 0),
             CornerRadius = new CornerRadius(0),
@@ -248,10 +248,10 @@ public static class Ui
 
         var nummern = new TextBlock
         {
-            FontFamily = CodeSchrift, FontSize = 12, Foreground = Farbe("#476150"), TextAlignment = TextAlignment.Right,
+            FontFamily = CodeSchrift, FontSize = 12, Foreground = B("EditorZeilen"), TextAlignment = TextAlignment.Right,
             Margin = new Thickness(0, 0, 14, 0), Text = string.Join("\n", Enumerable.Range(1, anzahl)),
         };
-        var codeText = new TextBlock { FontFamily = CodeSchrift, FontSize = 12, Foreground = Farbe("#B3CCBB") };
+        var codeText = new TextBlock { FontFamily = CodeSchrift, FontSize = 12, Foreground = B("EditorText") };
         Hervorheben(codeText.Inlines, code);
 
         var raster = new Grid();

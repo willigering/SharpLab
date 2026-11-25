@@ -125,7 +125,7 @@ public partial class MainWindow
 
         var karte = new Border
         {
-            Background = Ui.Farbe("#121914"), BorderBrush = Ui.B("RandHell"), BorderThickness = new Thickness(1),
+            Background = Ui.B("DialogFlaeche"), BorderBrush = Ui.B("RandHell"), BorderThickness = new Thickness(1),
             Effect = new DropShadowEffect { Color = Colors.Black, BlurRadius = 24, ShadowDepth = 4, Direction = 270, Opacity = 0.5 },
             Width = 600,
             // Bei kleinen Fenstern scrollt der Inhalt, statt abgeschnitten zu werden.

@@ -1,5 +1,5 @@
-SharpLab 1.0.9
+SharpLab 1.0.10
 
-- Code-Notizen öffnen direkt im Hauptfenster, im selben Bereich wie „Projekte“.
-- Ein weiterer Klick auf den gewählten Menüpunkt klappt seinen Bereich ein. Editor und Konsole nutzen dann die gesamte freie Breite.
-- Der Entwurf einer Code-Notiz bleibt beim Navigieren und Einklappen erhalten.
+- Neuer Design-Reiter mit Matrix, Dark Silver und Dark Gold.
+- Das Farbschema wechselt sofort und wird pro Gerät gespeichert.
+- Dark Silver und Dark Gold verwenden das vorhandene Layout ohne Matrixregen.

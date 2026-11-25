@@ -213,7 +213,7 @@ public static class DialogService
         var karte = new Border
         {
             Padding = new Thickness(26, 24, 26, 22),
-            Background = Ui.Farbe("#121914"),
+            Background = Ui.B("DialogFlaeche"),
             BorderBrush = Ui.B("RandHell"),
             BorderThickness = new Thickness(1),
             Effect = new DropShadowEffect { Color = Colors.Black, BlurRadius = 24, ShadowDepth = 4, Direction = 270, Opacity = 0.5 },

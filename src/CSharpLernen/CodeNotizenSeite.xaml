@@ -63,7 +63,7 @@
             <Border Background="{StaticResource CodeHintergrund}" BorderBrush="{StaticResource Rand}" BorderThickness="1">
                 <ae:TextEditor x:Name="Code" AutomationProperties.Name="C#-Code" Margin="4" ShowLineNumbers="True"
                                FontFamily="{StaticResource CodeSchrift}" FontSize="13.5" Background="Transparent"
-                               Foreground="{StaticResource TextHell}" LineNumbersForeground="#658571"
+                               Foreground="{StaticResource TextHell}" LineNumbersForeground="{StaticResource NotizZeilen}"
                                HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" TextChanged="Feld_Geaendert" />
             </Border>
         </DockPanel>

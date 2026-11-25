@@ -36,7 +36,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid Width="38" Height="42" VerticalAlignment="Center">
-                            <Polygon Points="19,1 36,11 36,31 19,41 2,31 2,11" Fill="#142419" Stroke="{StaticResource Akzent}" StrokeThickness="2.5" />
+                            <Polygon Points="19,1 36,11 36,31 19,41 2,31 2,11" Fill="{StaticResource LogoFlaeche}" Stroke="{StaticResource Akzent}" StrokeThickness="2.5" />
                             <TextBlock Text="C#" FontWeight="Bold" FontSize="13.5" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource TextHell}" />
                         </Grid>
                         <StackPanel Grid.Column="1" Margin="8,1,0,0" VerticalAlignment="Center">
@@ -45,7 +45,8 @@
                         </StackPanel>
                     </Grid>
 
-                    <StackPanel Grid.Row="1" x:Name="NavListe">
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel x:Name="NavListe">
                         <local:NavReiter x:Name="NavLernpfad" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE8F1;" Content="Lernpfad" IsChecked="True" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
                         <local:NavReiter x:Name="NavUebungen" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE73A;" Content="Übungen" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
                         <local:NavReiter x:Name="NavEditor" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE943;" Content="Code-Editor" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
@@ -55,9 +56,11 @@
                         <local:NavReiter x:Name="NavBegriffe" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE82D;" Content="Begriffe" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
                         <local:NavReiter x:Name="NavFortschritt" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE9D2;" Content="Fortschritt" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
                         <local:NavReiter x:Name="NavErfolge" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE734;" Content="Erfolge" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
+                        <local:NavReiter x:Name="NavDesign" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE790;" Content="Design" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
                         <local:NavReiter x:Name="NavEinstellungen" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE713;" Content="Einstellungen" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
                         <Button x:Name="NavFeedback" Style="{StaticResource NavAktionKnopf}" Tag="&#xED15;" Content="Feedback" ToolTip="Lob, Fehler, Wünsche – direkt an Gering Digital" Click="Feedback_Click" />
                     </StackPanel>
+                    </ScrollViewer>
 
                     <StackPanel Grid.Row="2">
                         <!-- Matrixcode direkt regeln -->
@@ -95,7 +98,7 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Grid Width="54" Height="54">
-                                        <Ellipse Stroke="#1F2C23" StrokeThickness="6" />
+                                        <Ellipse Stroke="{StaticResource FortschrittSpur}" StrokeThickness="6" />
                                         <Path x:Name="FortschrittsRing" Stroke="{StaticResource Akzent}" StrokeThickness="6" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" />
                                         <TextBlock x:Name="FortschrittProzent" Text="0%" FontSize="12.5" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                     </Grid>
@@ -205,7 +208,7 @@
 
                     <!-- Kopfzeile mit Datei-Reiter und Werkzeugen -->
                     <Grid x:Name="EditorKopf" Margin="12,10,10,0" SizeChanged="EditorKopf_SizeChanged">
-                        <Border x:Name="DateiReiter" CornerRadius="0" Background="#0F1812" BorderBrush="{StaticResource Rand}" BorderThickness="1,1,1,0" Padding="12,8" HorizontalAlignment="Left">
+                        <Border x:Name="DateiReiter" CornerRadius="0" Background="{StaticResource DateiFlaeche}" BorderBrush="{StaticResource Rand}" BorderThickness="1,1,1,0" Padding="12,8" HorizontalAlignment="Left">
                             <StackPanel Orientation="Horizontal">
                                 <Border Background="#5B2A86" CornerRadius="0" Width="22" Height="18" Margin="0,0,8,0">
                                     <TextBlock Text="C#" FontSize="9" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
@@ -233,8 +236,8 @@
                         <ae:TextEditor x:Name="Editor" Margin="4,6,2,4"
                                        FontFamily="{StaticResource CodeSchrift}" FontSize="13.5"
                                        ShowLineNumbers="True" WordWrap="False"
-                                       Background="Transparent" Foreground="#B3CCBB"
-                                       LineNumbersForeground="#476150"
+                                       Background="Transparent" Foreground="{StaticResource EditorText}"
+                                       LineNumbersForeground="{StaticResource EditorZeilen}"
                                        HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
                     </Border>
 
@@ -256,9 +259,9 @@
                         </Grid.ColumnDefinitions>
                         <Button x:Name="AusfuehrenKnopf" Style="{StaticResource AkzentKnopf}" Click="Ausfuehren_Click" ToolTip="F5" Padding="14,11">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE768;" FontFamily="{StaticResource Icons}" Margin="0,2,10,0" Foreground="#0B180F" />
-                                <TextBlock x:Name="AusfuehrenText" Text="Kompilieren &amp; Ausführen" Foreground="#0B180F" FontSize="13" />
-                                <TextBlock x:Name="AusfuehrenF5" Text="  F5" Foreground="#21442D" FontSize="11" VerticalAlignment="Center" />
+                                <TextBlock Text="&#xE768;" FontFamily="{StaticResource Icons}" Margin="0,2,10,0" Foreground="{StaticResource AkzentText}" />
+                                <TextBlock x:Name="AusfuehrenText" Text="Kompilieren &amp; Ausführen" Foreground="{StaticResource AkzentText}" FontSize="13" />
+                                <TextBlock x:Name="AusfuehrenF5" Text="  F5" Foreground="{StaticResource AkzentTextDunkel}" FontSize="11" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                         <Button x:Name="StoppKnopf" Grid.Column="1" Style="{StaticResource RandKnopf}" Margin="8,0,0,0" IsEnabled="False" Click="Stopp_Click" ToolTip="Programm stoppen (Umschalt+F5)" Padding="14,11">
@@ -278,7 +281,7 @@
                         </ComboBox>
                     </Grid>
 
-                    <Border Grid.Row="1" Margin="12,0,12,12" Background="#0C110E" BorderBrush="{StaticResource Rand}" BorderThickness="1" CornerRadius="0">
+                    <Border Grid.Row="1" Margin="12,0,12,12" Background="{StaticResource AusgabeRahmen}" BorderBrush="{StaticResource Rand}" BorderThickness="1" CornerRadius="0">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -310,12 +313,12 @@
                                     <Button Grid.Column="1" VerticalAlignment="Top" Margin="6,-6,0,0" Style="{StaticResource IconKnopf}" Content="&#xE74D;" ToolTip="Ausgabe leeren" Click="AusgabeLeeren_Click" />
                                 </Grid>
                                 <TextBox Grid.Row="1" x:Name="AusgabeBox" IsReadOnly="True" FontFamily="{StaticResource CodeSchrift}" FontSize="12.5"
-                                         Background="#070B08" BorderThickness="0" Foreground="#B4D2BE" TextWrapping="Wrap"
+                                         Background="{StaticResource AusgabeFlaeche}" BorderThickness="0" Foreground="{StaticResource AusgabeText}" TextWrapping="Wrap"
                                          VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="8" />
                                 <Border Grid.Row="2" x:Name="LaufMeldung" Visibility="Collapsed" Margin="0,8,0,0" CornerRadius="0" BorderThickness="1" Padding="10,8" Background="#2A1414" BorderBrush="#6B2B2B">
                                     <TextBlock x:Name="LaufMeldungText" TextWrapping="Wrap" FontSize="11.5" />
                                 </Border>
-                                <Border Grid.Row="3" x:Name="EingabeZeile" Visibility="Collapsed" Margin="0,8,0,0" CornerRadius="0" BorderThickness="1" BorderBrush="{StaticResource Akzent}" Background="#131F17" Padding="8,6">
+                                <Border Grid.Row="3" x:Name="EingabeZeile" Visibility="Collapsed" Margin="0,8,0,0" CornerRadius="0" BorderThickness="1" BorderBrush="{StaticResource Akzent}" Background="{StaticResource EingabeHinweis}" Padding="8,6">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
@@ -336,7 +339,7 @@
 
                             <!-- Compiler-Log -->
                             <TextBox Grid.Row="1" x:Name="LogBox" Visibility="Collapsed" IsReadOnly="True" FontFamily="{StaticResource CodeSchrift}" FontSize="11"
-                                     Background="#070B08" BorderThickness="0" Foreground="#8FA596" Margin="10,6,10,10" Padding="8"
+                                     Background="{StaticResource AusgabeFlaeche}" BorderThickness="0" Foreground="{StaticResource ProtokollText}" Margin="10,6,10,10" Padding="8"
                                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
 
                             <!-- Eingabe vorab -->
@@ -359,7 +362,7 @@
 
         <!-- Meldung oben rechts (z. B. „Erfolg freigeschaltet“) -->
         <Border x:Name="ToastRahmen" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,24,32,0" Padding="16,12" CornerRadius="0"
-                Background="#18261D" BorderBrush="{StaticResource Akzent}" BorderThickness="1"
+                Background="{StaticResource ToastFlaeche}" BorderBrush="{StaticResource Akzent}" BorderThickness="1"
                 Visibility="Collapsed" IsHitTestVisible="False" MaxWidth="380">
             <StackPanel Orientation="Horizontal">
                 <TextBlock x:Name="ToastIcon" Text="&#xE734;" FontFamily="{StaticResource Icons}" FontSize="20" Foreground="{StaticResource Gelb}" VerticalAlignment="Center" Margin="0,0,12,0" />

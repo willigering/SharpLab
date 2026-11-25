@@ -24,6 +24,8 @@ public partial class CodeNotizenSeite : UserControl
         InitializeComponent();
 
         Code.SyntaxHighlighting = highlighting;
+        Code.TextArea.SelectionBrush = Ui.B("EditorAuswahl");
+        Code.TextArea.Caret.CaretBrush = Ui.B("Akzent");
         Code.Options.ConvertTabsToSpaces = true;
         Code.Options.EnableHyperlinks = false;
         Code.Options.EnableEmailHyperlinks = false;

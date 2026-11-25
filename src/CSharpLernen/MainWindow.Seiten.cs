@@ -27,6 +27,7 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
             : sender == NavBegriffe ? "begriffe"
             : sender == NavFortschritt ? "fortschritt"
             : sender == NavErfolge ? "erfolge"
+            : sender == NavDesign ? "design"
             : sender == NavEinstellungen ? "einstellungen"
             : "lernpfad";
         seite = neu;
@@ -82,6 +83,7 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
             case "begriffe": SeiteBegriffe(); break;
             case "fortschritt": SeiteFortschritt(); break;
             case "erfolge": SeiteErfolge(); break;
+            case "design": SeiteDesign(); break;
             case "einstellungen": SeiteEinstellungen(); break;
         }
     }
@@ -357,7 +359,7 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
                     {
                         Background = Ui.B("CodeHintergrund"), CornerRadius = new CornerRadius(0), Padding = new Thickness(10, 5, 10, 5), Margin = new Thickness(0, 8, 0, 0),
                         HorizontalAlignment = HorizontalAlignment.Left,
-                        Child = new TextBlock { Text = b.Beispiel, FontFamily = Ui.CodeSchrift, FontSize = 11.5, Foreground = Ui.Farbe("#B3CCBB"), TextWrapping = TextWrapping.Wrap },
+                        Child = new TextBlock { Text = b.Beispiel, FontFamily = Ui.CodeSchrift, FontSize = 11.5, Foreground = Ui.B("EditorText"), TextWrapping = TextWrapping.Wrap },
                     });
                 liste.Children.Add(Ui.Karte(sp, new Thickness(0, 0, 0, 10), new Thickness(16, 12, 16, 12)));
             }
@@ -463,7 +465,7 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
             g.Children.Add(new Border
             {
                 Width = 48, Height = 48, CornerRadius = new CornerRadius(0),
-                Background = Ui.Farbe(hat ? "#3A2F0E" : "#18211B"),
+                Background = (hat ? Ui.Farbe("#3A2F0E") : Ui.B("ErfolgInaktiv")),
                 BorderBrush = hat ? Ui.B("Gelb") : Ui.B("Rand"), BorderThickness = new Thickness(2),
                 HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top,
                 Child = new TextBlock { Text = hat ? e.Icon : "\uE72E", FontFamily = Ui.Icons, FontSize = 18, Foreground = hat ? Ui.B("Gelb") : Ui.B("TextGedimmt"), HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center },
@@ -524,25 +526,7 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
         editor.Children.Add(Ui.Text("Läuft ein Programm länger (z. B. wegen einer Endlosschleife), wird es automatisch gestoppt. Wartezeit auf deine Eingaben zählt nicht mit.", 11, "TextGedimmt"));
         SeitenInhalt.Children.Add(Ui.Karte(editor));
 
-        var optik = new StackPanel();
-        optik.Children.Add(Ui.Text("Aussehen", 15.5, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 10)));
-        optik.Children.Add(Ui.Text("Matrixcode", 13, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 6)));
-        var regenAn = new CheckBox { Content = "Matrixcode im Hintergrund anzeigen", IsChecked = fortschritt.MatrixRegen, FontSize = 12.5 };
-        var staerkeText = Ui.Text($"Helligkeit: {fortschritt.MatrixStufe * 100:0} %", 12.5, "TextMittel", rand: new Thickness(0, 12, 0, 0));
-        var staerke = new Slider { Minimum = 0, Maximum = 1, Value = fortschritt.MatrixStufe, SmallChange = 0.05, LargeChange = 0.1, Margin = new Thickness(0, 4, 0, 4), Width = 420, HorizontalAlignment = HorizontalAlignment.Left, IsEnabled = fortschritt.MatrixRegen };
-        var tempoText = Ui.Text($"Geschwindigkeit: {TempoText(fortschritt.MatrixTempo)}", 12.5, "TextMittel", rand: new Thickness(0, 8, 0, 0));
-        var tempo = new Slider { Minimum = 0.3, Maximum = 2.5, Value = fortschritt.MatrixTempo, SmallChange = 0.1, LargeChange = 0.25, Margin = new Thickness(0, 4, 0, 4), Width = 420, HorizontalAlignment = HorizontalAlignment.Left, IsEnabled = fortschritt.MatrixRegen };
-        einstMatrixAn = regenAn; einstMatrixRegler = staerke; einstMatrixText = staerkeText; einstMatrixTempo = tempo; einstMatrixTempoText = tempoText;
-        regenAn.Click += (_, _) => SetzeMatrix(regenAn.IsChecked == true, fortschritt.MatrixStufe);
-        staerke.ValueChanged += (_, _) => { if (!matrixSync) SetzeMatrix(fortschritt.MatrixRegen, staerke.Value); };
-        tempo.ValueChanged += (_, _) => { if (!matrixSync) SetzeMatrix(fortschritt.MatrixRegen, fortschritt.MatrixStufe, tempo.Value); };
-        optik.Children.Add(regenAn);
-        optik.Children.Add(staerkeText);
-        optik.Children.Add(staerke);
-        optik.Children.Add(tempoText);
-        optik.Children.Add(tempo);
-        optik.Children.Add(Ui.Text("Zeichen bauen sich im Hintergrund auf und klingen ab – auch links im Menü regelbar. Ab 50 % Helligkeit werden die Flächen etwas durchsichtiger. Wird angehalten, wenn das Fenster minimiert ist.", 11, "TextGedimmt", rand: new Thickness(0, 0, 0, 0)));
-        SeitenInhalt.Children.Add(Ui.Karte(optik));
+        SeitenInhalt.Children.Add(Ui.Karte(Ui.Knopf("Design auswählen", (_, _) => NavDesign.IsChecked = true, false)));
 
         var lernen = new StackPanel();
         lernen.Children.Add(Ui.Text("Lernpfad", 15.5, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 10)));

@@ -245,8 +245,8 @@ public partial class MainWindow
         };
         if (aktuell)
         {
-            knopf.Background = Ui.Farbe("#192A1F");
-            knopf.BorderBrush = Ui.Farbe("#355841");
+            knopf.Background = Ui.B("AuswahlFuellung");
+            knopf.BorderBrush = Ui.B("AuswahlRahmen");
         }
         knopf.Click += (_, _) => OeffneLektion(l);
         return knopf;
@@ -329,7 +329,7 @@ public partial class MainWindow
         if (IstGeloest(aufgabe))
             kopf.Children.Add(new Border
             {
-                CornerRadius = new CornerRadius(0), Background = Ui.Farbe("#18251C"), BorderBrush = Ui.B("Gruen"), BorderThickness = new Thickness(1),
+                CornerRadius = new CornerRadius(0), Background = Ui.B("ErfolgFlaeche"), BorderBrush = Ui.B("Gruen"), BorderThickness = new Thickness(1),
                 Padding = new Thickness(8, 2, 8, 2), VerticalAlignment = VerticalAlignment.Top, Margin = new Thickness(0, 3, 0, 0),
                 Child = Ui.Text("✓ Gelöst", 11, "Gruen", FontWeights.SemiBold),
             });
@@ -541,7 +541,7 @@ public partial class MainWindow
 
         pruefErgebnisHost.Children.Add(new Border
         {
-            Background = Ui.Farbe(r.Bestanden ? "#131F17" : "#221D0C"),
+            Background = (r.Bestanden ? Ui.B("EingabeHinweis") : Ui.Farbe("#221D0C")),
             BorderBrush = r.Bestanden ? Ui.B("Gruen") : Ui.Farbe("#7A6326"),
             BorderThickness = new Thickness(1),
             CornerRadius = new CornerRadius(0),
@@ -559,7 +559,7 @@ public partial class MainWindow
         sp.Children.Add(new Border
         {
             Background = Ui.B("CodeHintergrund"), BorderBrush = Ui.B("Rand"), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(0), Padding = new Thickness(10, 8, 10, 8),
-            Child = new TextBlock { Text = text, FontFamily = Ui.CodeSchrift, FontSize = 11, Foreground = Ui.Farbe("#B3CCBB"), TextWrapping = TextWrapping.Wrap },
+            Child = new TextBlock { Text = text, FontFamily = Ui.CodeSchrift, FontSize = 11, Foreground = Ui.B("EditorText"), TextWrapping = TextWrapping.Wrap },
         });
         return sp;
     }

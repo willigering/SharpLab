@@ -61,6 +61,7 @@ public partial class MainWindow : Window
         SpeicherortHinweiseEinrichten();
         matrixSpeichern = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
         matrixSpeichern.Tick += (_, _) => { matrixSpeichern.Stop(); fortschritt.Speichern(); };
+        Farbdesign.Anwenden(fortschritt.Design);
         SetzeMatrix(fortschritt.MatrixRegen, fortschritt.MatrixStufe, fortschritt.MatrixTempo, speichern: false);
         kurs = LadeKurs();
         lektionen = kurs.Lektionen;
@@ -174,11 +175,10 @@ public partial class MainWindow : Window
         Editor.Options.EnableHyperlinks = false;
         Editor.Options.EnableEmailHyperlinks = false;
         Editor.Options.HighlightCurrentLine = true;
-        Editor.TextArea.TextView.CurrentLineBackground = Ui.Farbe("#141F18");
-        var rand = new Pen(Ui.Farbe("#1D2F23"), 1);
-        rand.Freeze();
+        Editor.TextArea.TextView.CurrentLineBackground = Ui.B("EditorZeile");
+        var rand = new Pen(Ui.B("EditorZeilenRand"), 1);
         Editor.TextArea.TextView.CurrentLineBorder = rand;
-        Editor.TextArea.SelectionBrush = Ui.Farbe("#5546B96C");
+        Editor.TextArea.SelectionBrush = Ui.B("EditorAuswahl");
         Editor.TextArea.SelectionBorder = null;
         Editor.TextArea.SelectionForeground = null;
         Editor.TextArea.Caret.CaretBrush = Ui.B("Akzent");
@@ -348,19 +348,22 @@ public partial class MainWindow : Window
         fortschritt.MatrixTempo = t;
         Regen.Staerke = stufe;
         Regen.Tempo = t;
-        Regen.Visibility = an ? Visibility.Visible : Visibility.Collapsed;
-        App.SetzeFlaechenDeckkraft(stufe, an);
+        bool matrixDesign = fortschritt.Design == "matrix";
+        bool sichtbar = an && matrixDesign;
+        Regen.Visibility = sichtbar ? Visibility.Visible : Visibility.Collapsed;
+        App.SetzeFlaechenDeckkraft(stufe, sichtbar);
 
         matrixSync = true;
         try
         {
-            NavMatrixAn.IsChecked = an;
+            NavMatrixAn.IsEnabled = matrixDesign;
+            NavMatrixAn.IsChecked = sichtbar;
             if (Math.Abs(NavMatrixRegler.Value - stufe) > 0.0001) NavMatrixRegler.Value = stufe;
             if (Math.Abs(NavMatrixTempo.Value - t) > 0.0001) NavMatrixTempo.Value = t;
-            NavMatrixRegler.IsEnabled = an;
-            NavMatrixTempo.IsEnabled = an;
-            NavMatrixWert.Text = an ? $"{stufe * 100:0} %" : "aus";
-            NavMatrixTempoWert.Text = an ? TempoText(t) : "aus";
+            NavMatrixRegler.IsEnabled = sichtbar;
+            NavMatrixTempo.IsEnabled = sichtbar;
+            NavMatrixWert.Text = sichtbar ? $"{stufe * 100:0} %" : "aus";
+            NavMatrixTempoWert.Text = sichtbar ? TempoText(t) : "aus";
             if (einstMatrixAn != null) einstMatrixAn.IsChecked = an;
             if (einstMatrixRegler != null)
             {

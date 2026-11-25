@@ -19,6 +19,7 @@ public partial class App : Application
             Protokollieren(a.Exception, "TaskScheduler.UnobservedTaskException");
             a.SetObserved();
         };
+        Farbdesign.Vorbereiten(Resources);
         base.OnStartup(e);
     }
 
@@ -26,7 +27,6 @@ public partial class App : Application
     {
         ("Panel", 0.85, 0.75), ("Karte", 0.85, 0.75), ("KarteHell", 0.90, 0.80), ("KarteHover", 0.90, 0.82),
     };
-    static readonly Dictionary<string, Color> Grundfarben = new();
 
     /// <summary>
     /// Passt die Deckkraft der Panels/Karten an die Matrix-Intensität an: bis 50 % unverändert,
@@ -39,12 +39,7 @@ public partial class App : Application
         double t = regenAn ? Math.Clamp((staerke - 0.5) / 0.5, 0, 1) : 0;
         foreach (var (key, normal, minimum) in Flaechen)
         {
-            if (!Grundfarben.TryGetValue(key, out var c))
-                Grundfarben[key] = c = ((SolidColorBrush)res[key]).Color;
-            double a = normal + (minimum - normal) * t;
-            var b = new SolidColorBrush(Color.FromArgb((byte)Math.Round(a * 255), c.R, c.G, c.B));
-            b.Freeze();
-            res[key] = b;
+            ((SolidColorBrush)res[key]).Opacity = (normal + (minimum - normal) * t) / normal;
         }
     }
 

@@ -3,6 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Designfarben.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         <!-- Systemfarben überschreiben (z. B. graue Ecke zwischen zwei Scrollbalken) -->
         <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3346B96C" />
@@ -10,25 +14,6 @@
 
         <!-- Farben -->
         <Color x:Key="AkzentFarbe">#3FCB6E</Color>
-        <SolidColorBrush x:Key="Hintergrund" Color="#0B0F0C" />
-        <SolidColorBrush x:Key="Panel" Color="#D90F1511" />
-        <SolidColorBrush x:Key="Karte" Color="#D9121914" />
-        <SolidColorBrush x:Key="KarteHell" Color="#E6151D18" />
-        <SolidColorBrush x:Key="KarteHover" Color="#E61B251E" />
-        <SolidColorBrush x:Key="Rand" Color="#1F3A28" />
-        <SolidColorBrush x:Key="RandHell" Color="#2E5239" />
-        <SolidColorBrush x:Key="Akzent" Color="#3FCB6E" />
-        <SolidColorBrush x:Key="AkzentDunkel" Color="#2A8A4C" />
-        <SolidColorBrush x:Key="AkzentHintergrund" Color="#16291D" />
-        <SolidColorBrush x:Key="TextHell" Color="#C9D6CC" />
-        <SolidColorBrush x:Key="TextMittel" Color="#93A597" />
-        <SolidColorBrush x:Key="TextGedimmt" Color="#64756A" />
-        <SolidColorBrush x:Key="Gruen" Color="#4CC27A" />
-        <SolidColorBrush x:Key="Rot" Color="#E07070" />
-        <SolidColorBrush x:Key="Gelb" Color="#DDB25E" />
-        <SolidColorBrush x:Key="CodeHintergrund" Color="#F00A0E0B" />
-        <SolidColorBrush x:Key="InlineCode" Color="#1A271F" />
-        <SolidColorBrush x:Key="AkzentVerlauf" Color="#3FCB6E" />
         <FontFamily x:Key="CodeSchrift">pack://application:,,,/Ressourcen/Schrift/#JetBrains Mono NL, Cascadia Mono, Consolas, Courier New</FontFamily>
         <!-- Schrift der ganzen Oberfläche: eingebettete JetBrains Mono (OFL), sonst Cascadia Mono / Consolas -->
         <FontFamily x:Key="UiSchrift">pack://application:,,,/Ressourcen/Schrift/#JetBrains Mono NL, Cascadia Mono, Consolas</FontFamily>
@@ -52,7 +37,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ToolTip">
-                        <Border Background="#F20A0F0C" BorderBrush="{StaticResource RandHell}" BorderThickness="1" Padding="9,5" Margin="6" CornerRadius="0">
+                        <Border Background="{StaticResource TooltipFlaeche}" BorderBrush="{StaticResource RandHell}" BorderThickness="1" Padding="9,5" Margin="6" CornerRadius="0">
                             <ContentPresenter TextElement.Foreground="{TemplateBinding Foreground}" />
                         </Border>
                     </ControlTemplate>
@@ -65,7 +50,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Thumb">
-                        <Border CornerRadius="0" Background="#2F4235" />
+                        <Border CornerRadius="0" Background="{StaticResource FortschrittRahmen}" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -131,11 +116,11 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Rahmen" Property="Background" Value="#162019" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource Hover}" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="Rahmen" Property="Background" Value="#192A1F" />
-                                <Setter TargetName="Rahmen" Property="BorderBrush" Value="#355841" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource AuswahlFuellung}" />
+                                <Setter TargetName="Rahmen" Property="BorderBrush" Value="{StaticResource AuswahlRahmen}" />
                                 <Setter TargetName="Icon" Property="Foreground" Value="{StaticResource Akzent}" />
                                 <Setter Property="Foreground" Value="{StaticResource TextHell}" />
                             </Trigger>
@@ -155,7 +140,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="Rahmen" CornerRadius="0" Background="#101A13" Padding="12,7" BorderThickness="1" BorderBrush="#2E5239">
+                        <Border x:Name="Rahmen" CornerRadius="0" Background="{StaticResource NavAktion}" Padding="12,7" BorderThickness="1" BorderBrush="{StaticResource RandHell}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="30" />
@@ -167,7 +152,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Rahmen" Property="Background" Value="#192A1F" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource AuswahlFuellung}" />
                                 <Setter TargetName="Rahmen" Property="BorderBrush" Value="{StaticResource Akzent}" />
                             </Trigger>
                             <Trigger Property="IsKeyboardFocused" Value="True">
@@ -198,7 +183,7 @@
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="Rahmen" Property="BorderBrush" Value="{StaticResource Akzent}" />
-                                <Setter TargetName="Rahmen" Property="Background" Value="#142118" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource RegisterHover}" />
                                 <Setter Property="Foreground" Value="{StaticResource Akzent}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -216,7 +201,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
-                        <Border x:Name="Rahmen" CornerRadius="0" Background="#151F18" Padding="14,6" BorderThickness="1" BorderBrush="{StaticResource Rand}">
+                        <Border x:Name="Rahmen" CornerRadius="0" Background="{StaticResource Eingabeflaeche}" Padding="14,6" BorderThickness="1" BorderBrush="{StaticResource Rand}">
                             <ContentPresenter TextElement.Foreground="{TemplateBinding Foreground}" />
                         </Border>
                         <ControlTemplate.Triggers>
@@ -244,7 +229,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
-                        <Border x:Name="Rahmen" CornerRadius="0" Background="#101712" Padding="12,9" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}">
+                        <Border x:Name="Rahmen" CornerRadius="0" Background="{StaticResource Knopfflaeche}" Padding="12,9" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="26" />
@@ -257,7 +242,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Rahmen" Property="Background" Value="#162019" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource Hover}" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="Kreis" Property="Stroke" Value="{StaticResource Akzent}" />
@@ -271,7 +256,7 @@
 
         <!-- Knöpfe -->
         <Style x:Key="AkzentKnopf" TargetType="Button">
-            <Setter Property="Foreground" Value="#0B1A10" />
+            <Setter Property="Foreground" Value="{StaticResource PrimaerText}" />
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="FontSize" Value="12.5" />
             <Setter Property="Cursor" Value="Hand" />
@@ -280,24 +265,24 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="Rahmen" CornerRadius="0" Background="#3FCB6E" BorderBrush="#3FCB6E" BorderThickness="1" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                        <Border x:Name="Rahmen" CornerRadius="0" Background="{StaticResource Akzent}" BorderBrush="{StaticResource Akzent}" BorderThickness="1" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.Foreground="{TemplateBinding Foreground}" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Rahmen" Property="Background" Value="#55D680" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource AkzentHell}" />
                                 <Setter TargetName="Rahmen" Property="Effect">
-                                    <Setter.Value><DropShadowEffect Color="#3FCB6E" BlurRadius="8" ShadowDepth="0" Opacity="0.35" /></Setter.Value>
+                                    <Setter.Value><DropShadowEffect Color="{DynamicResource AkzentFarbe}" BlurRadius="8" ShadowDepth="0" Opacity="0.35" /></Setter.Value>
                                 </Setter>
                             </Trigger>
                             <Trigger Property="IsKeyboardFocused" Value="True">
                                 <Setter TargetName="Rahmen" Property="BorderBrush" Value="#E4ECE6" />
                                 <Setter TargetName="Rahmen" Property="Effect">
-                                    <Setter.Value><DropShadowEffect Color="#3FCB6E" BlurRadius="8" ShadowDepth="0" Opacity="0.35" /></Setter.Value>
+                                    <Setter.Value><DropShadowEffect Color="{DynamicResource AkzentFarbe}" BlurRadius="8" ShadowDepth="0" Opacity="0.35" /></Setter.Value>
                                 </Setter>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Rahmen" Property="Background" Value="#33A95B" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource AkzentGedrueckt}" />
                                 <Setter TargetName="Rahmen" Property="Effect" Value="{x:Null}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
@@ -363,11 +348,11 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Rahmen" Property="Background" Value="#143FCB6E" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource IconHover}" />
                                 <Setter TargetName="Rahmen" Property="BorderBrush" Value="{StaticResource Akzent}" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Rahmen" Property="Background" Value="#263FCB6E" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource IconGedrueckt}" />
                             </Trigger>
                             <Trigger Property="IsKeyboardFocused" Value="True">
                                 <Setter TargetName="Rahmen" Property="BorderBrush" Value="#E4ECE6" />
@@ -386,7 +371,7 @@
             <Setter Property="FontSize" Value="11.5" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Padding" Value="14,8" />
-            <Setter Property="Background" Value="#151F18" />
+            <Setter Property="Background" Value="{StaticResource Eingabeflaeche}" />
             <Setter Property="BorderBrush" Value="{StaticResource RandHell}" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -397,7 +382,7 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="Rahmen" Property="BorderBrush" Value="{StaticResource Akzent}" />
-                                <Setter TargetName="Rahmen" Property="Background" Value="#1B2A20" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource ListenHover}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter TargetName="Rahmen" Property="Opacity" Value="0.4" />
@@ -424,7 +409,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Rahmen" Property="Background" Value="#1B2A20" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource ListenHover}" />
                                 <Setter TargetName="Rahmen" Property="BorderBrush" Value="{StaticResource Rand}" />
                                 <Setter Property="Foreground" Value="{StaticResource Akzent}" />
                             </Trigger>
@@ -453,7 +438,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Rahmen" Property="Background" Value="#162019" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource Hover}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -505,8 +490,8 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Border x:Name="Kasten" Width="18" Height="18" VerticalAlignment="Center" Background="#0B120D" BorderBrush="{StaticResource RandHell}" BorderThickness="1" CornerRadius="0">
-                                <TextBlock x:Name="Haken" Text="&#xE73E;" FontFamily="{StaticResource Icons}" FontSize="11" Foreground="#07130B" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
+                            <Border x:Name="Kasten" Width="18" Height="18" VerticalAlignment="Center" Background="{StaticResource Kontrollfeld}" BorderBrush="{StaticResource RandHell}" BorderThickness="1" CornerRadius="0">
+                                <TextBlock x:Name="Haken" Text="&#xE73E;" FontFamily="{StaticResource Icons}" FontSize="11" Foreground="{StaticResource Kontrollhaken}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
                             </Border>
                             <ContentPresenter Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" TextElement.Foreground="{TemplateBinding Foreground}" />
                         </Grid>
@@ -520,7 +505,7 @@
                                 <Setter TargetName="Kasten" Property="BorderBrush" Value="{StaticResource Akzent}" />
                             </Trigger>
                             <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="Kasten" Property="BorderBrush" Value="#ABDFBD" />
+                                <Setter TargetName="Kasten" Property="BorderBrush" Value="{StaticResource AkzentZart}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Opacity" Value="0.4" />
@@ -537,7 +522,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ProgressBar">
                         <Grid>
-                            <Border x:Name="PART_Track" CornerRadius="0" Background="#1F2C23" />
+                            <Border x:Name="PART_Track" CornerRadius="0" Background="{StaticResource FortschrittSpur}" />
                             <Border x:Name="PART_Indicator" CornerRadius="0" HorizontalAlignment="Left" Background="{StaticResource AkzentVerlauf}" />
                         </Grid>
                     </ControlTemplate>
@@ -556,7 +541,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="True">
-                                <Setter TargetName="Rahmen" Property="Background" Value="#203126" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource MenueHover}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -576,8 +561,8 @@
                                           IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                 <ToggleButton.Template>
                                     <ControlTemplate TargetType="ToggleButton">
-                                        <Border Background="#151F18" BorderBrush="#375742" BorderThickness="1" CornerRadius="0">
-                                            <TextBlock Text="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="9" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="#9DB1A4" />
+                                        <Border Background="{StaticResource Eingabeflaeche}" BorderBrush="{StaticResource MenueRahmen}" BorderThickness="1" CornerRadius="0">
+                                            <TextBlock Text="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="9" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{StaticResource MenueText}" />
                                         </Border>
                                     </ControlTemplate>
                                 </ToggleButton.Template>
@@ -585,7 +570,7 @@
                             <ContentPresenter IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                               Margin="12,0,26,0" VerticalAlignment="Center" HorizontalAlignment="Left" TextElement.Foreground="{TemplateBinding Foreground}" />
                             <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-                                <Border Background="#121A15" BorderBrush="#375742" BorderThickness="1" CornerRadius="0" Padding="4" Margin="0,4,0,0"
+                                <Border Background="{StaticResource MenueFlaeche}" BorderBrush="{StaticResource MenueRahmen}" BorderThickness="1" CornerRadius="0" Padding="4" Margin="0,4,0,0"
                                         MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
                                     <StackPanel IsItemsHost="True" />
                                 </Border>
@@ -615,7 +600,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Slider">
                         <Grid Height="26" Background="Transparent">
-                            <Border Height="4" VerticalAlignment="Center" Background="#16231A" BorderBrush="{StaticResource Rand}" BorderThickness="1" />
+                            <Border Height="4" VerticalAlignment="Center" Background="{StaticResource ReglerSpur}" BorderBrush="{StaticResource Rand}" BorderThickness="1" />
                             <Track x:Name="PART_Track">
                                 <Track.DecreaseRepeatButton>
                                     <RepeatButton Command="Slider.DecreaseLarge" Style="{StaticResource SliderSpur}">
@@ -633,13 +618,13 @@
                                     <Thumb x:Name="Griff">
                                         <Thumb.Template>
                                             <ControlTemplate TargetType="Thumb">
-                                                <Border x:Name="G" Width="12" Height="20" Background="{StaticResource Akzent}" BorderBrush="#ABDFBD" BorderThickness="0" />
+                                                <Border x:Name="G" Width="12" Height="20" Background="{StaticResource Akzent}" BorderBrush="{StaticResource AkzentZart}" BorderThickness="0" />
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
                                                         <Setter TargetName="G" Property="BorderThickness" Value="1.5" />
                                                     </Trigger>
                                                     <Trigger Property="IsDragging" Value="True">
-                                                        <Setter TargetName="G" Property="Background" Value="#76CB92" />
+                                                        <Setter TargetName="G" Property="Background" Value="{StaticResource AkzentRegler}" />
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
@@ -667,7 +652,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ContextMenu">
-                        <Border Background="#F70A0F0C" BorderBrush="{StaticResource RandHell}" BorderThickness="1" Padding="3" Margin="6" MinWidth="170">
+                        <Border Background="{StaticResource PopupFlaeche}" BorderBrush="{StaticResource RandHell}" BorderThickness="1" Padding="3" Margin="6" MinWidth="170">
                             <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                         </Border>
                     </ControlTemplate>
@@ -692,7 +677,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="True">
-                                <Setter TargetName="Rahmen" Property="Background" Value="#2246B96C" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource MenueAuswahl}" />
                                 <Setter Property="Foreground" Value="{StaticResource Akzent}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
@@ -725,10 +710,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Rahmen" Property="Background" Value="#14201A" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource MenueZeile}" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Rahmen" Property="Background" Value="#1C3F27" />
+                                <Setter TargetName="Rahmen" Property="Background" Value="{StaticResource MenueZeileAktiv}" />
                                 <Setter TargetName="Rahmen" Property="BorderBrush" Value="{StaticResource Akzent}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -736,5 +721,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
