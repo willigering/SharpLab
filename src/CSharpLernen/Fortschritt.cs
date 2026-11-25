@@ -13,6 +13,24 @@ public sealed class Fortschritt
     /// <summary>Zuletzt geschriebener Code je Aufgabe (Schlüssel = Aufgaben-Id, "bsp:Lektion" oder "spielwiese").</summary>
     public Dictionary<string, string> Code { get; set; } = new();
     public Dictionary<Guid, string> EigeneProjekte { get; set; } = new();
+    public Dictionary<Guid, List<string>> ProjektVersionen { get; set; } = new();
+
+    public static string ProjektSchluessel(Guid id) => "projekt:" + id.ToString("N");
+
+    public int ProjektVersionAnlegen(Guid id, string code)
+    {
+        if (!EigeneProjekte.ContainsKey(id)) throw new ArgumentException("Unbekanntes Projekt.", nameof(id));
+
+        string schluessel = ProjektSchluessel(id);
+        if (!ProjektVersionen.TryGetValue(id, out var versionen) || versionen.Count == 0)
+        {
+            versionen = new List<string> { Code.GetValueOrDefault(schluessel, "") };
+            ProjektVersionen[id] = versionen;
+        }
+        versionen.Add(code);
+        Code[schluessel] = code;
+        return versionen.Count;
+    }
     /// <summary>Beste Anzahl richtiger Quiz-Antworten je Lektion.</summary>
     public Dictionary<string, int> QuizPunkte { get; set; } = new();
     public HashSet<string> GeleseneLektionen { get; set; } = new();
@@ -169,6 +187,9 @@ public sealed class Fortschritt
         EigeneProjekte = EigeneProjekte == null ? new() : EigeneProjekte
             .Where(kv => kv.Key != Guid.Empty && !string.IsNullOrWhiteSpace(kv.Value))
             .ToDictionary(kv => kv.Key, kv => kv.Value.Trim());
+        ProjektVersionen = ProjektVersionen == null ? new() : ProjektVersionen
+            .Where(kv => EigeneProjekte.ContainsKey(kv.Key) && kv.Value != null)
+            .ToDictionary(kv => kv.Key, kv => kv.Value.Where(code => code != null).ToList());
         QuizPunkte = QuizPunkte == null ? new() : QuizPunkte.Where(kv => !string.IsNullOrWhiteSpace(kv.Key)).ToDictionary(kv => kv.Key, kv => Math.Max(0, kv.Value));
         if (string.IsNullOrWhiteSpace(LetzteLektion)) LetzteLektion = null;
         Schriftgroesse = Zahl(Schriftgroesse, 10, 30, 15);

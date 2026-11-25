@@ -1,4 +1,5 @@
-SharpLab 1.0.14
+SharpLab 1.0.15
 
-- Runde, eckige und geschweifte Klammerpaare werden nach ihrer Verschachtelungstiefe gefärbt.
-- Die Klammerfarben sind im Haupteditor und im C#-Editor der Code-Notizen aktiv. Kommentare und Zeichenketten behalten ihre Syntaxfarben.
+- Editorcode kann als neue Version eines bestehenden eigenen Projekts gespeichert werden.
+- Frühere Versionen bleiben im Versionsverlauf auswählbar.
+- Strg+S speichert weiterhin den aktuellen Arbeitsstand.

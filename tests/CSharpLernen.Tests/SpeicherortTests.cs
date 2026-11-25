@@ -63,6 +63,27 @@ public sealed class SpeicherortTests : IDisposable
         Assert.Equal("alter Code", geladen.Code["spielwiese"]);
     }
 
+    [Fact]
+    public void ProjektversionenBleibenAuchNachAenderungenAmArbeitsstandErhalten()
+    {
+        var fortschritt = new Fortschritt();
+        var id = Guid.NewGuid();
+        var schluessel = Fortschritt.ProjektSchluessel(id);
+        fortschritt.EigeneProjekte.Add(id, "Projekt");
+        fortschritt.Code[schluessel] = "alter Stand";
+
+        Assert.Equal(2, fortschritt.ProjektVersionAnlegen(id, "erster Import"));
+        Assert.Equal("erster Import", fortschritt.Code[schluessel]);
+        fortschritt.Code[schluessel] = "Arbeitsstand";
+        Assert.Equal(3, fortschritt.ProjektVersionAnlegen(id, "zweiter Import"));
+        fortschritt.Code[schluessel] = "neuer Arbeitsstand";
+        fortschritt.Speichern();
+
+        var geladen = Fortschritt.Laden();
+        Assert.Equal(new[] { "alter Stand", "erster Import", "zweiter Import" }, geladen.ProjektVersionen[id]);
+        Assert.Equal("neuer Arbeitsstand", geladen.Code[schluessel]);
+    }
+
     public void Dispose()
     {
         Speicherort.StandardOrdnerUeberschrieben = null;
