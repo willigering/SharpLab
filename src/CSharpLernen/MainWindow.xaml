@@ -49,6 +49,7 @@
                         <RadioButton x:Name="NavLernpfad" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE8F1;" Content="Lernpfad" IsChecked="True" Checked="Nav_Checked" />
                         <RadioButton x:Name="NavUebungen" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE73A;" Content="Übungen" Checked="Nav_Checked" />
                         <RadioButton x:Name="NavEditor" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE943;" Content="Code-Editor" Checked="Nav_Checked" />
+                        <Button Style="{StaticResource NavAktionKnopf}" Tag="&#xE70B;" Content="Code-Notizen" Click="CodeNotizen_Click" />
                         <RadioButton x:Name="NavProjekte" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE8B7;" Content="Projekte" Checked="Nav_Checked" />
                         <RadioButton x:Name="NavCompiler" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE90F;" Content="Compiler" Checked="Nav_Checked" />
                         <RadioButton x:Name="NavBegriffe" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE82D;" Content="Begriffe" Checked="Nav_Checked" />
@@ -211,6 +212,7 @@
                             </StackPanel>
                         </Border>
                         <StackPanel x:Name="Werkzeuge" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <Button Style="{StaticResource IconKnopf}" Content="&#xE70B;" ToolTip="Code als Notiz speichern" Click="CodeAlsNotiz_Click" />
                             <Button Style="{StaticResource IconKnopf}" Content="&#xE74E;" ToolTip="Speichern (Strg+S)" Click="Speichern_Click" />
                             <Button Style="{StaticResource IconKnopf}" Content="&#xE7A7;" ToolTip="Rückgängig (Strg+Z)" Click="Rueckgaengig_Click" />
                             <Button Style="{StaticResource IconKnopf}" Content="&#xE7A6;" ToolTip="Wiederholen (Strg+Y)" Click="Wiederholen_Click" />

@@ -1,5 +1,5 @@
 SharpLab - Der interaktive C#-Trainer
-Version 1.0.7 · Entwickelt von Willi Gering · Gering Digital
+Version 1.0.8 · Entwickelt von Willi Gering · Gering Digital
 https://github.com/willigering/SharpLab
 
 Installation (empfohlen): SharpLab-Setup.exe ausführen. Installiert nur für dich, ohne

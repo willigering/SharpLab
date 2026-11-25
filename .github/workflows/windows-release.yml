@@ -1,0 +1,55 @@
+name: SharpLab Windows-Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - src/CSharpLernen/CSharpLernen.csproj
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sharplab-windows-release
+
+jobs:
+  release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Version prüfen
+        id: version
+        shell: bash
+        run: |
+          version="$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' src/CSharpLernen/CSharpLernen.csproj)"
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          tag="v$version"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Tests ausführen
+        if: steps.version.outputs.exists != 'true'
+        run: dotnet test tests/CSharpLernen.Tests/CSharpLernen.Tests.csproj -c Release
+      - name: Windows-Pakete erstellen
+        if: steps.version.outputs.exists != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y nsis
+          bash installer/release-bauen.sh release
+      - name: Windows-Release veröffentlichen
+        if: steps.version.outputs.exists != 'true'
+        run: |
+          gh release create "$RELEASE_TAG" --target "$GITHUB_SHA" --title "SharpLab ${RELEASE_TAG#v}" \
+            --notes-file Versionshinweise.txt --latest \
+            release/SharpLab-Windows.zip release/SharpLab-Windows.zip.sha256 \
+            release/SharpLab-Setup.exe release/SharpLab-Setup.exe.sha256
+        env:
+          RELEASE_TAG: ${{ steps.version.outputs.tag }}

@@ -1,16 +1,6 @@
-SharpLab 1.0.7
-Willi Gering · Gering Digital
+SharpLab 1.0.8
 
-21.11.2026
-- Alle 216 Aufgabenstellungen neu geschrieben: kurz, verständlich und eindeutig. Sie sagen, was das Programm tun soll, aber nicht mehr, wie man es löst (keine Hinweise auf Kommentarzeichen, Operatoren oder Methoden).
-- Vergessene oder überflüssige Leerzeichen und Leerzeilen zählen nicht mehr als Fehler. Ebenso ein vertauschtes oder fehlendes Ausrufezeichen/Punkt am Zeilenende und ein kleiner Tippfehler in einem Wort. Die Aufgabe gilt als gelöst, die App weist freundlich darauf hin (mit wechselnden Sprüchen). Zahlen, Rechenzeichen und Groß-/Kleinschreibung bleiben streng.
-- l04a4 (Notendurchschnitt) kommt ohne vorgegebene Formatierung aus: vier Noten, Ergebnis 2,5.
-- Generator: werkzeuge/lektionen-generator/neu_texte*.py enthält die neuen Texte, build.py schreibt die Lektionen-Datei relativ zum Repo.
-
-SharpLab 1.0.6
-Willi Gering · Gering Digital
-
-21.11.2026
-- Alle 216 Aufgabenstellungen sind eindeutiger: jede erwartete Ausgabe steht vollständig da, jeder Testlauf mit seinen Eingaben, und die Vorgaben passen zur Musterlösung.
-- Aufgaben-IDs sind unverändert. Der Lernstand (gelöste Aufgaben, Quiz, eigener Code) bleibt beim Update erhalten.
-- Nach „Richtig!“ zeigt die Konsole die Programmausgabe.
+- Neue Code-Notizen: C#-Code einzeln mit Titel und separatem Kommentar speichern.
+- Volltextsuche über Titel, Kommentare und Code.
+- Code aus dem Haupteditor übernehmen und gespeicherte Beispiele zum Ausführen zurückladen.
+- Code-Notizen werden lokal im SharpLab-Datenordner gespeichert.

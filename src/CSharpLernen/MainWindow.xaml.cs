@@ -272,6 +272,15 @@ public partial class MainWindow : Window
         Editor.Focus();
     }
 
+    void CodeNotizen_Click(object sender, RoutedEventArgs e) => CodeNotizenOeffnen(false);
+    void CodeAlsNotiz_Click(object sender, RoutedEventArgs e) => CodeNotizenOeffnen(true);
+
+    void CodeNotizenOeffnen(bool editorUebernehmen)
+    {
+        var fenster = new CodeNotizenFenster(Editor.Text, Editor.SyntaxHighlighting, editorUebernehmen) { Owner = this };
+        if (fenster.ShowDialog() == true) CodeInEditor(fenster.CodeFuerHaupteditor);
+    }
+
     void Speichern_Click(object sender, RoutedEventArgs e) => Speichern();
     void Rueckgaengig_Click(object sender, RoutedEventArgs e) { Editor.Undo(); Editor.Focus(); }
     void Wiederholen_Click(object sender, RoutedEventArgs e) { Editor.Redo(); Editor.Focus(); }
