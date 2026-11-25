@@ -21,6 +21,7 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
         if (!geladen) return;
         string neu = sender == NavUebungen ? "uebungen"
             : sender == NavEditor ? "editor"
+            : sender == NavNotizen ? "notizen"
             : sender == NavProjekte ? "projekte"
             : sender == NavCompiler ? "compiler"
             : sender == NavBegriffe ? "begriffe"
@@ -29,6 +30,7 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
             : sender == NavEinstellungen ? "einstellungen"
             : "lernpfad";
         seite = neu;
+        ArbeitsbereichAusbreiten(false);
         bool lernpfad = neu == "lernpfad";
         LernpfadSpalte.Visibility = lernpfad ? Visibility.Visible : Visibility.Collapsed;
         LektionSpalte.Visibility = lernpfad ? Visibility.Visible : Visibility.Collapsed;
@@ -41,11 +43,36 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
         BaueSeite(neu);
     }
 
+    void Nav_Geschlossen(object sender, EventArgs e)
+    {
+        seite = "";
+        LernpfadSpalte.Visibility = Visibility.Collapsed;
+        LektionSpalte.Visibility = Visibility.Collapsed;
+        SeitenSpalte.Visibility = Visibility.Collapsed;
+        ArbeitsbereichAusbreiten(true);
+    }
+
+    void ArbeitsbereichAusbreiten(bool ganz)
+    {
+        ArbeitsbereichTeiler.Visibility = ganz ? Visibility.Collapsed : Visibility.Visible;
+        Grid.SetColumn(Arbeitsbereich, ganz ? 1 : 4);
+        Grid.SetColumnSpan(Arbeitsbereich, ganz ? 4 : 1);
+    }
+
     void BaueSeite(string name)
     {
         SeitenInhalt.Children.Clear();
         einstMatrixAn = null; einstMatrixRegler = null; einstMatrixText = null; einstMatrixTempo = null; einstMatrixTempoText = null;
-        if (SeitenSpalte.Child is ScrollViewer sv) sv.ScrollToTop();
+        bool notizen = name == "notizen";
+        SeitenScroll.Visibility = notizen ? Visibility.Collapsed : Visibility.Visible;
+        NotizenHost.Visibility = notizen ? Visibility.Visible : Visibility.Collapsed;
+        if (notizen)
+        {
+            notizSeite ??= new CodeNotizenSeite(() => Editor.Text, CodeInEditor, Editor.SyntaxHighlighting);
+            NotizenHost.Content = notizSeite;
+            return;
+        }
+        SeitenScroll.ScrollToTop();
         switch (name)
         {
             case "uebungen": SeiteUebungen(); break;

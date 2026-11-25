@@ -190,6 +190,7 @@ public partial class MainWindow
                 await ReleaseSeiteAnbieten("Kein Download gefunden", $"Im Release {neu} fehlt die Datei „{Aktualisierung.AssetName}“. Du kannst die neue Version auf der Release-Seite herunterladen.", DialogKind.Warnung, r.SeitenUrl);
                 return;
             }
+            if (notizSeite?.EntwurfAbschliessen() == false) return;
             jetzt.IsEnabled = false; ueberspringen.IsEnabled = false;
             spaeter.Content = "Abbrechen";
             status.Visibility = balken.Visibility = Visibility.Visible;

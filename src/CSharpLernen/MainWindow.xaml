@@ -46,16 +46,16 @@
                     </Grid>
 
                     <StackPanel Grid.Row="1" x:Name="NavListe">
-                        <RadioButton x:Name="NavLernpfad" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE8F1;" Content="Lernpfad" IsChecked="True" Checked="Nav_Checked" />
-                        <RadioButton x:Name="NavUebungen" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE73A;" Content="Übungen" Checked="Nav_Checked" />
-                        <RadioButton x:Name="NavEditor" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE943;" Content="Code-Editor" Checked="Nav_Checked" />
-                        <Button Style="{StaticResource NavAktionKnopf}" Tag="&#xE70B;" Content="Code-Notizen" Click="CodeNotizen_Click" />
-                        <RadioButton x:Name="NavProjekte" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE8B7;" Content="Projekte" Checked="Nav_Checked" />
-                        <RadioButton x:Name="NavCompiler" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE90F;" Content="Compiler" Checked="Nav_Checked" />
-                        <RadioButton x:Name="NavBegriffe" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE82D;" Content="Begriffe" Checked="Nav_Checked" />
-                        <RadioButton x:Name="NavFortschritt" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE9D2;" Content="Fortschritt" Checked="Nav_Checked" />
-                        <RadioButton x:Name="NavErfolge" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE734;" Content="Erfolge" Checked="Nav_Checked" />
-                        <RadioButton x:Name="NavEinstellungen" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE713;" Content="Einstellungen" Checked="Nav_Checked" />
+                        <local:NavReiter x:Name="NavLernpfad" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE8F1;" Content="Lernpfad" IsChecked="True" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
+                        <local:NavReiter x:Name="NavUebungen" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE73A;" Content="Übungen" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
+                        <local:NavReiter x:Name="NavEditor" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE943;" Content="Code-Editor" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
+                        <local:NavReiter x:Name="NavNotizen" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE70B;" Content="Code-Notizen" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
+                        <local:NavReiter x:Name="NavProjekte" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE8B7;" Content="Projekte" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
+                        <local:NavReiter x:Name="NavCompiler" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE90F;" Content="Compiler" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
+                        <local:NavReiter x:Name="NavBegriffe" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE82D;" Content="Begriffe" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
+                        <local:NavReiter x:Name="NavFortschritt" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE9D2;" Content="Fortschritt" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
+                        <local:NavReiter x:Name="NavErfolge" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE734;" Content="Erfolge" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
+                        <local:NavReiter x:Name="NavEinstellungen" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE713;" Content="Einstellungen" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
                         <Button x:Name="NavFeedback" Style="{StaticResource NavAktionKnopf}" Tag="&#xED15;" Content="Feedback" ToolTip="Lob, Fehler, Wünsche – direkt an Gering Digital" Click="Feedback_Click" />
                     </StackPanel>
 
@@ -182,15 +182,19 @@
 
             <!-- ============ Seiten (Übungen, Projekte, …) – überdecken Spalte 2+3 ============ -->
             <Border Grid.Column="1" Grid.ColumnSpan="2" x:Name="SeitenSpalte" Style="{StaticResource KartenRahmen}" Visibility="Collapsed">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="28,22,24,22">
-                    <StackPanel x:Name="SeitenInhalt" />
-                </ScrollViewer>
+                <Grid>
+                    <ScrollViewer x:Name="SeitenScroll" VerticalScrollBarVisibility="Auto" Padding="28,22,24,22">
+                        <StackPanel x:Name="SeitenInhalt" />
+                    </ScrollViewer>
+                    <ContentControl x:Name="NotizenHost" Visibility="Collapsed"
+                                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                </Grid>
             </Border>
 
-            <GridSplitter Grid.Column="3" Width="10" HorizontalAlignment="Stretch" Background="Transparent" ResizeBehavior="PreviousAndNext" Cursor="SizeWE" />
+            <GridSplitter x:Name="ArbeitsbereichTeiler" Grid.Column="3" Width="10" HorizontalAlignment="Stretch" Background="Transparent" ResizeBehavior="PreviousAndNext" Cursor="SizeWE" />
 
             <!-- ============ 4: Editor ============ -->
-            <Border Grid.Column="4" Style="{StaticResource KartenRahmen}">
+            <Border x:Name="Arbeitsbereich" Grid.Column="4" Style="{StaticResource KartenRahmen}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />

@@ -50,6 +50,7 @@ public partial class MainWindow : Window
     HashSet<string> bekannteErfolge;
     readonly DispatcherTimer toastTimer;
     string seite = "lernpfad";
+    CodeNotizenSeite notizSeite;
 
     public MainWindow()
     {
@@ -82,8 +83,13 @@ public partial class MainWindow : Window
             UpdateBeimStartEinrichten();
         };
         PreviewKeyDown += Tasten;
-        Closing += (_, _) =>
+        Closing += (_, e) =>
         {
+            if (notizSeite?.EntwurfAbschliessen() == false)
+            {
+                e.Cancel = true;
+                return;
+            }
             SpeichereEditor();
             matrixSpeichern?.Stop();
             fortschritt.Speichern();
@@ -144,7 +150,8 @@ public partial class MainWindow : Window
         if (e.Key == Key.F5 && Keyboard.Modifiers == ModifierKeys.Shift) { Stoppen(); e.Handled = true; }
         else if (e.Key == Key.F5) { _ = Ausfuehren(); e.Handled = true; }
         else if (e.Key == Key.F6) { _ = Pruefen(); e.Handled = true; }
-        else if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Control) { Speichern(); e.Handled = true; }
+        else if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Control && notizSeite?.IsKeyboardFocusWithin != true)
+        { Speichern(); e.Handled = true; }
     }
 
     // ===================================================== Editor
@@ -272,13 +279,10 @@ public partial class MainWindow : Window
         Editor.Focus();
     }
 
-    void CodeNotizen_Click(object sender, RoutedEventArgs e) => CodeNotizenOeffnen(false);
-    void CodeAlsNotiz_Click(object sender, RoutedEventArgs e) => CodeNotizenOeffnen(true);
-
-    void CodeNotizenOeffnen(bool editorUebernehmen)
+    void CodeAlsNotiz_Click(object sender, RoutedEventArgs e)
     {
-        var fenster = new CodeNotizenFenster(Editor.Text, Editor.SyntaxHighlighting, editorUebernehmen) { Owner = this };
-        if (fenster.ShowDialog() == true) CodeInEditor(fenster.CodeFuerHaupteditor);
+        NavNotizen.IsChecked = true;
+        notizSeite.EditorUebernehmen();
     }
 
     void Speichern_Click(object sender, RoutedEventArgs e) => Speichern();

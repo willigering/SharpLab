@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,19 +8,19 @@ using ICSharpCode.AvalonEdit.Indentation.CSharp;
 
 namespace CSharpLernen;
 
-public partial class CodeNotizenFenster : Window
+public partial class CodeNotizenSeite : UserControl
 {
     readonly CodeNotizen ablage = new(Path.Combine(Fortschritt.Ordner, "CodeNotizen"));
-    readonly string editorCode;
+    readonly Func<string> editorCode;
+    readonly Action<string> inEditorLaden;
     List<CodeNotiz> notizen = new();
     CodeNotiz aktuell;
     bool laden;
 
-    public string CodeFuerHaupteditor { get; private set; }
-
-    public CodeNotizenFenster(string editorCode, IHighlightingDefinition highlighting, bool editorUebernehmen)
+    public CodeNotizenSeite(Func<string> editorCode, Action<string> inEditorLaden, IHighlightingDefinition highlighting)
     {
         this.editorCode = editorCode;
+        this.inEditorLaden = inEditorLaden;
         InitializeComponent();
 
         Code.SyntaxHighlighting = highlighting;
@@ -45,9 +44,8 @@ public partial class CodeNotizenFenster : Window
             Fortschritt.Protokoll(ex, "Code-Notizen öffnen");
         }
 
-        FormularLaden(null, editorUebernehmen ? editorCode : "");
+        FormularLaden(null);
         if (fehler > 0) Meldung.Text = "Einige Code-Notizen konnten nicht gelesen werden. Details stehen im Fehlerprotokoll.";
-        Loaded += (_, _) => { if (editorUebernehmen) Titel.Focus(); else Suche.Focus(); };
     }
 
     bool Ungespeichert => Titel.Text != (aktuell?.Titel ?? "") ||
@@ -101,7 +99,7 @@ public partial class CodeNotizenFenster : Window
     bool WechselErlaubt()
     {
         if (!Ungespeichert) return true;
-        var antwort = MessageBox.Show(this, "Änderungen an dieser Code-Notiz speichern?",
+        var antwort = MessageBox.Show(Window.GetWindow(this), "Änderungen an dieser Code-Notiz speichern?",
             "Ungespeicherte Änderungen", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
         return antwort == MessageBoxResult.No || (antwort == MessageBoxResult.Yes && Speichern());
     }
@@ -134,7 +132,8 @@ public partial class CodeNotizenFenster : Window
     }
 
     void Neu_Click(object sender, RoutedEventArgs e) => NeueNotiz("");
-    void Uebernehmen_Click(object sender, RoutedEventArgs e) => NeueNotiz(editorCode);
+    void Uebernehmen_Click(object sender, RoutedEventArgs e) => EditorUebernehmen();
+    public void EditorUebernehmen() => NeueNotiz(editorCode());
     void NeueNotiz(string code)
     {
         if (!WechselErlaubt()) return;
@@ -146,7 +145,7 @@ public partial class CodeNotizenFenster : Window
 
     void Loeschen_Click(object sender, RoutedEventArgs e)
     {
-        if (aktuell == null || MessageBox.Show(this, $"„{aktuell.Titel}“ löschen?", "Code-Notiz löschen",
+        if (aktuell == null || MessageBox.Show(Window.GetWindow(this), $"„{aktuell.Titel}“ löschen?", "Code-Notiz löschen",
                 MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No) != MessageBoxResult.Yes) return;
 
         try { ablage.Loeschen(aktuell.Id); }
@@ -161,24 +160,19 @@ public partial class CodeNotizenFenster : Window
         Meldung.Text = "Code-Notiz gelöscht.";
     }
 
-    void InEditor_Click(object sender, RoutedEventArgs e)
+    void InEditor_Click(object sender, RoutedEventArgs e) => inEditorLaden(Code.Text);
+
+    public bool EntwurfAbschliessen()
     {
-        string code = Code.Text;
-        if (!WechselErlaubt()) return;
-        CodeFuerHaupteditor = code;
-        DialogResult = true;
+        if (!WechselErlaubt()) return false;
+        if (Ungespeichert) FormularLaden(aktuell);
+        return true;
     }
 
-    void Fenster_Schliessen(object sender, CancelEventArgs e)
-    {
-        if (CodeFuerHaupteditor == null) e.Cancel = !WechselErlaubt();
-    }
-
-    void Fenster_Taste(object sender, KeyEventArgs e)
+    void Seite_Taste(object sender, KeyEventArgs e)
     {
         if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.S) Speichern();
         else if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.F) Suche.Focus();
-        else if (Keyboard.Modifiers == ModifierKeys.None && e.Key == Key.Escape) Close();
         else return;
         e.Handled = true;
     }

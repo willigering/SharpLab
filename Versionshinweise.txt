@@ -1,6 +1,5 @@
-SharpLab 1.0.8
+SharpLab 1.0.9
 
-- Neue Code-Notizen: C#-Code einzeln mit Titel und separatem Kommentar speichern.
-- Volltextsuche über Titel, Kommentare und Code.
-- Code aus dem Haupteditor übernehmen und gespeicherte Beispiele zum Ausführen zurückladen.
-- Code-Notizen werden lokal im SharpLab-Datenordner gespeichert.
+- Code-Notizen öffnen direkt im Hauptfenster, im selben Bereich wie „Projekte“.
+- Ein weiterer Klick auf den gewählten Menüpunkt klappt seinen Bereich ein. Editor und Konsole nutzen dann die gesamte freie Breite.
+- Der Entwurf einer Code-Notiz bleibt beim Navigieren und Einklappen erhalten.

@@ -10,7 +10,7 @@
     <RootNamespace>CSharpLernen</RootNamespace>
     <AssemblyName>SharpLab</AssemblyName>
     <ApplicationIcon>Ressourcen\app.ico</ApplicationIcon>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
     <Product>SharpLab – Der interaktive C#-Trainer</Product>
     <Title>SharpLab</Title>
     <Authors>Willi Gering</Authors>
