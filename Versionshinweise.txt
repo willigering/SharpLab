@@ -1,4 +1,5 @@
-SharpLab 1.0.17
+SharpLab 1.0.18
 
-- „Externes Terminal“ startet F5-Läufe in einem separaten Konsolenfenster mit Ein- und Ausgabe.
-- „EXE exportieren …“ erstellt eine eigenständig startbare Windows-x64-EXE. Zum Erstellen ist das .NET 8 SDK nötig.
+- Eigene Projekte sind zunächst eingeklappt. Ein Klick auf den Titel zeigt Aktionen und Versionsverlauf.
+- Projekte und einzelne Versionen lassen sich über Papierkörbe mit Bestätigung löschen.
+- Die Nummern der übrigen Versionen bleiben beim Löschen erhalten.

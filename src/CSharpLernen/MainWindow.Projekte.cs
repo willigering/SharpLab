@@ -1,10 +1,12 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Automation;
 
 namespace CSharpLernen;
 
 public partial class MainWindow
 {
+    readonly HashSet<Guid> offeneProjekte = new();
     void EigeneProjekteAnzeigen()
     {
         var abschnitt = new StackPanel();
@@ -43,41 +45,101 @@ public partial class MainWindow
 
         foreach (var (id, titel) in fortschritt.EigeneProjekte.OrderBy(p => p.Value, StringComparer.CurrentCultureIgnoreCase))
         {
-            var projekt = new StackPanel();
-            projekt.Children.Add(Ui.Text(titel, 13, "TextHell", FontWeights.SemiBold));
-            var projektAktionen = new WrapPanel { Margin = new Thickness(0, 6, 0, 0) };
-            projektAktionen.Children.Add(Ui.Knopf("Öffnen", (_, _) => ProjektOeffnen(id, titel), false, "\uE8E5"));
-            projektAktionen.Children.Add(Ui.Knopf("Editorcode als neue Version speichern",
-                (_, _) => ProjektVersionSpeichern(id, titel), true, "\uE74E"));
-            projekt.Children.Add(projektAktionen);
-
-            if (fortschritt.ProjektVersionen.TryGetValue(id, out var versionen) && versionen.Count > 0)
-            {
-                var verlauf = new StackPanel();
-                for (int i = versionen.Count - 1; i >= 0; i--)
-                {
-                    string code = versionen[i];
-                    var knopf = Ui.Knopf($"Version {i + 1} in Editor übernehmen", (_, _) =>
-                    {
-                        ProjektOeffnen(id, titel);
-                        CodeInEditor(code);
-                    });
-                    knopf.Margin = new Thickness(0, 4, 0, 0);
-                    knopf.ToolTip = "Kopiert diese Version in den aktuellen Arbeitsstand. Mit Strg+Z rückgängig machen.";
-                    verlauf.Children.Add(knopf);
-                }
-                projekt.Children.Add(new Expander
-                {
-                    Header = $"Versionsverlauf ({versionen.Count})",
-                    Foreground = Ui.B("TextMittel"),
-                    Content = verlauf,
-                    Margin = new Thickness(0, 6, 0, 0),
-                });
-            }
-
-            abschnitt.Children.Add(Ui.Karte(projekt, rand: new Thickness(0, 8, 0, 0)));
+            abschnitt.Children.Add(ProjektKarte(id, titel));
         }
         SeitenInhalt.Children.Add(Ui.Karte(abschnitt));
+    }
+
+    Border ProjektKarte(Guid id, string titel)
+    {
+        var inhalt = new StackPanel { Margin = new Thickness(0, 8, 0, 0) };
+        var aktionen = new WrapPanel();
+        aktionen.Children.Add(Ui.Knopf("Öffnen", (_, _) => ProjektOeffnen(id, titel), false, "\uE8E5"));
+        aktionen.Children.Add(Ui.Knopf("Editorcode als neue Version speichern",
+            (_, _) => ProjektVersionSpeichern(id, titel), true, "\uE74E"));
+        inhalt.Children.Add(aktionen);
+
+        if (fortschritt.ProjektVersionen.TryGetValue(id, out var versionen) && versionen.Any(code => code != null))
+        {
+            inhalt.Children.Add(Ui.Text("Versionsverlauf", 12, "TextMittel", rand: new Thickness(0, 8, 0, 4)));
+            for (int i = versionen.Count - 1; i >= 0; i--)
+            {
+                string code = versionen[i];
+                if (code == null) continue;
+                int nummer = i + 1;
+                var version = new DockPanel { Margin = new Thickness(0, 4, 0, 0) };
+                var papierkorb = Papierkorb($"Version {nummer} löschen", async (_, _) =>
+                    await ProjektVersionLoeschen(id, titel, nummer));
+                DockPanel.SetDock(papierkorb, Dock.Right);
+                version.Children.Add(papierkorb);
+
+                var laden = Ui.Knopf($"Version {nummer} in Editor übernehmen", (_, _) =>
+                {
+                    ProjektOeffnen(id, titel);
+                    CodeInEditor(code);
+                });
+                laden.Margin = new Thickness(0);
+                laden.HorizontalContentAlignment = HorizontalAlignment.Left;
+                laden.ToolTip = "Kopiert diese Version in den aktuellen Arbeitsstand. Mit Strg+Z rückgängig machen.";
+                version.Children.Add(laden);
+                inhalt.Children.Add(version);
+            }
+        }
+
+        var zeile = new DockPanel();
+        var projektPapierkorb = Papierkorb($"Projekt „{titel}“ löschen", async (_, _) => await ProjektLoeschen(id, titel));
+        DockPanel.SetDock(projektPapierkorb, Dock.Right);
+        zeile.Children.Add(projektPapierkorb);
+
+        var einklappen = new Expander
+        {
+            Header = Ui.Text(titel, 13, "TextHell", FontWeights.SemiBold),
+            Foreground = Ui.B("TextMittel"),
+            Content = inhalt,
+            IsExpanded = offeneProjekte.Contains(id),
+        };
+        einklappen.Expanded += (_, _) => offeneProjekte.Add(id);
+        einklappen.Collapsed += (_, _) => offeneProjekte.Remove(id);
+        zeile.Children.Add(einklappen);
+        return Ui.Karte(zeile, rand: new Thickness(0, 8, 0, 0), innen: new Thickness(8, 4, 6, 4));
+    }
+
+    Button Papierkorb(string beschriftung, RoutedEventHandler klick)
+    {
+        var knopf = new Button
+        {
+            Style = (Style)FindResource("IconKnopf"),
+            Content = "\uE74D",
+            ToolTip = beschriftung,
+            VerticalAlignment = VerticalAlignment.Top,
+            Margin = new Thickness(6, 0, 0, 0),
+        };
+        AutomationProperties.SetName(knopf, beschriftung);
+        knopf.Click += klick;
+        return knopf;
+    }
+
+    async Task ProjektLoeschen(Guid id, string titel)
+    {
+        if (await DialogService.ShowAsync("Projekt löschen?", $"„{titel}“ wird mit Arbeitsstand und allen Versionen gelöscht.",
+                DialogKind.Gefahr, "Löschen", "Abbrechen") != DialogAntwort.Primaer) return;
+
+        if (editorSchluessel == Fortschritt.ProjektSchluessel(id))
+            SetzeEditorKontext("spielwiese", SpielwieseStart, Array.Empty<string>(), "Spielwiese");
+        fortschritt.ProjektLoeschen(id);
+        offeneProjekte.Remove(id);
+        fortschritt.Speichern();
+        if (seite == "projekte") BaueSeite("projekte");
+    }
+
+    async Task ProjektVersionLoeschen(Guid id, string titel, int nummer)
+    {
+        if (await DialogService.ShowAsync("Version löschen?", $"Version {nummer} von „{titel}“ wird aus dem Verlauf gelöscht.",
+                DialogKind.Gefahr, "Löschen", "Abbrechen") != DialogAntwort.Primaer) return;
+
+        fortschritt.ProjektVersionLoeschen(id, nummer);
+        fortschritt.Speichern();
+        if (seite == "projekte") BaueSeite("projekte");
     }
 
     void ProjektVersionSpeichern(Guid id, string titel)

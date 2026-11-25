@@ -36,6 +36,19 @@ public sealed class Fortschritt
         Code[schluessel] = code;
         return versionen.Count;
     }
+    public void ProjektLoeschen(Guid id)
+    {
+        EigeneProjekte.Remove(id);
+        ProjektVersionen.Remove(id);
+        Code.Remove(ProjektSchluessel(id));
+    }
+
+    public void ProjektVersionLoeschen(Guid id, int version)
+    {
+        if (ProjektVersionen.TryGetValue(id, out var versionen) && version > 0 && version <= versionen.Count)
+            versionen[version - 1] = null; // Freie Plätze erhalten die Nummern der übrigen Versionen.
+    }
+
     /// <summary>Beste Anzahl richtiger Quiz-Antworten je Lektion.</summary>
     public Dictionary<string, int> QuizPunkte { get; set; } = new();
     public HashSet<string> GeleseneLektionen { get; set; } = new();
@@ -195,7 +208,7 @@ public sealed class Fortschritt
             .ToDictionary(kv => kv.Key, kv => kv.Value.Trim());
         ProjektVersionen = ProjektVersionen == null ? new() : ProjektVersionen
             .Where(kv => EigeneProjekte.ContainsKey(kv.Key) && kv.Value != null)
-            .ToDictionary(kv => kv.Key, kv => kv.Value.Where(code => code != null).ToList());
+            .ToDictionary(kv => kv.Key, kv => kv.Value);
         QuizPunkte = QuizPunkte == null ? new() : QuizPunkte.Where(kv => !string.IsNullOrWhiteSpace(kv.Key)).ToDictionary(kv => kv.Key, kv => Math.Max(0, kv.Value));
         if (string.IsNullOrWhiteSpace(LetzteLektion)) LetzteLektion = null;
         Schriftgroesse = Zahl(Schriftgroesse, 10, 30, 15);

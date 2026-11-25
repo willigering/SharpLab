@@ -84,6 +84,34 @@ public sealed class SpeicherortTests : IDisposable
         Assert.Equal("neuer Arbeitsstand", geladen.Code[schluessel]);
     }
 
+    [Fact]
+    public void ProjektLoeschenEntferntDatenUndVersionsloeschungBehaeltNummern()
+    {
+        var fortschritt = new Fortschritt();
+        var id = Guid.NewGuid();
+        var anderesProjekt = Guid.NewGuid();
+        var schluessel = Fortschritt.ProjektSchluessel(id);
+        fortschritt.EigeneProjekte.Add(id, "Projekt");
+        fortschritt.EigeneProjekte.Add(anderesProjekt, "Anderes Projekt");
+        fortschritt.Code[schluessel] = "v1";
+        fortschritt.ProjektVersionAnlegen(id, "v2");
+        fortschritt.ProjektVersionLoeschen(id, 1);
+        fortschritt.Speichern();
+
+        var geladen = Fortschritt.Laden();
+        Assert.Equal(new[] { null, "v2" }, geladen.ProjektVersionen[id]);
+        Assert.Equal("v2", geladen.Code[schluessel]);
+        Assert.Equal(3, geladen.ProjektVersionAnlegen(id, "v3"));
+
+        geladen.ProjektLoeschen(id);
+        geladen.Speichern();
+        geladen = Fortschritt.Laden();
+        Assert.DoesNotContain(id, geladen.EigeneProjekte.Keys);
+        Assert.DoesNotContain(id, geladen.ProjektVersionen.Keys);
+        Assert.DoesNotContain(schluessel, geladen.Code.Keys);
+        Assert.Contains(anderesProjekt, geladen.EigeneProjekte.Keys);
+    }
+
     public void Dispose()
     {
         Speicherort.StandardOrdnerUeberschrieben = null;
