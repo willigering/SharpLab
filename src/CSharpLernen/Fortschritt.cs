@@ -12,6 +12,7 @@ public sealed class Fortschritt
     public HashSet<string> GeloesteAufgaben { get; set; } = new();
     /// <summary>Zuletzt geschriebener Code je Aufgabe (Schlüssel = Aufgaben-Id, "bsp:Lektion" oder "spielwiese").</summary>
     public Dictionary<string, string> Code { get; set; } = new();
+    public Dictionary<Guid, string> EigeneProjekte { get; set; } = new();
     /// <summary>Beste Anzahl richtiger Quiz-Antworten je Lektion.</summary>
     public Dictionary<string, int> QuizPunkte { get; set; } = new();
     public HashSet<string> GeleseneLektionen { get; set; } = new();
@@ -165,6 +166,9 @@ public sealed class Fortschritt
         GeloesteAufgaben = Ohne(GeloesteAufgaben);
         GeleseneLektionen = Ohne(GeleseneLektionen);
         Code = Code == null ? new() : Code.Where(kv => !string.IsNullOrWhiteSpace(kv.Key) && kv.Value != null).ToDictionary(kv => kv.Key, kv => kv.Value);
+        EigeneProjekte = EigeneProjekte == null ? new() : EigeneProjekte
+            .Where(kv => kv.Key != Guid.Empty && !string.IsNullOrWhiteSpace(kv.Value))
+            .ToDictionary(kv => kv.Key, kv => kv.Value.Trim());
         QuizPunkte = QuizPunkte == null ? new() : QuizPunkte.Where(kv => !string.IsNullOrWhiteSpace(kv.Key)).ToDictionary(kv => kv.Key, kv => Math.Max(0, kv.Value));
         if (string.IsNullOrWhiteSpace(LetzteLektion)) LetzteLektion = null;
         Schriftgroesse = Zahl(Schriftgroesse, 10, 30, 15);

@@ -43,6 +43,26 @@ public sealed class SpeicherortTests : IDisposable
         Assert.True(geladen.MatrixRegenAktiv());
     }
 
+    [Fact]
+    public void EigeneProjekteUndCodeBleibenBeimNeuladenGetrennt()
+    {
+        var fortschritt = Fortschritt.AusJson("""{"Code":{"spielwiese":"alter Code"}}""");
+        Assert.Empty(fortschritt.EigeneProjekte);
+
+        var erstes = Guid.NewGuid();
+        var zweites = Guid.NewGuid();
+        fortschritt.EigeneProjekte.Add(erstes, "Test");
+        fortschritt.EigeneProjekte.Add(zweites, "Test");
+        fortschritt.Code.Add("projekt:" + erstes.ToString("N"), "Console.WriteLine(1);");
+        fortschritt.Speichern();
+
+        var geladen = Fortschritt.Laden();
+        Assert.Equal(2, geladen.EigeneProjekte.Count);
+        Assert.Equal("Console.WriteLine(1);", geladen.Code["projekt:" + erstes.ToString("N")]);
+        Assert.DoesNotContain("projekt:" + zweites.ToString("N"), geladen.Code.Keys);
+        Assert.Equal("alter Code", geladen.Code["spielwiese"]);
+    }
+
     public void Dispose()
     {
         Speicherort.StandardOrdnerUeberschrieben = null;

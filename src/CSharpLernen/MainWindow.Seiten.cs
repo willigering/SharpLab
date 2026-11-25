@@ -198,7 +198,9 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
 
     void SeiteProjekte()
     {
-        SeitenKopf("Projekte", "In den Projekten baust du richtige kleine Programme und wendest alles an, was du gelernt hast.", "\uE8B7");
+        SeitenKopf("Projekte", "Speichere eigene C#-Programme oder öffne ein geführtes Übungsprojekt.", "\uE8B7");
+        EigeneProjekteAnzeigen();
+        SeitenInhalt.Children.Add(Ui.Text("Geführte Übungsprojekte", 15.5, "TextHell", FontWeights.SemiBold, new Thickness(0, 6, 0, 10)));
         var raster = new UniformGrid { Columns = 3 };
         foreach (var l in lektionen.Where(l => l.Stufe == 5))
         {
