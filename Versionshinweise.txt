@@ -1,5 +1,4 @@
-SharpLab 1.0.13
+SharpLab 1.0.14
 
-- Unter „Projekte“ lassen sich jetzt eigene C#-Programme anlegen, öffnen und weiterbearbeiten.
-- Der aktuelle Editorcode kann als separates Projekt gespeichert werden.
-- Die Compiler-Anzeige erklärt, dass der integrierte Compiler .NET 8 und C# 12 verwendet.
+- Runde, eckige und geschweifte Klammerpaare werden nach ihrer Verschachtelungstiefe gefärbt.
+- Die Klammerfarben sind im Haupteditor und im C#-Editor der Code-Notizen aktiv. Kommentare und Zeichenketten behalten ihre Syntaxfarben.

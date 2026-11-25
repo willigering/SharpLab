@@ -170,6 +170,7 @@ public partial class MainWindow : Window
             Editor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("C#");
         }
 
+        _ = new Klammerfarben(Editor);
         Editor.Options.ConvertTabsToSpaces = true;
         Editor.Options.IndentationSize = 4;
         Editor.Options.EnableHyperlinks = false;

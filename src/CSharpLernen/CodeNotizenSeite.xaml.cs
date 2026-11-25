@@ -26,6 +26,7 @@ public partial class CodeNotizenSeite : UserControl
         InitializeComponent();
 
         Code.SyntaxHighlighting = highlighting;
+        _ = new Klammerfarben(Code);
         Code.TextArea.SelectionBrush = Ui.B("EditorAuswahl");
         Code.TextArea.Caret.CaretBrush = Ui.B("Akzent");
         Code.Options.ConvertTabsToSpaces = true;
