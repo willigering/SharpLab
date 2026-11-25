@@ -1,5 +1,6 @@
-SharpLab 1.0.15
+SharpLab 1.0.16
 
 - Editorcode kann als neue Version eines bestehenden eigenen Projekts gespeichert werden.
 - Frühere Versionen bleiben im Versionsverlauf auswählbar.
+- Beim Import bleibt auch ein zwischenzeitlich bearbeiteter Arbeitsstand im Zielprojekt erhalten.
 - Strg+S speichert weiterhin den aktuellen Arbeitsstand.

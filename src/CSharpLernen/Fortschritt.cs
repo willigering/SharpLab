@@ -22,10 +22,15 @@ public sealed class Fortschritt
         if (!EigeneProjekte.ContainsKey(id)) throw new ArgumentException("Unbekanntes Projekt.", nameof(id));
 
         string schluessel = ProjektSchluessel(id);
+        string bisher = Code.GetValueOrDefault(schluessel, "");
         if (!ProjektVersionen.TryGetValue(id, out var versionen) || versionen.Count == 0)
         {
-            versionen = new List<string> { Code.GetValueOrDefault(schluessel, "") };
+            versionen = new List<string> { bisher };
             ProjektVersionen[id] = versionen;
+        }
+        else if (bisher != code && bisher != versionen[^1])
+        {
+            versionen.Add(bisher);
         }
         versionen.Add(code);
         Code[schluessel] = code;
