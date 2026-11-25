@@ -85,11 +85,20 @@ global using System.Threading.Tasks;
     public static string RoslynVersion =>
         typeof(CSharpCompilation).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion?.Split('+')[0] ?? "?";
 
-    public static Kompilat Kompilieren(string code)
+    public static Kompilat Kompilieren(string code) => Kompilieren(code, waechter: true);
+
+    public static Kompilat KompilierenFuerTerminal(string code, string datei)
+    {
+        var ergebnis = Kompilieren(code, waechter: false);
+        if (ergebnis.Ok) File.WriteAllBytes(datei, ergebnis.Pe!);
+        return ergebnis;
+    }
+
+    static Kompilat Kompilieren(string code, bool waechter)
     {
         var baum = CSharpSyntaxTree.ParseText(code ?? "", ParseOptionen, Dateiname, Encoding.UTF8);
         var compilation = CSharpCompilation.Create("Programm_" + Guid.NewGuid().ToString("N"),
-            new[] { baum, UsingsBaum, WaechterBaum }, Referenzen.Value, Optionen);
+            waechter ? new[] { baum, UsingsBaum, WaechterBaum } : new[] { baum, UsingsBaum }, Referenzen.Value, Optionen);
 
         var diagnosen = compilation.GetDiagnostics();
         var fehler = diagnosen.Where(d => d.Severity == DiagnosticSeverity.Error)
@@ -108,9 +117,12 @@ global using System.Threading.Tasks;
             return new Kompilat { Ok = false, Meldungen = fehler.Concat(warnungen).ToList() };
 
         // Wächter einbauen (keine neuen Zeilen -> Zeilennummern bleiben gleich)
-        var neueWurzel = new WaechterEinbau().Visit(baum.GetRoot());
-        var neuerBaum = CSharpSyntaxTree.Create((Microsoft.CodeAnalysis.CSharp.CSharpSyntaxNode)neueWurzel, ParseOptionen, Dateiname, Encoding.UTF8);
-        compilation = compilation.ReplaceSyntaxTree(baum, neuerBaum);
+        if (waechter)
+        {
+            var neueWurzel = new WaechterEinbau().Visit(baum.GetRoot());
+            var neuerBaum = CSharpSyntaxTree.Create((CSharpSyntaxNode)neueWurzel, ParseOptionen, Dateiname, Encoding.UTF8);
+            compilation = compilation.ReplaceSyntaxTree(baum, neuerBaum);
+        }
 
         using var pe = new MemoryStream();
         using var pdb = new MemoryStream();

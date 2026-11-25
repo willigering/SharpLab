@@ -1,6 +1,4 @@
-SharpLab 1.0.16
+SharpLab 1.0.17
 
-- Editorcode kann als neue Version eines bestehenden eigenen Projekts gespeichert werden.
-- Frühere Versionen bleiben im Versionsverlauf auswählbar.
-- Beim Import bleibt auch ein zwischenzeitlich bearbeiteter Arbeitsstand im Zielprojekt erhalten.
-- Strg+S speichert weiterhin den aktuellen Arbeitsstand.
+- „Externes Terminal“ startet F5-Läufe in einem separaten Konsolenfenster mit Ein- und Ausgabe.
+- „EXE exportieren …“ erstellt eine eigenständig startbare Windows-x64-EXE. Zum Erstellen ist das .NET 8 SDK nötig.

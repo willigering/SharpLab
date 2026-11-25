@@ -49,6 +49,7 @@ public sealed class Fortschritt
     public double Schriftgroesse { get; set; } = 15;
     public int Zeitlimit { get; set; } = 10;
     public string Design { get; set; } = "matrix";
+    public bool ExternesTerminal { get; set; }
     public bool MatrixRegen { get; set; } = true;
     public bool MatrixRegenSilber { get; set; }
     public bool MatrixRegenGold { get; set; }
@@ -94,7 +95,7 @@ public sealed class Fortschritt
 
     /// <summary>Diese Werte bleiben auf jedem Rechner lokal (einstellungen.json), nur der Rest wandert mit dem Lernstand.</summary>
     public static readonly string[] EinstellungsFelder =
-        { nameof(Schriftgroesse), nameof(Zeitlimit), nameof(Design), nameof(MatrixRegen), nameof(MatrixRegenSilber), nameof(MatrixRegenGold), nameof(MatrixStufe), nameof(MatrixTempo), nameof(Autovervollstaendigung), nameof(AllesFreigeschaltet),
+        { nameof(Schriftgroesse), nameof(Zeitlimit), nameof(Design), nameof(ExternesTerminal), nameof(MatrixRegen), nameof(MatrixRegenSilber), nameof(MatrixRegenGold), nameof(MatrixStufe), nameof(MatrixTempo), nameof(Autovervollstaendigung), nameof(AllesFreigeschaltet),
           nameof(UpdateBeimStart), nameof(UpdateUebersprungen) };
 
     static readonly JsonSerializerOptions Optionen = new() { WriteIndented = true };

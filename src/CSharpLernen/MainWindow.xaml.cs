@@ -58,6 +58,7 @@ public partial class MainWindow : Window
         DialogService.Host = Wurzel;
         PruefenKnopf.IsVisibleChanged += (_, _) => LaufLeisteAnpassen();
         fortschritt = Fortschritt.Laden();
+        TerminalAuswahl.IsChecked = fortschritt.ExternesTerminal;
         SpeicherortHinweiseEinrichten();
         matrixSpeichern = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
         matrixSpeichern.Tick += (_, _) => { matrixSpeichern.Stop(); fortschritt.Speichern(); };
@@ -519,6 +520,11 @@ public partial class MainWindow : Window
         if (laeuft) return;
         SpeichereEditor();
         string code = Editor.Text;
+        if (fortschritt.ExternesTerminal)
+        {
+            await ImTerminalAusfuehren(code);
+            return;
+        }
         var eingaben = VorabEingaben();
         int nr = LaufStart();
         TabAusgabe.IsChecked = true;

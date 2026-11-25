@@ -9,6 +9,12 @@ public partial class App : Application
 {
     protected override void OnStartup(StartupEventArgs e)
     {
+        if (e.Args.Length == 2 && e.Args[0] == ExternesTerminal.Argument)
+        {
+            StartupUri = null;
+            Shutdown(ExternesTerminal.Starten(e.Args[1]));
+            return;
+        }
         DispatcherUnhandledException += BeiUnbehandeltemFehler;
         AppDomain.CurrentDomain.UnhandledException += (_, a) =>
         {

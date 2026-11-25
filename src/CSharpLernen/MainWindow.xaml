@@ -288,12 +288,18 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Grid Margin="8,4,8,0">
-                                <StackPanel Orientation="Horizontal">
+                                <WrapPanel>
                                     <RadioButton x:Name="TabAusgabe" Style="{StaticResource ReiterKnopf}" GroupName="UntenReiter" Content="Ausgabe" IsChecked="True" Checked="UntenReiter_Checked" FontSize="11.5" Padding="10,8" Margin="0,0,2,0" />
                                     <RadioButton x:Name="TabFehler" Style="{StaticResource ReiterKnopf}" GroupName="UntenReiter" Content="Fehler (0)" Checked="UntenReiter_Checked" FontSize="11.5" Padding="10,8" Margin="0,0,2,0" />
                                     <RadioButton x:Name="TabLog" Style="{StaticResource ReiterKnopf}" GroupName="UntenReiter" Content="Compiler-Log" Checked="UntenReiter_Checked" FontSize="11.5" Padding="10,8" Margin="0,0,2,0" />
                                     <RadioButton x:Name="TabEingabe" Style="{StaticResource ReiterKnopf}" GroupName="UntenReiter" Content="Eingabe" Checked="UntenReiter_Checked" FontSize="11.5" Padding="10,8" Margin="0,0,2,0" />
-                                </StackPanel>
+                                    <CheckBox x:Name="TerminalAuswahl" Content="Externes Terminal" Click="TerminalAuswahl_Click"
+                                              VerticalAlignment="Center" FontSize="11.5" Margin="6,0,0,0"
+                                              ToolTip="F5 startet das Programm in einem eigenen Fenster. Eingaben erfolgen direkt dort." />
+                                    <Button x:Name="ExeExportKnopf" Content="EXE exportieren …" Click="ExeExport_Click"
+                                            Style="{StaticResource RandKnopf}" FontSize="11.5" Margin="6,0,0,0" Padding="8,5"
+                                            ToolTip="Erstellt eine Windows-x64-EXE mit eingebetteter Laufzeit. Benötigt das .NET 8 SDK." />
+                                </WrapPanel>
                             </Grid>
 
                             <!-- Ausgabe -->
