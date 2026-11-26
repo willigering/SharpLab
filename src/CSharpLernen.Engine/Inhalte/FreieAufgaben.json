@@ -1,0 +1,1723 @@
+{
+ "levels": [
+  {
+   "id": "leicht",
+   "title": "Leicht",
+   "description": "Ausgabe, Rechnen, erste Entscheidungen und Schleifen. Ideal zum Aufwärmen.",
+   "exercises": [
+    {
+     "id": "fl01",
+     "title": "Haus aus Zeichen",
+     "topic": "Ausgabe",
+     "task": "Zeichne dieses kleine Haus Zeile für Zeile in die Konsole:\n\n```\n  /\\\n /  \\\n/____\\\n|    |\n|_[]_|\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.WriteLine(\"  /\\\\\");\nConsole.WriteLine(\" /  \\\\\");\nConsole.WriteLine(\"/____\\\\\");\nConsole.WriteLine(\"|    |\");\nConsole.WriteLine(\"|_[]_|\");\n",
+     "hint": "Der Backslash hat in C#-Texten eine Sonderbedeutung. Überleg, wie du ihn als ganz normales Zeichen ausgibst.",
+     "compare": "exact",
+     "tests": [
+      {
+       "input": [],
+       "expected": "  /\\\n /  \\\n/____\\\n|    |\n|_[]_|"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "Console.WriteLine(\"  /\");\nConsole.WriteLine(\" /  \");\nConsole.WriteLine(\"/____\");\nConsole.WriteLine(\"|    |\");\nConsole.WriteLine(\"|_[]_|\");\n"
+     ]
+    },
+    {
+     "id": "fl02",
+     "title": "Blick in die Zukunft",
+     "topic": "Eingabe & Rechnen",
+     "task": "Das Programm liest dein Geburtsjahr ein und verrät, wie alt du im Jahr 2030 wirst. Eine Frage vor der Eingabe ist erlaubt.\n\n```\n2010  →  Im Jahr 2030 wirst du 20 Jahre alt.\n1985  →  Im Jahr 2030 wirst du 45 Jahre alt.\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Geburtsjahr: \");\nint jahr = int.Parse(Console.ReadLine());\nConsole.WriteLine($\"Im Jahr 2030 wirst du {2030 - jahr} Jahre alt.\");\n",
+     "hint": "Eingaben kommen immer als Text an. Zum Rechnen brauchst du daraus erst eine Zahl.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "2010"
+       ],
+       "expected": "Im Jahr 2030 wirst du 20 Jahre alt."
+      },
+      {
+       "input": [
+        "1985"
+       ],
+       "expected": "Im Jahr 2030 wirst du 45 Jahre alt."
+      },
+      {
+       "input": [
+        "2024"
+       ],
+       "expected": "Im Jahr 2030 wirst du 6 Jahre alt."
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int jahr = int.Parse(Console.ReadLine());\nConsole.WriteLine($\"Im Jahr 2030 wirst du {2026 - jahr} Jahre alt.\");\n"
+     ]
+    },
+    {
+     "id": "fl03",
+     "title": "Pizza für alle",
+     "topic": "Rechnen",
+     "task": "Eine Pizza hat 8 Stücke. Das Programm liest zuerst die Anzahl der Pizzen und dann die Anzahl der Personen ein. Alle bekommen gleich viele ganze Stücke. Was nicht aufgeht, bleibt übrig. Fragen vor den Eingaben sind erlaubt.\n\n```\n3 Pizzen, 10 Personen  →  Pro Person: 2 Stücke / Übrig: 4 Stücke\n4 Pizzen, 8 Personen  →  Pro Person: 4 Stücke / Übrig: 0 Stücke\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Pizzen: \");\nint pizzen = int.Parse(Console.ReadLine());\nConsole.Write(\"Personen: \");\nint personen = int.Parse(Console.ReadLine());\nint stuecke = pizzen * 8;\nConsole.WriteLine($\"Pro Person: {stuecke / personen} Stücke\");\nConsole.WriteLine($\"Übrig: {stuecke % personen} Stücke\");\n",
+     "hint": "Rechne zuerst aus, wie viele Stücke es insgesamt gibt. Für das Teilen ganzer Zahlen und für den Rest hat C# je einen eigenen Rechenoperator.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "3",
+        "10"
+       ],
+       "expected": "Pro Person: 2 Stücke\nÜbrig: 4 Stücke"
+      },
+      {
+       "input": [
+        "4",
+        "8"
+       ],
+       "expected": "Pro Person: 4 Stücke\nÜbrig: 0 Stücke"
+      },
+      {
+       "input": [
+        "2",
+        "7"
+       ],
+       "expected": "Pro Person: 2 Stücke\nÜbrig: 2 Stücke"
+      },
+      {
+       "input": [
+        "5",
+        "6"
+       ],
+       "expected": "Pro Person: 6 Stücke\nÜbrig: 4 Stücke"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int pizzen = int.Parse(Console.ReadLine());\nint personen = int.Parse(Console.ReadLine());\nConsole.WriteLine($\"Pro Person: {pizzen * 8 / personen} Stücke\");\nConsole.WriteLine($\"Übrig: {pizzen % personen} Stücke\");\n"
+     ]
+    },
+    {
+     "id": "fl04",
+     "title": "Achterbahn",
+     "topic": "Entscheidungen",
+     "task": "Für die Achterbahn muss man mindestens 120 cm groß sein. Das Programm liest die Körpergröße in Zentimetern ein und sagt, ob man mitfahren darf. Eine Frage vor der Eingabe ist erlaubt.\n\n```\n130  →  Einsteigen, viel Spaß!\n120  →  Einsteigen, viel Spaß!\n119  →  Leider noch zu klein.\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Größe in cm: \");\nint groesse = int.Parse(Console.ReadLine());\nif (groesse >= 120)\n    Console.WriteLine(\"Einsteigen, viel Spaß!\");\nelse\n    Console.WriteLine(\"Leider noch zu klein.\");\n",
+     "hint": "Achte auf die Grenze: Wer genau 120 cm groß ist, darf schon mitfahren.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "130"
+       ],
+       "expected": "Einsteigen, viel Spaß!"
+      },
+      {
+       "input": [
+        "120"
+       ],
+       "expected": "Einsteigen, viel Spaß!"
+      },
+      {
+       "input": [
+        "119"
+       ],
+       "expected": "Leider noch zu klein."
+      },
+      {
+       "input": [
+        "95"
+       ],
+       "expected": "Leider noch zu klein."
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int groesse = int.Parse(Console.ReadLine());\nif (groesse > 120) Console.WriteLine(\"Einsteigen, viel Spaß!\");\nelse Console.WriteLine(\"Leider noch zu klein.\");\n"
+     ]
+    },
+    {
+     "id": "fl05",
+     "title": "Sternenreihe",
+     "topic": "Schleifen",
+     "task": "Das Programm liest eine Zahl ein und gibt genau so viele Sterne in einer Zeile aus. Eine Frage vor der Eingabe ist erlaubt.\n\n```\n5  →  Sterne: *****\n1  →  Sterne: *\n8  →  Sterne: ********\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Anzahl: \");\nint anzahl = int.Parse(Console.ReadLine());\nstring sterne = \"\";\nfor (int i = 0; i < anzahl; i++)\n{\n    sterne = sterne + \"*\";\n}\nConsole.WriteLine($\"Sterne: {sterne}\");\n",
+     "hint": "Häng so oft einen Stern an, wie die Zahl angibt, und gib die Reihe erst am Ende aus.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "5"
+       ],
+       "expected": "Sterne: *****"
+      },
+      {
+       "input": [
+        "1"
+       ],
+       "expected": "Sterne: *"
+      },
+      {
+       "input": [
+        "8"
+       ],
+       "expected": "Sterne: ********"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int anzahl = int.Parse(Console.ReadLine());\nstring sterne = \"\";\nfor (int i = 0; i <= anzahl; i++) sterne = sterne + \"*\";\nConsole.WriteLine($\"Sterne: {sterne}\");\n"
+     ]
+    },
+    {
+     "id": "fl06",
+     "title": "Parkhaus",
+     "topic": "Rechnen",
+     "task": "Im Parkhaus kostet die erste Stunde 3 Euro, jede weitere Stunde 2 Euro. Das Programm liest die Parkdauer in ganzen Stunden ein (mindestens 1) und gibt die Gebühr aus. Eine Frage vor der Eingabe ist erlaubt.\n\n```\n1  →  Parkgebühr: 3 Euro\n4  →  Parkgebühr: 9 Euro\n10  →  Parkgebühr: 21 Euro\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Stunden: \");\nint stunden = int.Parse(Console.ReadLine());\nint gebuehr = 3 + (stunden - 1) * 2;\nConsole.WriteLine($\"Parkgebühr: {gebuehr} Euro\");\n",
+     "hint": "Rechne die erste Stunde getrennt von den übrigen.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "1"
+       ],
+       "expected": "Parkgebühr: 3 Euro"
+      },
+      {
+       "input": [
+        "4"
+       ],
+       "expected": "Parkgebühr: 9 Euro"
+      },
+      {
+       "input": [
+        "10"
+       ],
+       "expected": "Parkgebühr: 21 Euro"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int stunden = int.Parse(Console.ReadLine());\nConsole.WriteLine($\"Parkgebühr: {3 + stunden * 2} Euro\");\n"
+     ]
+    },
+    {
+     "id": "fl07",
+     "title": "Teilbar durch 3?",
+     "topic": "Entscheidungen",
+     "task": "Das Programm liest eine ganze Zahl ein und prüft, ob sie ohne Rest durch 3 teilbar ist. Eine Frage vor der Eingabe ist erlaubt.\n\n```\n27  →  27 ist durch 3 teilbar.\n28  →  28 ist nicht durch 3 teilbar.\n0  →  0 ist durch 3 teilbar.\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Zahl: \");\nint zahl = int.Parse(Console.ReadLine());\nif (zahl % 3 == 0)\n    Console.WriteLine($\"{zahl} ist durch 3 teilbar.\");\nelse\n    Console.WriteLine($\"{zahl} ist nicht durch 3 teilbar.\");\n",
+     "hint": "Es gibt einen Rechenoperator, der dir den Rest einer Division liefert. Ist der Rest 0, geht die Division auf.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "27"
+       ],
+       "expected": "27 ist durch 3 teilbar."
+      },
+      {
+       "input": [
+        "28"
+       ],
+       "expected": "28 ist nicht durch 3 teilbar."
+      },
+      {
+       "input": [
+        "0"
+       ],
+       "expected": "0 ist durch 3 teilbar."
+      },
+      {
+       "input": [
+        "-9"
+       ],
+       "expected": "-9 ist durch 3 teilbar."
+      },
+      {
+       "input": [
+        "31"
+       ],
+       "expected": "31 ist nicht durch 3 teilbar."
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int zahl = int.Parse(Console.ReadLine());\nConsole.WriteLine($\"{zahl} ist durch 3 teilbar.\");\n",
+      "int zahl = int.Parse(Console.ReadLine());\nif (zahl / 3 == 0) Console.WriteLine($\"{zahl} ist durch 3 teilbar.\");\nelse Console.WriteLine($\"{zahl} ist nicht durch 3 teilbar.\");\n"
+     ]
+    },
+    {
+     "id": "fl08",
+     "title": "Zahlen summieren",
+     "topic": "Schleifen",
+     "task": "Das Programm liest eine positive ganze Zahl n ein und addiert alle Zahlen von 1 bis n. Eine Frage vor der Eingabe ist erlaubt.\n\n```\n4  →  Summe von 1 bis 4: 10\n10  →  Summe von 1 bis 10: 55\n1  →  Summe von 1 bis 1: 1\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"n: \");\nint n = int.Parse(Console.ReadLine());\nint summe = 0;\nfor (int i = 1; i <= n; i++)\n{\n    summe = summe + i;\n}\nConsole.WriteLine($\"Summe von 1 bis {n}: {summe}\");\n",
+     "hint": "Merk dir eine Zwischensumme und zähle nacheinander jede Zahl dazu.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "4"
+       ],
+       "expected": "Summe von 1 bis 4: 10"
+      },
+      {
+       "input": [
+        "10"
+       ],
+       "expected": "Summe von 1 bis 10: 55"
+      },
+      {
+       "input": [
+        "1"
+       ],
+       "expected": "Summe von 1 bis 1: 1"
+      },
+      {
+       "input": [
+        "100"
+       ],
+       "expected": "Summe von 1 bis 100: 5050"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int n = int.Parse(Console.ReadLine());\nint summe = 0;\nfor (int i = 1; i < n; i++) summe = summe + i;\nConsole.WriteLine($\"Summe von 1 bis {n}: {summe}\");\n"
+     ]
+    },
+    {
+     "id": "fl09",
+     "title": "Wortlänge",
+     "topic": "Texte",
+     "task": "Das Programm liest ein Wort ein und nennt die Anzahl seiner Buchstaben. Eine Frage vor der Eingabe ist erlaubt.\n\n```\nHaus  →  Haus hat 4 Buchstaben.\nProgrammieren  →  Programmieren hat 13 Buchstaben.\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Wort: \");\nstring wort = Console.ReadLine();\nConsole.WriteLine($\"{wort} hat {wort.Length} Buchstaben.\");\n",
+     "hint": "Jeder Text weiß selbst, wie viele Zeichen er hat.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "Haus"
+       ],
+       "expected": "Haus hat 4 Buchstaben."
+      },
+      {
+       "input": [
+        "Programmieren"
+       ],
+       "expected": "Programmieren hat 13 Buchstaben."
+      },
+      {
+       "input": [
+        "Ei"
+       ],
+       "expected": "Ei hat 2 Buchstaben."
+      },
+      {
+       "input": [
+        "Übung"
+       ],
+       "expected": "Übung hat 5 Buchstaben."
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "string wort = Console.ReadLine();\nConsole.WriteLine($\"{wort} hat {wort.Length - 1} Buchstaben.\");\n"
+     ]
+    },
+    {
+     "id": "fl10",
+     "title": "Passwort-Länge",
+     "topic": "Texte",
+     "task": "Ein Passwort muss mindestens 8 Zeichen lang sein. Das Programm liest ein Passwort ein und gibt eine passende Rückmeldung. Eine Frage vor der Eingabe ist erlaubt.\n\n```\ngeheim123  →  Das Passwort ist lang genug.\nabc  →  Zu kurz: 3 von 8 Zeichen.\n12345678  →  Das Passwort ist lang genug.\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Passwort: \");\nstring passwort = Console.ReadLine();\nif (passwort.Length >= 8)\n    Console.WriteLine(\"Das Passwort ist lang genug.\");\nelse\n    Console.WriteLine($\"Zu kurz: {passwort.Length} von 8 Zeichen.\");\n",
+     "hint": "Vergleiche die Anzahl der Zeichen mit der Mindestlänge. Wer genau 8 Zeichen hat, ist schon dabei.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "geheim123"
+       ],
+       "expected": "Das Passwort ist lang genug."
+      },
+      {
+       "input": [
+        "abc"
+       ],
+       "expected": "Zu kurz: 3 von 8 Zeichen."
+      },
+      {
+       "input": [
+        "12345678"
+       ],
+       "expected": "Das Passwort ist lang genug."
+      },
+      {
+       "input": [
+        "Sommer7"
+       ],
+       "expected": "Zu kurz: 7 von 8 Zeichen."
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "string passwort = Console.ReadLine();\nif (passwort.Length > 8) Console.WriteLine(\"Das Passwort ist lang genug.\");\nelse Console.WriteLine($\"Zu kurz: {passwort.Length} von 8 Zeichen.\");\n"
+     ]
+    },
+    {
+     "id": "fl11",
+     "title": "Tagesgruß",
+     "topic": "Entscheidungen",
+     "task": "Das Programm liest eine Uhrzeit als volle Stunde (0 bis 23) ein und grüßt passend: bis 11 Uhr mit „Guten Morgen!“, von 12 bis 17 Uhr mit „Guten Tag!“ und ab 18 Uhr mit „Guten Abend!“. Eine Frage vor der Eingabe ist erlaubt.\n\n```\n8  →  Guten Morgen!\n12  →  Guten Tag!\n17  →  Guten Tag!\n18  →  Guten Abend!\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Stunde: \");\nint stunde = int.Parse(Console.ReadLine());\nif (stunde < 12)\n    Console.WriteLine(\"Guten Morgen!\");\nelse if (stunde < 18)\n    Console.WriteLine(\"Guten Tag!\");\nelse\n    Console.WriteLine(\"Guten Abend!\");\n",
+     "hint": "Prüfe die Bereiche der Reihe nach, vom frühen Morgen bis zum Abend. Achte genau auf die Grenzen 12 und 18.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "8"
+       ],
+       "expected": "Guten Morgen!"
+      },
+      {
+       "input": [
+        "12"
+       ],
+       "expected": "Guten Tag!"
+      },
+      {
+       "input": [
+        "17"
+       ],
+       "expected": "Guten Tag!"
+      },
+      {
+       "input": [
+        "18"
+       ],
+       "expected": "Guten Abend!"
+      },
+      {
+       "input": [
+        "0"
+       ],
+       "expected": "Guten Morgen!"
+      },
+      {
+       "input": [
+        "23"
+       ],
+       "expected": "Guten Abend!"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int stunde = int.Parse(Console.ReadLine());\nif (stunde <= 12) Console.WriteLine(\"Guten Morgen!\");\nelse if (stunde <= 18) Console.WriteLine(\"Guten Tag!\");\nelse Console.WriteLine(\"Guten Abend!\");\n"
+     ]
+    },
+    {
+     "id": "fl12",
+     "title": "Gerade Zahlen",
+     "topic": "Schleifen",
+     "task": "Das Programm liest eine Zahl n ein und gibt alle geraden Zahlen von 2 bis n in einer Zeile aus, getrennt durch Leerzeichen. Eine Frage vor der Eingabe ist erlaubt.\n\n```\n10  →  Gerade Zahlen: 2 4 6 8 10\n7  →  Gerade Zahlen: 2 4 6\n2  →  Gerade Zahlen: 2\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"n: \");\nint n = int.Parse(Console.ReadLine());\nstring zeile = \"Gerade Zahlen:\";\nfor (int i = 2; i <= n; i = i + 2)\n{\n    zeile = zeile + \" \" + i;\n}\nConsole.WriteLine(zeile);\n",
+     "hint": "Starte bei 2 und geh immer in Zweierschritten weiter, solange du n nicht überschreitest.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "10"
+       ],
+       "expected": "Gerade Zahlen: 2 4 6 8 10"
+      },
+      {
+       "input": [
+        "7"
+       ],
+       "expected": "Gerade Zahlen: 2 4 6"
+      },
+      {
+       "input": [
+        "2"
+       ],
+       "expected": "Gerade Zahlen: 2"
+      },
+      {
+       "input": [
+        "15"
+       ],
+       "expected": "Gerade Zahlen: 2 4 6 8 10 12 14"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int n = int.Parse(Console.ReadLine());\nstring zeile = \"Gerade Zahlen:\";\nfor (int i = 2; i < n; i = i + 2) zeile = zeile + \" \" + i;\nConsole.WriteLine(zeile);\n"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mittel",
+   "title": "Mittel",
+   "description": "Schleifen, Arrays, Listen, Methoden und Texte. Hier wird kombiniert.",
+   "exercises": [
+    {
+     "id": "fm01",
+     "title": "FizzBuzz",
+     "topic": "Schleifen",
+     "task": "Ein Klassiker unter Programmierern: Gib die Zahlen von 1 bis 15 aus, jede in einer eigenen Zeile. Ist eine Zahl durch 3 teilbar, steht dort stattdessen `Fizz`. Ist sie durch 5 teilbar, steht dort `Buzz`. Ist sie durch beide teilbar, steht dort `FizzBuzz`.\n\n```\n1\n2\nFizz\n4\nBuzz\nFizz\n7\n…\n14\nFizzBuzz\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "for (int i = 1; i <= 15; i++)\n{\n    if (i % 15 == 0)\n        Console.WriteLine(\"FizzBuzz\");\n    else if (i % 3 == 0)\n        Console.WriteLine(\"Fizz\");\n    else if (i % 5 == 0)\n        Console.WriteLine(\"Buzz\");\n    else\n        Console.WriteLine(i);\n}\n",
+     "hint": "Die Reihenfolge der Prüfungen entscheidet: Was durch 3 und durch 5 teilbar ist, muss zuerst erkannt werden.",
+     "compare": "exact",
+     "tests": [
+      {
+       "input": [],
+       "expected": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz"
+      }
+     ],
+     "requirements": [
+      {
+       "pattern": "\\b(for|while|foreach)\\b",
+       "message": "Lass das Programm zählen, statt jede Zeile einzeln hinzuschreiben."
+      }
+     ],
+     "wrong": [
+      "for (int i = 1; i <= 15; i++)\n{\n    if (i % 3 == 0) Console.WriteLine(\"Fizz\");\n    else if (i % 5 == 0) Console.WriteLine(\"Buzz\");\n    else if (i % 15 == 0) Console.WriteLine(\"FizzBuzz\");\n    else Console.WriteLine(i);\n}\n"
+     ]
+    },
+    {
+     "id": "fm02",
+     "title": "Collatz-Folge",
+     "topic": "Schleifen",
+     "task": "Nimm eine positive ganze Zahl. Ist sie gerade, halbiere sie. Ist sie ungerade, nimm sie mal 3 und zähle 1 dazu. Wiederhole das, bis du bei 1 ankommst. Das Programm liest die Startzahl ein und gibt aus, wie viele Schritte es bis zur 1 braucht. Eine Frage vor der Eingabe ist erlaubt.\n\n```\n6  →  Schritte bis zur 1: 8\n1  →  Schritte bis zur 1: 0\n27  →  Schritte bis zur 1: 111\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Startzahl: \");\nint zahl = int.Parse(Console.ReadLine());\nint schritte = 0;\nwhile (zahl != 1)\n{\n    if (zahl % 2 == 0)\n        zahl = zahl / 2;\n    else\n        zahl = zahl * 3 + 1;\n    schritte++;\n}\nConsole.WriteLine($\"Schritte bis zur 1: {schritte}\");\n",
+     "hint": "Zähle bei jedem Rechenschritt mit und hör auf, sobald die Zahl 1 ist. Startest du schon bei 1, sind es 0 Schritte.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "6"
+       ],
+       "expected": "Schritte bis zur 1: 8"
+      },
+      {
+       "input": [
+        "1"
+       ],
+       "expected": "Schritte bis zur 1: 0"
+      },
+      {
+       "input": [
+        "27"
+       ],
+       "expected": "Schritte bis zur 1: 111"
+      },
+      {
+       "input": [
+        "12"
+       ],
+       "expected": "Schritte bis zur 1: 9"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int zahl = int.Parse(Console.ReadLine());\nint schritte = 0;\ndo\n{\n    if (zahl % 2 == 0) zahl = zahl / 2; else zahl = zahl * 3 + 1;\n    schritte++;\n} while (zahl != 1);\nConsole.WriteLine($\"Schritte bis zur 1: {schritte}\");\n"
+     ]
+    },
+    {
+     "id": "fm03",
+     "title": "Wetterstation",
+     "topic": "Arrays",
+     "task": "Das Programm liest nacheinander 5 Temperaturen (ganze Zahlen) ein. Danach gibt es den höchsten Wert, den niedrigsten Wert und den Durchschnitt mit einer Nachkommastelle aus. Fragen vor den Eingaben sind erlaubt.\n\n```\n12, 15, 9, 21, 18  →  Höchstwert: 21 / Tiefstwert: 9 / Durchschnitt: 15,0\n7, 7, 8, 9, 10  →  Höchstwert: 10 / Tiefstwert: 7 / Durchschnitt: 8,2\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "int[] werte = new int[5];\nfor (int i = 0; i < werte.Length; i++)\n{\n    Console.Write($\"Temperatur {i + 1}: \");\n    werte[i] = int.Parse(Console.ReadLine());\n}\nint hoechst = werte[0];\nint tiefst = werte[0];\nint summe = 0;\nforeach (int w in werte)\n{\n    if (w > hoechst) hoechst = w;\n    if (w < tiefst) tiefst = w;\n    summe += w;\n}\ndouble schnitt = (double)summe / werte.Length;\nConsole.WriteLine($\"Höchstwert: {hoechst}\");\nConsole.WriteLine($\"Tiefstwert: {tiefst}\");\nConsole.WriteLine($\"Durchschnitt: {schnitt:F1}\");\n",
+     "hint": "Achtung beim Durchschnitt: Teilst du zwei ganze Zahlen, fallen die Nachkommastellen einfach weg.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "12",
+        "15",
+        "9",
+        "21",
+        "18"
+       ],
+       "expected": "Höchstwert: 21\nTiefstwert: 9\nDurchschnitt: 15,0"
+      },
+      {
+       "input": [
+        "7",
+        "7",
+        "8",
+        "9",
+        "10"
+       ],
+       "expected": "Höchstwert: 10\nTiefstwert: 7\nDurchschnitt: 8,2"
+      },
+      {
+       "input": [
+        "-3",
+        "0",
+        "4",
+        "-8",
+        "2"
+       ],
+       "expected": "Höchstwert: 4\nTiefstwert: -8\nDurchschnitt: -1,0"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int[] werte = new int[5];\nfor (int i = 0; i < 5; i++) werte[i] = int.Parse(Console.ReadLine());\nConsole.WriteLine($\"Höchstwert: {werte.Max()}\");\nConsole.WriteLine($\"Tiefstwert: {werte.Min()}\");\nConsole.WriteLine($\"Durchschnitt: {werte.Sum() / 5:F1}\");\n",
+      "int[] werte = new int[5];\nfor (int i = 0; i < 5; i++) werte[i] = int.Parse(Console.ReadLine());\nint tiefst = 0;\nforeach (int w in werte) if (w < tiefst) tiefst = w;\nConsole.WriteLine($\"Höchstwert: {werte.Max()}\");\nConsole.WriteLine($\"Tiefstwert: {tiefst}\");\nConsole.WriteLine($\"Durchschnitt: {werte.Average():F1}\");\n"
+     ]
+    },
+    {
+     "id": "fm04",
+     "title": "Regentropfen",
+     "topic": "Methoden",
+     "task": "Das Programm macht aus einer Zahl Regengeräusche: Ist sie durch 3 teilbar, kommt `Plopp` dazu, durch 5 `Platsch` und durch 7 `Tropf`, immer in dieser Reihenfolge. Passt keiner der drei Teiler, erscheint die Zahl selbst. Vervollständige dafür die Methode `Regentropfen` im Startcode. Sie bekommt die Zahl und liefert den fertigen Text.\n\n```\n9  →  Ergebnis: Plopp\n28  →  Ergebnis: Tropf\n30  →  Ergebnis: PloppPlatsch\n34  →  Ergebnis: 34\n```",
+     "starter": "int zahl = int.Parse(Console.ReadLine());\nConsole.WriteLine($\"Ergebnis: {Regentropfen(zahl)}\");\n\nstring Regentropfen(int n)\n{\n    // Schreib hier deinen Code\n    return \"\";\n}\n",
+     "solution": "int zahl = int.Parse(Console.ReadLine());\nConsole.WriteLine($\"Ergebnis: {Regentropfen(zahl)}\");\n\nstring Regentropfen(int n)\n{\n    string text = \"\";\n    if (n % 3 == 0) text += \"Plopp\";\n    if (n % 5 == 0) text += \"Platsch\";\n    if (n % 7 == 0) text += \"Tropf\";\n    if (text == \"\") text = n.ToString();\n    return text;\n}\n",
+     "hint": "Bau den Text Stück für Stück zusammen. Ist er am Ende noch leer, gehört die Zahl hinein.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "9"
+       ],
+       "expected": "Ergebnis: Plopp"
+      },
+      {
+       "input": [
+        "28"
+       ],
+       "expected": "Ergebnis: Tropf"
+      },
+      {
+       "input": [
+        "30"
+       ],
+       "expected": "Ergebnis: PloppPlatsch"
+      },
+      {
+       "input": [
+        "34"
+       ],
+       "expected": "Ergebnis: 34"
+      },
+      {
+       "input": [
+        "105"
+       ],
+       "expected": "Ergebnis: PloppPlatschTropf"
+      },
+      {
+       "input": [
+        "25"
+       ],
+       "expected": "Ergebnis: Platsch"
+      }
+     ],
+     "requirements": [
+      {
+       "pattern": "string\\s+Regentropfen\\s*\\(",
+       "message": "Lass die Methode `Regentropfen` im Code stehen und vervollständige sie."
+      }
+     ],
+     "wrong": [
+      "int zahl = int.Parse(Console.ReadLine());\nConsole.WriteLine($\"Ergebnis: {Regentropfen(zahl)}\");\nstring Regentropfen(int n)\n{\n    if (n % 3 == 0) return \"Plopp\";\n    if (n % 5 == 0) return \"Platsch\";\n    if (n % 7 == 0) return \"Tropf\";\n    return n.ToString();\n}\n"
+     ]
+    },
+    {
+     "id": "fm05",
+     "title": "Summe der Vielfachen",
+     "topic": "Schleifen",
+     "task": "Das Programm liest eine Zahl n ein und addiert alle Zahlen unter n, die durch 3 oder durch 5 teilbar sind. Jede Zahl zählt nur einmal, auch wenn sie durch beide teilbar ist. Eine Frage vor der Eingabe ist erlaubt.\n\n```\n10  →  Summe: 23\n16  →  Summe: 60\n1  →  Summe: 0\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"n: \");\nint n = int.Parse(Console.ReadLine());\nint summe = 0;\nfor (int i = 1; i < n; i++)\n{\n    if (i % 3 == 0 || i % 5 == 0)\n        summe += i;\n}\nConsole.WriteLine($\"Summe: {summe}\");\n",
+     "hint": "Prüfe jede Zahl einzeln. Achte darauf, dass n selbst nicht mehr dazugehört.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "10"
+       ],
+       "expected": "Summe: 23"
+      },
+      {
+       "input": [
+        "16"
+       ],
+       "expected": "Summe: 60"
+      },
+      {
+       "input": [
+        "1"
+       ],
+       "expected": "Summe: 0"
+      },
+      {
+       "input": [
+        "100"
+       ],
+       "expected": "Summe: 2318"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int n = int.Parse(Console.ReadLine());\nint summe = 0;\nfor (int i = 1; i < n; i++)\n{\n    if (i % 3 == 0) summe += i;\n    if (i % 5 == 0) summe += i;\n}\nConsole.WriteLine($\"Summe: {summe}\");\n",
+      "int n = int.Parse(Console.ReadLine());\nint summe = 0;\nfor (int i = 1; i <= n; i++) if (i % 3 == 0 || i % 5 == 0) summe += i;\nConsole.WriteLine($\"Summe: {summe}\");\n"
+     ]
+    },
+    {
+     "id": "fm06",
+     "title": "Großer Anfang",
+     "topic": "Texte",
+     "task": "Das Programm liest einen Satz in Kleinbuchstaben ein und schreibt jedes Wort mit großem Anfangsbuchstaben. Die Wörter sind durch einzelne Leerzeichen getrennt. Eine Frage vor der Eingabe ist erlaubt.\n\n```\nhallo schöne welt  →  Ergebnis: Hallo Schöne Welt\nc# macht spaß  →  Ergebnis: C# Macht Spaß\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Satz: \");\nstring[] woerter = Console.ReadLine().Split(' ');\nfor (int i = 0; i < woerter.Length; i++)\n{\n    if (woerter[i].Length > 0)\n        woerter[i] = char.ToUpper(woerter[i][0]) + woerter[i].Substring(1);\n}\nConsole.WriteLine(\"Ergebnis: \" + string.Join(\" \", woerter));\n",
+     "hint": "Nimm den Satz Wort für Wort auseinander, ändere jeweils nur den ersten Buchstaben und setz danach alles wieder zusammen.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "hallo schöne welt"
+       ],
+       "expected": "Ergebnis: Hallo Schöne Welt"
+      },
+      {
+       "input": [
+        "c# macht spaß"
+       ],
+       "expected": "Ergebnis: C# Macht Spaß"
+      },
+      {
+       "input": [
+        "übung macht den meister"
+       ],
+       "expected": "Ergebnis: Übung Macht Den Meister"
+      },
+      {
+       "input": [
+        "a"
+       ],
+       "expected": "Ergebnis: A"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "string satz = Console.ReadLine();\nConsole.WriteLine(\"Ergebnis: \" + char.ToUpper(satz[0]) + satz.Substring(1));\n"
+     ]
+    },
+    {
+     "id": "fm07",
+     "title": "Einkaufswagen",
+     "topic": "Listen",
+     "task": "Das Programm liest Artikel ein, bis `fertig` eingegeben wird. Danach gibt es die Anzahl der Artikel aus und listet sie alphabetisch sortiert auf. Fragen vor den Eingaben sind erlaubt.\n\nBeispiel mit den Eingaben `Milch`, `Brot`, `Eier` und `fertig`:\n\n```\nArtikel: 3\n- Brot\n- Eier\n- Milch\n```\n\nWird gleich zu Beginn `fertig` eingegeben, erscheint nur `Artikel: 0`.",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "List<string> artikel = new List<string>();\nwhile (true)\n{\n    Console.Write(\"Artikel: \");\n    string eingabe = Console.ReadLine();\n    if (eingabe == \"fertig\") break;\n    artikel.Add(eingabe);\n}\nartikel.Sort();\nConsole.WriteLine($\"Artikel: {artikel.Count}\");\nforeach (string a in artikel)\n{\n    Console.WriteLine($\"- {a}\");\n}\n",
+     "hint": "Sammle die Artikel in einer Liste. Fürs Sortieren musst du nichts selbst programmieren.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "Milch",
+        "Brot",
+        "Eier",
+        "fertig"
+       ],
+       "expected": "Artikel: 3\n- Brot\n- Eier\n- Milch"
+      },
+      {
+       "input": [
+        "Zucker",
+        "Apfel",
+        "Mehl",
+        "Butter",
+        "fertig"
+       ],
+       "expected": "Artikel: 4\n- Apfel\n- Butter\n- Mehl\n- Zucker"
+      },
+      {
+       "input": [
+        "fertig"
+       ],
+       "expected": "Artikel: 0"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "List<string> artikel = new List<string>();\nwhile (true)\n{\n    string eingabe = Console.ReadLine();\n    if (eingabe == \"fertig\") break;\n    artikel.Add(eingabe);\n}\nConsole.WriteLine($\"Artikel: {artikel.Count}\");\nforeach (string a in artikel) Console.WriteLine($\"- {a}\");\n"
+     ]
+    },
+    {
+     "id": "fm08",
+     "title": "Teiler finden",
+     "topic": "Schleifen",
+     "task": "Das Programm liest eine positive ganze Zahl ein und listet alle ihre Teiler auf, getrennt durch Komma und Leerzeichen. Nach dem letzten Teiler steht kein Komma mehr. Eine Frage vor der Eingabe ist erlaubt.\n\n```\n12  →  Teiler von 12: 1, 2, 3, 4, 6, 12\n7  →  Teiler von 7: 1, 7\n1  →  Teiler von 1: 1\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Zahl: \");\nint zahl = int.Parse(Console.ReadLine());\nList<int> teiler = new List<int>();\nfor (int i = 1; i <= zahl; i++)\n{\n    if (zahl % i == 0)\n        teiler.Add(i);\n}\nConsole.WriteLine($\"Teiler von {zahl}: {string.Join(\", \", teiler)}\");\n",
+     "hint": "Probiere jede Zahl von 1 bis zur Zahl selbst. Für die Kommas hilft es, die Teiler erst zu sammeln und am Ende gemeinsam auszugeben.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "12"
+       ],
+       "expected": "Teiler von 12: 1, 2, 3, 4, 6, 12"
+      },
+      {
+       "input": [
+        "7"
+       ],
+       "expected": "Teiler von 7: 1, 7"
+      },
+      {
+       "input": [
+        "1"
+       ],
+       "expected": "Teiler von 1: 1"
+      },
+      {
+       "input": [
+        "36"
+       ],
+       "expected": "Teiler von 36: 1, 2, 3, 4, 6, 9, 12, 18, 36"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int zahl = int.Parse(Console.ReadLine());\nstring text = $\"Teiler von {zahl}: \";\nfor (int i = 1; i <= zahl; i++) if (zahl % i == 0) text += i + \", \";\nConsole.WriteLine(text);\n",
+      "int zahl = int.Parse(Console.ReadLine());\nList<int> teiler = new List<int>();\nfor (int i = 1; i < zahl; i++) if (zahl % i == 0) teiler.Add(i);\nConsole.WriteLine($\"Teiler von {zahl}: {string.Join(\", \", teiler)}\");\n"
+     ]
+    },
+    {
+     "id": "fm09",
+     "title": "Würfelstatistik",
+     "topic": "Arrays",
+     "task": "Das Programm liest zehn Würfelergebnisse (1 bis 6) ein und zählt, wie oft jede Augenzahl gefallen ist. Fragen vor den Eingaben sind erlaubt.\n\nBeispiel für die Würfe `3, 6, 1, 6, 2, 6, 5, 1, 3, 6`:\n\n```\n1: 2-mal\n2: 1-mal\n3: 2-mal\n4: 0-mal\n5: 1-mal\n6: 4-mal\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "int[] anzahl = new int[7];\nfor (int i = 0; i < 10; i++)\n{\n    Console.Write($\"Wurf {i + 1}: \");\n    int wurf = int.Parse(Console.ReadLine());\n    anzahl[wurf]++;\n}\nfor (int augen = 1; augen <= 6; augen++)\n{\n    Console.WriteLine($\"{augen}: {anzahl[augen]}-mal\");\n}\n",
+     "hint": "Ein Array mit einem Zähler pro Augenzahl spart dir sechs einzelne Variablen.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "3",
+        "6",
+        "1",
+        "6",
+        "2",
+        "6",
+        "5",
+        "1",
+        "3",
+        "6"
+       ],
+       "expected": "1: 2-mal\n2: 1-mal\n3: 2-mal\n4: 0-mal\n5: 1-mal\n6: 4-mal"
+      },
+      {
+       "input": [
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "2",
+        "2",
+        "2",
+        "4",
+        "4"
+       ],
+       "expected": "1: 5-mal\n2: 3-mal\n3: 0-mal\n4: 2-mal\n5: 0-mal\n6: 0-mal"
+      },
+      {
+       "input": [
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+        "1",
+        "6",
+        "5",
+        "4",
+        "3"
+       ],
+       "expected": "1: 1-mal\n2: 1-mal\n3: 2-mal\n4: 2-mal\n5: 2-mal\n6: 2-mal"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int[] anzahl = new int[7];\nfor (int i = 0; i < 10; i++) anzahl[int.Parse(Console.ReadLine())]++;\nfor (int augen = 1; augen <= 6; augen++)\n    if (anzahl[augen] > 0) Console.WriteLine($\"{augen}: {anzahl[augen]}-mal\");\n"
+     ]
+    },
+    {
+     "id": "fm10",
+     "title": "Bestellmenge",
+     "topic": "Sichere Eingabe",
+     "task": "Im Onlineshop darf man von einem Artikel 1 bis 10 Stück bestellen. Das Programm fragt so lange nach der Menge, bis eine gültige Zahl kommt. Ist die Eingabe keine ganze Zahl, meldet es `Das ist keine Zahl.` Liegt sie außerhalb des Bereichs, meldet es `Bitte 1 bis 10 Stück wählen.` Am Ende bestätigt es die Bestellung. Fragen vor den Eingaben sind erlaubt.\n\n```\ndrei, 3  →  Das ist keine Zahl. / Bestellt: 3 Stück\n0, 11, 10  →  Bitte 1 bis 10 Stück wählen. (zweimal) / Bestellt: 10 Stück\n5  →  Bestellt: 5 Stück\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "int menge;\nwhile (true)\n{\n    Console.Write(\"Menge: \");\n    if (!int.TryParse(Console.ReadLine(), out menge))\n        Console.WriteLine(\"Das ist keine Zahl.\");\n    else if (menge < 1 || menge > 10)\n        Console.WriteLine(\"Bitte 1 bis 10 Stück wählen.\");\n    else\n        break;\n}\nConsole.WriteLine($\"Bestellt: {menge} Stück\");\n",
+     "hint": "Du brauchst eine Schleife, die erst endet, wenn die Eingabe eine Zahl ist und im Bereich liegt. Die Umwandlung darf dabei nicht abstürzen.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "drei",
+        "3"
+       ],
+       "expected": "Das ist keine Zahl.\nBestellt: 3 Stück"
+      },
+      {
+       "input": [
+        "0",
+        "11",
+        "10"
+       ],
+       "expected": "Bitte 1 bis 10 Stück wählen.\nBitte 1 bis 10 Stück wählen.\nBestellt: 10 Stück"
+      },
+      {
+       "input": [
+        "5"
+       ],
+       "expected": "Bestellt: 5 Stück"
+      },
+      {
+       "input": [
+        "-2",
+        "2,5",
+        "7"
+       ],
+       "expected": "Bitte 1 bis 10 Stück wählen.\nDas ist keine Zahl.\nBestellt: 7 Stück"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int menge;\nwhile (!int.TryParse(Console.ReadLine(), out menge)) Console.WriteLine(\"Das ist keine Zahl.\");\nConsole.WriteLine($\"Bestellt: {menge} Stück\");\n"
+     ]
+    },
+    {
+     "id": "fm11",
+     "title": "Spielfigur",
+     "topic": "Klassen",
+     "task": "Der Startcode liest einen Namen und vier Zahlen ein und benutzt damit die Klasse `Spielfigur`, die du vervollständigst. Eine neue Figur hat 100 Lebenspunkte. `Schaden` zieht Punkte ab, `Heilen` gibt welche dazu. Die Lebenspunkte fallen nie unter 0 und steigen nie über 100. `Anzeigen` gibt den aktuellen Stand aus.\n\nBeispiel für die Eingaben `Lara`, `30`, `500`, `25` und `1000`:\n\n```\nLara hat 100 Lebenspunkte.\nLara hat 70 Lebenspunkte.\nLara hat 0 Lebenspunkte.\nLara hat 25 Lebenspunkte.\nLara hat 100 Lebenspunkte.\n```",
+     "starter": "string name = Console.ReadLine();\nSpielfigur figur = new Spielfigur(name);\nfigur.Anzeigen();\nfigur.Schaden(int.Parse(Console.ReadLine()));\nfigur.Anzeigen();\nfigur.Schaden(int.Parse(Console.ReadLine()));\nfigur.Anzeigen();\nfigur.Heilen(int.Parse(Console.ReadLine()));\nfigur.Anzeigen();\nfigur.Heilen(int.Parse(Console.ReadLine()));\nfigur.Anzeigen();\n\nclass Spielfigur\n{\n    // Was muss sich eine Spielfigur merken?\n\n    public Spielfigur(string name)\n    {\n    }\n\n    public void Schaden(int punkte)\n    {\n    }\n\n    public void Heilen(int punkte)\n    {\n    }\n\n    public void Anzeigen()\n    {\n    }\n}\n",
+     "solution": "string name = Console.ReadLine();\nSpielfigur figur = new Spielfigur(name);\nfigur.Anzeigen();\nfigur.Schaden(int.Parse(Console.ReadLine()));\nfigur.Anzeigen();\nfigur.Schaden(int.Parse(Console.ReadLine()));\nfigur.Anzeigen();\nfigur.Heilen(int.Parse(Console.ReadLine()));\nfigur.Anzeigen();\nfigur.Heilen(int.Parse(Console.ReadLine()));\nfigur.Anzeigen();\n\nclass Spielfigur\n{\n    string name;\n    int lebenspunkte = 100;\n\n    public Spielfigur(string name)\n    {\n        this.name = name;\n    }\n\n    public void Schaden(int punkte)\n    {\n        lebenspunkte = Math.Max(0, lebenspunkte - punkte);\n    }\n\n    public void Heilen(int punkte)\n    {\n        lebenspunkte = Math.Min(100, lebenspunkte + punkte);\n    }\n\n    public void Anzeigen()\n    {\n        Console.WriteLine($\"{name} hat {lebenspunkte} Lebenspunkte.\");\n    }\n}\n",
+     "hint": "Prüfe nach jeder Änderung, ob der Wert eine Grenze überschritten hat, und setz ihn in diesem Fall genau auf die Grenze.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "Lara",
+        "30",
+        "500",
+        "25",
+        "1000"
+       ],
+       "expected": "Lara hat 100 Lebenspunkte.\nLara hat 70 Lebenspunkte.\nLara hat 0 Lebenspunkte.\nLara hat 25 Lebenspunkte.\nLara hat 100 Lebenspunkte."
+      },
+      {
+       "input": [
+        "Kai",
+        "10",
+        "15",
+        "5",
+        "50"
+       ],
+       "expected": "Kai hat 100 Lebenspunkte.\nKai hat 90 Lebenspunkte.\nKai hat 75 Lebenspunkte.\nKai hat 80 Lebenspunkte.\nKai hat 100 Lebenspunkte."
+      },
+      {
+       "input": [
+        "Mo",
+        "100",
+        "1",
+        "99",
+        "0"
+       ],
+       "expected": "Mo hat 100 Lebenspunkte.\nMo hat 0 Lebenspunkte.\nMo hat 0 Lebenspunkte.\nMo hat 99 Lebenspunkte.\nMo hat 99 Lebenspunkte."
+      }
+     ],
+     "requirements": [
+      {
+       "pattern": "class\\s+Spielfigur\\b",
+       "message": "Lass die Klasse `Spielfigur` im Code stehen und vervollständige sie."
+      }
+     ],
+     "wrong": [
+      "string name = Console.ReadLine();\nSpielfigur figur = new Spielfigur(name);\nfigur.Anzeigen();\nfigur.Schaden(int.Parse(Console.ReadLine()));\nfigur.Anzeigen();\nfigur.Schaden(int.Parse(Console.ReadLine()));\nfigur.Anzeigen();\nfigur.Heilen(int.Parse(Console.ReadLine()));\nfigur.Anzeigen();\nfigur.Heilen(int.Parse(Console.ReadLine()));\nfigur.Anzeigen();\nclass Spielfigur\n{\n    string name; int lp = 100;\n    public Spielfigur(string name) { this.name = name; }\n    public void Schaden(int punkte) { lp = lp - punkte; }\n    public void Heilen(int punkte) { lp = lp + punkte; }\n    public void Anzeigen() { Console.WriteLine($\"{name} hat {lp} Lebenspunkte.\"); }\n}\n"
+     ]
+    },
+    {
+     "id": "fm12",
+     "title": "Längstes Wort",
+     "topic": "Texte",
+     "task": "Das Programm liest einen Satz ein und findet das längste Wort. Die Wörter sind durch einzelne Leerzeichen getrennt, Satzzeichen kommen nicht vor. Haben mehrere Wörter die gleiche Länge, gewinnt das erste. Eine Frage vor der Eingabe ist erlaubt.\n\n```\nIch lerne heute Programmieren  →  Längstes Wort: Programmieren (13 Buchstaben)\nEin Tag am See  →  Längstes Wort: Ein (3 Buchstaben)\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Satz: \");\nstring[] woerter = Console.ReadLine().Split(' ');\nstring laengstes = woerter[0];\nforeach (string wort in woerter)\n{\n    if (wort.Length > laengstes.Length)\n        laengstes = wort;\n}\nConsole.WriteLine($\"Längstes Wort: {laengstes} ({laengstes.Length} Buchstaben)\");\n",
+     "hint": "Merk dir das bisher längste Wort. Ein späteres Wort ersetzt es nur, wenn es wirklich länger ist.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "Ich lerne heute Programmieren"
+       ],
+       "expected": "Längstes Wort: Programmieren (13 Buchstaben)"
+      },
+      {
+       "input": [
+        "Ein Tag am See"
+       ],
+       "expected": "Längstes Wort: Ein (3 Buchstaben)"
+      },
+      {
+       "input": [
+        "Der Hund bellt laut"
+       ],
+       "expected": "Längstes Wort: bellt (5 Buchstaben)"
+      },
+      {
+       "input": [
+        "Hallo"
+       ],
+       "expected": "Längstes Wort: Hallo (5 Buchstaben)"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "string[] woerter = Console.ReadLine().Split(' ');\nstring laengstes = woerter[0];\nforeach (string wort in woerter) if (wort.Length >= laengstes.Length) laengstes = wort;\nConsole.WriteLine($\"Längstes Wort: {laengstes} ({laengstes.Length} Buchstaben)\");\n"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "schwer",
+   "title": "Schwer",
+   "description": "Kleine Algorithmen, eigene Klassen und knifflige Texte. Für alle, die es wissen wollen.",
+   "exercises": [
+    {
+     "id": "fs01",
+     "title": "Caesar-Verschlüsselung",
+     "topic": "Texte",
+     "task": "Die Caesar-Verschlüsselung verschiebt jeden Buchstaben um eine feste Anzahl von Stellen im Alphabet. Nach `Z` geht es wieder bei `A` los. Das Programm liest zuerst einen Text und dann die Verschiebung (0 bis 25) ein. Groß- und Kleinbuchstaben von A bis Z werden verschoben und behalten ihre Schreibweise. Alle anderen Zeichen (Leerzeichen, Ziffern, Satzzeichen, Umlaute und ß) bleiben, wie sie sind. Fragen vor den Eingaben sind erlaubt.\n\n- `Hallo Welt` und `3` ergibt `Geheim: Kdoor Zhow`\n- `xyz ABC` und `2` ergibt `Geheim: zab CDE`\n- `C# ist super!` und `13` ergibt `Geheim: P# vfg fhcre!`",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Text: \");\nstring text = Console.ReadLine();\nConsole.Write(\"Verschiebung: \");\nint verschiebung = int.Parse(Console.ReadLine());\nstring geheim = \"\";\nforeach (char z in text)\n{\n    if (z >= 'a' && z <= 'z')\n        geheim += (char)('a' + (z - 'a' + verschiebung) % 26);\n    else if (z >= 'A' && z <= 'Z')\n        geheim += (char)('A' + (z - 'A' + verschiebung) % 26);\n    else\n        geheim += z;\n}\nConsole.WriteLine($\"Geheim: {geheim}\");\n",
+     "hint": "Rechne mit der Position des Buchstabens im Alphabet (0 bis 25). Mit dem Rest einer Division durch 26 landest du nach dem Z wieder vorn.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "Hallo Welt",
+        "3"
+       ],
+       "expected": "Geheim: Kdoor Zhow"
+      },
+      {
+       "input": [
+        "xyz ABC",
+        "2"
+       ],
+       "expected": "Geheim: zab CDE"
+      },
+      {
+       "input": [
+        "C# ist super!",
+        "13"
+       ],
+       "expected": "Geheim: P# vfg fhcre!"
+      },
+      {
+       "input": [
+        "Grüße an Ö",
+        "1"
+       ],
+       "expected": "Geheim: Hsüßf bo Ö"
+      },
+      {
+       "input": [
+        "Abc",
+        "0"
+       ],
+       "expected": "Geheim: Abc"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "string text = Console.ReadLine();\nint v = int.Parse(Console.ReadLine());\nstring geheim = \"\";\nforeach (char z in text) geheim += char.IsLetter(z) ? (char)(z + v) : z;\nConsole.WriteLine($\"Geheim: {geheim}\");\n",
+      "string text = Console.ReadLine();\nint v = int.Parse(Console.ReadLine());\nstring geheim = \"\";\nforeach (char z in text)\n{\n    if (char.IsLetter(z) && z < 128) geheim += (char)('a' + (char.ToLower(z) - 'a' + v) % 26);\n    else geheim += z;\n}\nConsole.WriteLine($\"Geheim: {geheim}\");\n"
+     ]
+    },
+    {
+     "id": "fs02",
+     "title": "Primzahlen bis n",
+     "topic": "Methoden",
+     "task": "Das Programm liest eine Zahl n ein und listet alle Primzahlen von 2 bis n auf, getrennt durch Komma und Leerzeichen. Gibt es keine, erscheint `keine`. Eine Primzahl ist größer als 1 und nur durch 1 und sich selbst teilbar. Eine Frage vor der Eingabe ist erlaubt.\n\n```\n30  →  Primzahlen bis 30: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29\n2  →  Primzahlen bis 2: 2\n1  →  Primzahlen bis 1: keine\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"n: \");\nint n = int.Parse(Console.ReadLine());\nList<int> primzahlen = new List<int>();\nfor (int i = 2; i <= n; i++)\n{\n    if (IstPrimzahl(i))\n        primzahlen.Add(i);\n}\nstring liste = primzahlen.Count > 0 ? string.Join(\", \", primzahlen) : \"keine\";\nConsole.WriteLine($\"Primzahlen bis {n}: {liste}\");\n\nstatic bool IstPrimzahl(int zahl)\n{\n    if (zahl < 2) return false;\n    for (int teiler = 2; teiler * teiler <= zahl; teiler++)\n    {\n        if (zahl % teiler == 0) return false;\n    }\n    return true;\n}\n",
+     "hint": "Schreib dir eine eigene Methode, die für eine einzelne Zahl prüft, ob sie eine Primzahl ist. Dann musst du sie nur noch für jede Zahl aufrufen.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "30"
+       ],
+       "expected": "Primzahlen bis 30: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29"
+      },
+      {
+       "input": [
+        "2"
+       ],
+       "expected": "Primzahlen bis 2: 2"
+      },
+      {
+       "input": [
+        "1"
+       ],
+       "expected": "Primzahlen bis 1: keine"
+      },
+      {
+       "input": [
+        "50"
+       ],
+       "expected": "Primzahlen bis 50: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47"
+      },
+      {
+       "input": [
+        "97"
+       ],
+       "expected": "Primzahlen bis 97: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "int n = int.Parse(Console.ReadLine());\nList<int> p = new List<int>();\nfor (int i = 2; i <= n; i++)\n{\n    bool prim = true;\n    for (int t = 2; t * t < i; t++) if (i % t == 0) prim = false;\n    if (prim) p.Add(i);\n}\nConsole.WriteLine($\"Primzahlen bis {n}: {(p.Count > 0 ? string.Join(\", \", p) : \"keine\")}\");\n",
+      "int n = int.Parse(Console.ReadLine());\nList<int> p = new List<int>();\nfor (int i = 2; i < n; i++)\n{\n    bool prim = true;\n    for (int t = 2; t < i; t++) if (i % t == 0) prim = false;\n    if (prim) p.Add(i);\n}\nConsole.WriteLine($\"Primzahlen bis {n}: {(p.Count > 0 ? string.Join(\", \", p) : \"keine\")}\");\n"
+     ]
+    },
+    {
+     "id": "fs03",
+     "title": "Klammern prüfen",
+     "topic": "Algorithmen",
+     "task": "Das Programm liest eine Zeile ein und prüft, ob alle runden, eckigen und geschweiften Klammern richtig gepaart und verschachtelt sind. Jede öffnende Klammer braucht eine passende schließende, und zwar in der richtigen Reihenfolge. Alle anderen Zeichen spielen keine Rolle. Eine Frage vor der Eingabe ist erlaubt.\n\n```\n(a[b]{c})  →  Die Klammern sind korrekt.\n([)]  →  Die Klammern sind fehlerhaft.\n((  →  Die Klammern sind fehlerhaft.\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Zeile: \");\nstring zeile = Console.ReadLine();\nStack<char> offen = new Stack<char>();\nbool korrekt = true;\nforeach (char z in zeile)\n{\n    if (z == '(' || z == '[' || z == '{')\n    {\n        offen.Push(z);\n    }\n    else if (z == ')' || z == ']' || z == '}')\n    {\n        char erwartet = z == ')' ? '(' : z == ']' ? '[' : '{';\n        if (offen.Count == 0 || offen.Pop() != erwartet)\n        {\n            korrekt = false;\n            break;\n        }\n    }\n}\nif (offen.Count > 0) korrekt = false;\nConsole.WriteLine(korrekt ? \"Die Klammern sind korrekt.\" : \"Die Klammern sind fehlerhaft.\");\n",
+     "hint": "Merk dir die offenen Klammern in der Reihenfolge, in der sie kommen. Jede schließende Klammer muss zur zuletzt geöffneten passen, und am Ende darf nichts offen bleiben.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "(a[b]{c})"
+       ],
+       "expected": "Die Klammern sind korrekt."
+      },
+      {
+       "input": [
+        "([)]"
+       ],
+       "expected": "Die Klammern sind fehlerhaft."
+      },
+      {
+       "input": [
+        "(("
+       ],
+       "expected": "Die Klammern sind fehlerhaft."
+      },
+      {
+       "input": [
+        "Console.WriteLine(werte[0]);"
+       ],
+       "expected": "Die Klammern sind korrekt."
+      },
+      {
+       "input": [
+        "}{"
+       ],
+       "expected": "Die Klammern sind fehlerhaft."
+      },
+      {
+       "input": [
+        "{[()()]}"
+       ],
+       "expected": "Die Klammern sind korrekt."
+      },
+      {
+       "input": [
+        "abc"
+       ],
+       "expected": "Die Klammern sind korrekt."
+      },
+      {
+       "input": [
+        "(]"
+       ],
+       "expected": "Die Klammern sind fehlerhaft."
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "string zeile = Console.ReadLine();\nint rund = 0, eckig = 0, geschweift = 0;\nforeach (char z in zeile)\n{\n    if (z == '(') rund++; if (z == ')') rund--;\n    if (z == '[') eckig++; if (z == ']') eckig--;\n    if (z == '{') geschweift++; if (z == '}') geschweift--;\n}\nConsole.WriteLine(rund == 0 && eckig == 0 && geschweift == 0 ? \"Die Klammern sind korrekt.\" : \"Die Klammern sind fehlerhaft.\");\n",
+      "string zeile = Console.ReadLine();\nStack<char> offen = new Stack<char>();\nbool ok = true;\nforeach (char z in zeile)\n{\n    if (\"([{\".IndexOf(z) >= 0) offen.Push(z);\n    else if (\")]}\".IndexOf(z) >= 0)\n    {\n        if (offen.Count == 0) { ok = false; break; }\n        char o = offen.Pop();\n        if (\"([{\".IndexOf(o) != \")]}\".IndexOf(z)) { ok = false; break; }\n    }\n}\nConsole.WriteLine(ok ? \"Die Klammern sind korrekt.\" : \"Die Klammern sind fehlerhaft.\");\n"
+     ]
+    },
+    {
+     "id": "fs04",
+     "title": "Prüfziffer nach Luhn",
+     "topic": "Algorithmen",
+     "task": "Viele Kartennummern enthalten eine Prüfziffer nach dem Luhn-Verfahren. So prüfst du eine Nummer:\n\n- Leerzeichen werden ignoriert. Eine Nummer mit nur einer Ziffer oder mit anderen Zeichen als Ziffern ist ungültig.\n- Von rechts gezählt wird jede zweite Ziffer verdoppelt, also die zweite, vierte, sechste und so weiter. Ist das Ergebnis größer als 9, zieh 9 davon ab.\n- Zähle alle Ziffern zusammen, die veränderten und die unveränderten. Ist die Summe ohne Rest durch 10 teilbar, ist die Nummer gültig.\n\nEine Frage vor der Eingabe ist erlaubt.\n\n```\n4539 3195 0343 6467  →  Die Nummer ist gültig.\n8273 1232 7352 0569  →  Die Nummer ist ungültig.\n059  →  Die Nummer ist gültig.\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Nummer: \");\nstring nummer = Console.ReadLine().Replace(\" \", \"\");\nbool gueltig = nummer.Length > 1 && nummer.All(char.IsDigit);\nif (gueltig)\n{\n    int summe = 0;\n    for (int i = 0; i < nummer.Length; i++)\n    {\n        int ziffer = nummer[nummer.Length - 1 - i] - '0';\n        if (i % 2 == 1)\n        {\n            ziffer *= 2;\n            if (ziffer > 9) ziffer -= 9;\n        }\n        summe += ziffer;\n    }\n    gueltig = summe % 10 == 0;\n}\nConsole.WriteLine(gueltig ? \"Die Nummer ist gültig.\" : \"Die Nummer ist ungültig.\");\n",
+     "hint": "Geh die Ziffern von hinten nach vorn durch und merk dir, ob die aktuelle Stelle verdoppelt werden muss.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "4539 3195 0343 6467"
+       ],
+       "expected": "Die Nummer ist gültig."
+      },
+      {
+       "input": [
+        "8273 1232 7352 0569"
+       ],
+       "expected": "Die Nummer ist ungültig."
+      },
+      {
+       "input": [
+        "059"
+       ],
+       "expected": "Die Nummer ist gültig."
+      },
+      {
+       "input": [
+        "0"
+       ],
+       "expected": "Die Nummer ist ungültig."
+      },
+      {
+       "input": [
+        "055 444 285"
+       ],
+       "expected": "Die Nummer ist gültig."
+      },
+      {
+       "input": [
+        "1234-5678"
+       ],
+       "expected": "Die Nummer ist ungültig."
+      },
+      {
+       "input": [
+        "091"
+       ],
+       "expected": "Die Nummer ist gültig."
+      },
+      {
+       "input": [
+        "0000 0"
+       ],
+       "expected": "Die Nummer ist gültig."
+      },
+      {
+       "input": [
+        "059a"
+       ],
+       "expected": "Die Nummer ist ungültig."
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "string nummer = Console.ReadLine().Replace(\" \", \"\");\nint summe = 0;\nfor (int i = 0; i < nummer.Length; i++)\n{\n    int ziffer = nummer[i] - '0';\n    if (i % 2 == 0) { ziffer *= 2; if (ziffer > 9) ziffer -= 9; }\n    summe += ziffer;\n}\nbool ok = nummer.Length > 1 && nummer.All(char.IsDigit) && summe % 10 == 0;\nConsole.WriteLine(ok ? \"Die Nummer ist gültig.\" : \"Die Nummer ist ungültig.\");\n",
+      "string nummer = Console.ReadLine().Replace(\" \", \"\");\nint summe = 0;\nfor (int i = 0; i < nummer.Length; i++)\n{\n    int ziffer = nummer[nummer.Length - 1 - i] - '0';\n    if (i % 2 == 1) { ziffer *= 2; if (ziffer > 9) ziffer -= 9; }\n    summe += ziffer;\n}\nConsole.WriteLine(summe % 10 == 0 ? \"Die Nummer ist gültig.\" : \"Die Nummer ist ungültig.\");\n"
+     ]
+    },
+    {
+     "id": "fs05",
+     "title": "Anagramme",
+     "topic": "Texte",
+     "task": "Zwei Wörter sind Anagramme, wenn sie aus genau denselben Buchstaben bestehen, nur in anderer Reihenfolge. Groß- und Kleinschreibung spielt keine Rolle. Ein Wort ist kein Anagramm von sich selbst. Das Programm liest zwei Wörter ein und gibt das Ergebnis aus. Fragen vor den Eingaben sind erlaubt.\n\n- `Regal` und `Lager` ergibt `Regal und Lager sind Anagramme.`\n- `Hallo` und `Halle` ergibt `Hallo und Halle sind keine Anagramme.`\n- `Regal` und `regal` ergibt `Regal und regal sind keine Anagramme.`",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Erstes Wort: \");\nstring erstes = Console.ReadLine();\nConsole.Write(\"Zweites Wort: \");\nstring zweites = Console.ReadLine();\nstring a = erstes.ToLower();\nstring b = zweites.ToLower();\nchar[] buchstabenA = a.ToCharArray();\nchar[] buchstabenB = b.ToCharArray();\nArray.Sort(buchstabenA);\nArray.Sort(buchstabenB);\nbool anagramm = a != b && new string(buchstabenA) == new string(buchstabenB);\nConsole.WriteLine(anagramm\n    ? $\"{erstes} und {zweites} sind Anagramme.\"\n    : $\"{erstes} und {zweites} sind keine Anagramme.\");\n",
+     "hint": "Wenn du die Buchstaben beider Wörter sortierst, kannst du sie leicht vergleichen. Denk vorher an die Groß- und Kleinschreibung.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "Regal",
+        "Lager"
+       ],
+       "expected": "Regal und Lager sind Anagramme."
+      },
+      {
+       "input": [
+        "Hallo",
+        "Halle"
+       ],
+       "expected": "Hallo und Halle sind keine Anagramme."
+      },
+      {
+       "input": [
+        "Regal",
+        "regal"
+       ],
+       "expected": "Regal und regal sind keine Anagramme."
+      },
+      {
+       "input": [
+        "Listen",
+        "Silent"
+       ],
+       "expected": "Listen und Silent sind Anagramme."
+      },
+      {
+       "input": [
+        "Tor",
+        "Tore"
+       ],
+       "expected": "Tor und Tore sind keine Anagramme."
+      },
+      {
+       "input": [
+        "Ampel",
+        "Lampe"
+       ],
+       "expected": "Ampel und Lampe sind Anagramme."
+      },
+      {
+       "input": [
+        "Otto",
+        "Toto"
+       ],
+       "expected": "Otto und Toto sind Anagramme."
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "string erstes = Console.ReadLine();\nstring zweites = Console.ReadLine();\nchar[] x = erstes.ToLower().ToCharArray(); Array.Sort(x);\nchar[] y = zweites.ToLower().ToCharArray(); Array.Sort(y);\nbool ok = new string(x) == new string(y);\nConsole.WriteLine(ok ? $\"{erstes} und {zweites} sind Anagramme.\" : $\"{erstes} und {zweites} sind keine Anagramme.\");\n",
+      "string erstes = Console.ReadLine();\nstring zweites = Console.ReadLine();\nchar[] x = erstes.ToCharArray(); Array.Sort(x);\nchar[] y = zweites.ToCharArray(); Array.Sort(y);\nbool ok = erstes != zweites && new string(x) == new string(y);\nConsole.WriteLine(ok ? $\"{erstes} und {zweites} sind Anagramme.\" : $\"{erstes} und {zweites} sind keine Anagramme.\");\n"
+     ]
+    },
+    {
+     "id": "fs06",
+     "title": "Worthäufigkeit",
+     "topic": "Sammlungen",
+     "task": "Das Programm liest einen Satz ein und zählt, wie oft jedes Wort vorkommt. Groß- und Kleinschreibung spielt keine Rolle. Ausgegeben werden die Wörter kleingeschrieben, in der Reihenfolge, in der sie zum ersten Mal vorkommen. Die Wörter sind durch einzelne Leerzeichen getrennt, Satzzeichen kommen nicht vor. Eine Frage vor der Eingabe ist erlaubt.\n\nBeispiel für `Die Katze und der Vogel und die Maus`:\n\n```\n- die: 2\n- katze: 1\n- und: 2\n- der: 1\n- vogel: 1\n- maus: 1\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Satz: \");\nstring[] woerter = Console.ReadLine().ToLower().Split(' ');\nList<string> reihenfolge = new List<string>();\nDictionary<string, int> anzahl = new Dictionary<string, int>();\nforeach (string wort in woerter)\n{\n    if (anzahl.ContainsKey(wort))\n    {\n        anzahl[wort]++;\n    }\n    else\n    {\n        anzahl[wort] = 1;\n        reihenfolge.Add(wort);\n    }\n}\nforeach (string wort in reihenfolge)\n{\n    Console.WriteLine($\"- {wort}: {anzahl[wort]}\");\n}\n",
+     "hint": "Zu jedem Wort brauchst du einen Zähler. C# hat dafür eine passende Sammlung, die zu jedem Schlüssel einen Wert speichert.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "Die Katze und der Vogel und die Maus"
+       ],
+       "expected": "- die: 2\n- katze: 1\n- und: 2\n- der: 1\n- vogel: 1\n- maus: 1"
+      },
+      {
+       "input": [
+        "eins zwei Eins ZWEI drei"
+       ],
+       "expected": "- eins: 2\n- zwei: 2\n- drei: 1"
+      },
+      {
+       "input": [
+        "Hallo"
+       ],
+       "expected": "- hallo: 1"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "string[] woerter = Console.ReadLine().Split(' ');\nDictionary<string, int> anzahl = new Dictionary<string, int>();\nforeach (string w in woerter) anzahl[w] = anzahl.GetValueOrDefault(w) + 1;\nforeach (var paar in anzahl) Console.WriteLine($\"- {paar.Key.ToLower()}: {paar.Value}\");\n"
+     ]
+    },
+    {
+     "id": "fs07",
+     "title": "Lauflängenkodierung",
+     "topic": "Texte",
+     "task": "Die Lauflängenkodierung fasst gleiche Zeichen zusammen, die direkt hintereinander stehen: Vor jedes Zeichen kommt die Anzahl seiner Wiederholungen. Groß- und Kleinbuchstaben gelten als verschiedene Zeichen. Das Programm liest einen Text ohne Ziffern ein und gibt ihn komprimiert aus. Eine Frage vor der Eingabe ist erlaubt.\n\n```\nAAABBC  →  Komprimiert: 3A2B1C\nx  →  Komprimiert: 1x\naaAA  →  Komprimiert: 2a2A\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Text: \");\nstring text = Console.ReadLine();\nstring ergebnis = \"\";\nint i = 0;\nwhile (i < text.Length)\n{\n    char zeichen = text[i];\n    int anzahl = 0;\n    while (i < text.Length && text[i] == zeichen)\n    {\n        anzahl++;\n        i++;\n    }\n    ergebnis += anzahl.ToString() + zeichen;\n}\nConsole.WriteLine($\"Komprimiert: {ergebnis}\");\n",
+     "hint": "Geh den Text Zeichen für Zeichen durch und zähle, solange das nächste Zeichen gleich bleibt. Vergiss die letzte Gruppe am Ende nicht.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "AAABBC"
+       ],
+       "expected": "Komprimiert: 3A2B1C"
+      },
+      {
+       "input": [
+        "x"
+       ],
+       "expected": "Komprimiert: 1x"
+      },
+      {
+       "input": [
+        "aaAA"
+       ],
+       "expected": "Komprimiert: 2a2A"
+      },
+      {
+       "input": [
+        "WWWWWWWWWWWWBWWWWWWWWWWWWBBB"
+       ],
+       "expected": "Komprimiert: 12W1B12W3B"
+      },
+      {
+       "input": [
+        "ABAB"
+       ],
+       "expected": "Komprimiert: 1A1B1A1B"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "string text = Console.ReadLine();\nstring ergebnis = \"\";\nint anzahl = 1;\nfor (int i = 1; i < text.Length; i++)\n{\n    if (text[i] == text[i - 1]) anzahl++;\n    else { ergebnis += anzahl.ToString() + text[i - 1]; anzahl = 1; }\n}\nConsole.WriteLine($\"Komprimiert: {ergebnis}\");\n",
+      "string text = Console.ReadLine();\nstring ergebnis = \"\";\nforeach (char z in text.Distinct()) ergebnis += text.Count(x => x == z).ToString() + z;\nConsole.WriteLine($\"Komprimiert: {ergebnis}\");\n"
+     ]
+    },
+    {
+     "id": "fs08",
+     "title": "Brüche addieren",
+     "topic": "Klassen",
+     "task": "Der Startcode liest zwei Brüche ein (jeweils erst den Zähler, dann den Nenner) und benutzt die Klasse `Bruch`, die du vervollständigst. `Addiere` liefert die Summe zweier Brüche als neuen, vollständig gekürzten Bruch. Als Text sieht ein Bruch so aus: `Zähler/Nenner`. Die beiden Ausgangsbrüche erscheinen so, wie sie eingegeben wurden. Nur das Ergebnis wird gekürzt. Auch ein Ergebnis wie `1/1` bleibt in dieser Form. Alle Eingaben sind positive ganze Zahlen.\n\n- `1`, `2`, `1`, `3` ergibt `1/2 + 1/3 = 5/6`\n- `2`, `3`, `4`, `6` ergibt `2/3 + 4/6 = 4/3`\n- `3`, `8`, `5`, `8` ergibt `3/8 + 5/8 = 1/1`",
+     "starter": "int z1 = int.Parse(Console.ReadLine());\nint n1 = int.Parse(Console.ReadLine());\nint z2 = int.Parse(Console.ReadLine());\nint n2 = int.Parse(Console.ReadLine());\n\nBruch a = new Bruch(z1, n1);\nBruch b = new Bruch(z2, n2);\nConsole.WriteLine($\"{a} + {b} = {a.Addiere(b)}\");\n\nclass Bruch\n{\n    public int Zaehler { get; }\n    public int Nenner { get; }\n\n    public Bruch(int zaehler, int nenner)\n    {\n        Zaehler = zaehler;\n        Nenner = nenner;\n    }\n\n    public Bruch Addiere(Bruch anderer)\n    {\n        // Schreib hier deinen Code\n        return this;\n    }\n\n    public override string ToString()\n    {\n        // Schreib hier deinen Code\n        return \"\";\n    }\n}\n",
+     "solution": "int z1 = int.Parse(Console.ReadLine());\nint n1 = int.Parse(Console.ReadLine());\nint z2 = int.Parse(Console.ReadLine());\nint n2 = int.Parse(Console.ReadLine());\n\nBruch a = new Bruch(z1, n1);\nBruch b = new Bruch(z2, n2);\nConsole.WriteLine($\"{a} + {b} = {a.Addiere(b)}\");\n\nclass Bruch\n{\n    public int Zaehler { get; }\n    public int Nenner { get; }\n\n    public Bruch(int zaehler, int nenner)\n    {\n        Zaehler = zaehler;\n        Nenner = nenner;\n    }\n\n    public Bruch Addiere(Bruch anderer)\n    {\n        int zaehler = Zaehler * anderer.Nenner + anderer.Zaehler * Nenner;\n        int nenner = Nenner * anderer.Nenner;\n        int teiler = Ggt(zaehler, nenner);\n        return new Bruch(zaehler / teiler, nenner / teiler);\n    }\n\n    static int Ggt(int a, int b)\n    {\n        while (b != 0)\n        {\n            int rest = a % b;\n            a = b;\n            b = rest;\n        }\n        return a;\n    }\n\n    public override string ToString()\n    {\n        return $\"{Zaehler}/{Nenner}\";\n    }\n}\n",
+     "hint": "Bring beide Brüche auf denselben Nenner. Danach teilst du Zähler und Nenner durch ihren größten gemeinsamen Teiler.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "1",
+        "2",
+        "1",
+        "3"
+       ],
+       "expected": "1/2 + 1/3 = 5/6"
+      },
+      {
+       "input": [
+        "1",
+        "4",
+        "1",
+        "4"
+       ],
+       "expected": "1/4 + 1/4 = 1/2"
+      },
+      {
+       "input": [
+        "2",
+        "3",
+        "4",
+        "6"
+       ],
+       "expected": "2/3 + 4/6 = 4/3"
+      },
+      {
+       "input": [
+        "5",
+        "12",
+        "1",
+        "4"
+       ],
+       "expected": "5/12 + 1/4 = 2/3"
+      },
+      {
+       "input": [
+        "3",
+        "8",
+        "5",
+        "8"
+       ],
+       "expected": "3/8 + 5/8 = 1/1"
+      },
+      {
+       "input": [
+        "7",
+        "10",
+        "2",
+        "15"
+       ],
+       "expected": "7/10 + 2/15 = 5/6"
+      }
+     ],
+     "requirements": [
+      {
+       "pattern": "class\\s+Bruch\\b",
+       "message": "Lass die Klasse `Bruch` im Code stehen und vervollständige sie."
+      }
+     ],
+     "wrong": [
+      "int z1 = int.Parse(Console.ReadLine());\nint n1 = int.Parse(Console.ReadLine());\nint z2 = int.Parse(Console.ReadLine());\nint n2 = int.Parse(Console.ReadLine());\nBruch a = new Bruch(z1, n1);\nBruch b = new Bruch(z2, n2);\nConsole.WriteLine($\"{a} + {b} = {a.Addiere(b)}\");\nclass Bruch\n{\n    public int Zaehler { get; } public int Nenner { get; }\n    public Bruch(int z, int n) { Zaehler = z; Nenner = n; }\n    public Bruch Addiere(Bruch o) => new Bruch(Zaehler * o.Nenner + o.Zaehler * Nenner, Nenner * o.Nenner);\n    public override string ToString() => $\"{Zaehler}/{Nenner}\";\n}\n",
+      "int z1 = int.Parse(Console.ReadLine());\nint n1 = int.Parse(Console.ReadLine());\nint z2 = int.Parse(Console.ReadLine());\nint n2 = int.Parse(Console.ReadLine());\nBruch a = new Bruch(z1, n1);\nBruch b = new Bruch(z2, n2);\nConsole.WriteLine($\"{a} + {b} = {a.Addiere(b)}\");\nclass Bruch\n{\n    public int Zaehler { get; } public int Nenner { get; }\n    public Bruch(int z, int n) { Zaehler = z; Nenner = n; }\n    public Bruch Addiere(Bruch o) => new Bruch(Zaehler + o.Zaehler, Nenner + o.Nenner);\n    public override string ToString() => $\"{Zaehler}/{Nenner}\";\n}\n"
+     ]
+    },
+    {
+     "id": "fs09",
+     "title": "Binärzahlen",
+     "topic": "Algorithmen",
+     "task": "Das Programm liest eine ganze Zahl ab 0 ein und gibt sie im Binärsystem (Zweiersystem) aus. Rechne die Ziffern selbst aus, ohne eine fertige Umwandlungsfunktion. Eine Frage vor der Eingabe ist erlaubt.\n\n```\n13  →  Binär: 1101\n0  →  Binär: 0\n255  →  Binär: 11111111\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Zahl: \");\nint zahl = int.Parse(Console.ReadLine());\nstring binaer = \"\";\ndo\n{\n    binaer = (zahl % 2) + binaer;\n    zahl = zahl / 2;\n} while (zahl > 0);\nConsole.WriteLine($\"Binär: {binaer}\");\n",
+     "hint": "Teil die Zahl immer wieder durch 2, bis nichts mehr übrig ist. Die Reste ergeben von hinten gelesen die Binärziffern. Denk auch an die 0.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "13"
+       ],
+       "expected": "Binär: 1101"
+      },
+      {
+       "input": [
+        "0"
+       ],
+       "expected": "Binär: 0"
+      },
+      {
+       "input": [
+        "255"
+       ],
+       "expected": "Binär: 11111111"
+      },
+      {
+       "input": [
+        "1"
+       ],
+       "expected": "Binär: 1"
+      },
+      {
+       "input": [
+        "6"
+       ],
+       "expected": "Binär: 110"
+      },
+      {
+       "input": [
+        "1024"
+       ],
+       "expected": "Binär: 10000000000"
+      }
+     ],
+     "requirements": [
+      {
+       "pattern": "^(?![\\s\\S]*Convert\\s*\\.\\s*ToString\\s*\\([^;]*,\\s*2\\s*\\))(?![\\s\\S]*ToString\\s*\\(\\s*\\\"[bB]\\d*\\\"\\s*\\))(?![\\s\\S]*:\\s*[bB]\\d*\\s*\\})",
+       "message": "Rechne die Binärziffern selbst aus, ohne fertige Umwandlung."
+      }
+     ],
+     "wrong": [
+      "int zahl = int.Parse(Console.ReadLine());\nstring binaer = \"\";\nwhile (zahl > 0) { binaer = (zahl % 2) + binaer; zahl = zahl / 2; }\nConsole.WriteLine($\"Binär: {binaer}\");\n",
+      "int zahl = int.Parse(Console.ReadLine());\nstring binaer = \"\";\ndo { binaer = binaer + (zahl % 2); zahl = zahl / 2; } while (zahl > 0);\nConsole.WriteLine($\"Binär: {binaer}\");\n",
+      "int zahl = int.Parse(Console.ReadLine());\nConsole.WriteLine($\"Binär: {Convert.ToString(zahl, 2)}\");\n",
+      "int zahl = int.Parse(Console.ReadLine());\nConsole.WriteLine($\"Binär: {zahl.ToString(\"B\")}\");\n",
+      "int zahl = int.Parse(Console.ReadLine());\nConsole.WriteLine($\"Binär: {zahl:B}\");\n"
+     ]
+    },
+    {
+     "id": "fs10",
+     "title": "Tic-Tac-Toe",
+     "topic": "Arrays & Logik",
+     "task": "Das Programm liest ein fertiges Tic-Tac-Toe-Feld ein: drei Zeilen mit je drei Zeichen. `X` steht für Spieler 1, `O` für Spieler 2 und `.` für ein leeres Feld. Wer drei eigene Zeichen in einer Reihe, einer Spalte oder einer Diagonale hat, gewinnt. Gibt es keinen Gewinner, meldet das Programm ein Unentschieden. Jedes Feld hat höchstens einen Gewinner. Fragen vor den Eingaben sind erlaubt.\n\n- `XXO`, `OXO` und `OOX` ergibt `Gewinner: Spieler 1`\n- `XOX`, `.O.` und `XOX` ergibt `Gewinner: Spieler 2`\n- `XOX`, `XOO` und `OXX` ergibt `Unentschieden`",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "char[,] feld = new char[3, 3];\nfor (int zeile = 0; zeile < 3; zeile++)\n{\n    Console.Write($\"Zeile {zeile + 1}: \");\n    string eingabe = Console.ReadLine();\n    for (int spalte = 0; spalte < 3; spalte++)\n        feld[zeile, spalte] = eingabe[spalte];\n}\n\nchar gewinner = '.';\nfor (int i = 0; i < 3; i++)\n{\n    if (Gleich(feld[i, 0], feld[i, 1], feld[i, 2])) gewinner = feld[i, 0];\n    if (Gleich(feld[0, i], feld[1, i], feld[2, i])) gewinner = feld[0, i];\n}\nif (Gleich(feld[0, 0], feld[1, 1], feld[2, 2])) gewinner = feld[1, 1];\nif (Gleich(feld[0, 2], feld[1, 1], feld[2, 0])) gewinner = feld[1, 1];\n\nif (gewinner == 'X') Console.WriteLine(\"Gewinner: Spieler 1\");\nelse if (gewinner == 'O') Console.WriteLine(\"Gewinner: Spieler 2\");\nelse Console.WriteLine(\"Unentschieden\");\n\nstatic bool Gleich(char a, char b, char c) => a != '.' && a == b && b == c;\n",
+     "hint": "Es gibt genau acht mögliche Gewinnlinien: drei Reihen, drei Spalten und zwei Diagonalen. Prüfe jede einzelne. Drei leere Felder sind keine Gewinnlinie.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "XXO",
+        "OXO",
+        "OOX"
+       ],
+       "expected": "Gewinner: Spieler 1"
+      },
+      {
+       "input": [
+        "XOX",
+        ".O.",
+        "XOX"
+       ],
+       "expected": "Gewinner: Spieler 2"
+      },
+      {
+       "input": [
+        "XOX",
+        "XOO",
+        "OXX"
+       ],
+       "expected": "Unentschieden"
+      },
+      {
+       "input": [
+        "OOO",
+        "XX.",
+        "X.."
+       ],
+       "expected": "Gewinner: Spieler 2"
+      },
+      {
+       "input": [
+        "O.X",
+        "OX.",
+        "X.."
+       ],
+       "expected": "Gewinner: Spieler 1"
+      },
+      {
+       "input": [
+        "XO.",
+        "X.O",
+        "X.."
+       ],
+       "expected": "Gewinner: Spieler 1"
+      },
+      {
+       "input": [
+        "...",
+        "...",
+        "..."
+       ],
+       "expected": "Unentschieden"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "string[] z = { Console.ReadLine(), Console.ReadLine(), Console.ReadLine() };\nchar g = '.';\nfor (int i = 0; i < 3; i++)\n{\n    if (z[i][0] == z[i][1] && z[i][1] == z[i][2]) g = z[i][0];\n    if (z[0][i] == z[1][i] && z[1][i] == z[2][i]) g = z[0][i];\n}\nif (z[0][0] == z[1][1] && z[1][1] == z[2][2]) g = z[1][1];\nConsole.WriteLine(g == 'X' ? \"Gewinner: Spieler 1\" : g == 'O' ? \"Gewinner: Spieler 2\" : \"Unentschieden\");\n",
+      "string[] z = { Console.ReadLine(), Console.ReadLine(), Console.ReadLine() };\nchar g = '.';\nfor (int i = 0; i < 3; i++)\n{\n    if (z[i][0] == z[i][1] && z[i][1] == z[i][2]) g = z[i][0];\n}\nif (z[0][0] == z[1][1] && z[1][1] == z[2][2]) g = z[1][1];\nif (z[0][2] == z[1][1] && z[1][1] == z[2][0]) g = z[1][1];\nConsole.WriteLine(g == 'X' ? \"Gewinner: Spieler 1\" : g == 'O' ? \"Gewinner: Spieler 2\" : \"Unentschieden\");\n"
+     ]
+    },
+    {
+     "id": "fs11",
+     "title": "Rangliste",
+     "topic": "Listen & Objekte",
+     "task": "Das Programm liest Ergebnisse im Format `Name Punkte` ein, bis eine leere Zeile kommt. Danach gibt es eine Rangliste aus: die meisten Punkte zuerst, bei Gleichstand alphabetisch nach dem Namen. Die Plätze werden einfach durchnummeriert. Fragen vor den Eingaben sind erlaubt.\n\nBeispiel für die Eingaben `Mia 95`, `Ben 80`, `Anna 80`, `Tom 99` und eine leere Zeile:\n\n```\n1. Tom (99 Punkte)\n2. Mia (95 Punkte)\n3. Anna (80 Punkte)\n4. Ben (80 Punkte)\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "List<Ergebnis> liste = new List<Ergebnis>();\nwhile (true)\n{\n    Console.Write(\"Name und Punkte: \");\n    string zeile = Console.ReadLine();\n    if (string.IsNullOrWhiteSpace(zeile)) break;\n    string[] teile = zeile.Split(' ');\n    liste.Add(new Ergebnis(teile[0], int.Parse(teile[1])));\n}\n\nliste.Sort((a, b) => a.Punkte != b.Punkte\n    ? b.Punkte.CompareTo(a.Punkte)\n    : string.Compare(a.Name, b.Name, StringComparison.Ordinal));\n\nfor (int i = 0; i < liste.Count; i++)\n{\n    Console.WriteLine($\"{i + 1}. {liste[i].Name} ({liste[i].Punkte} Punkte)\");\n}\n\nclass Ergebnis\n{\n    public string Name { get; }\n    public int Punkte { get; }\n\n    public Ergebnis(string name, int punkte)\n    {\n        Name = name;\n        Punkte = punkte;\n    }\n}\n",
+     "hint": "Speichere jeden Eintrag als kleines Objekt mit Name und Punkten. Beim Sortieren vergleichst du erst die Punkte und nur bei Gleichstand die Namen.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "Mia 95",
+        "Ben 80",
+        "Anna 80",
+        "Tom 99",
+        ""
+       ],
+       "expected": "1. Tom (99 Punkte)\n2. Mia (95 Punkte)\n3. Anna (80 Punkte)\n4. Ben (80 Punkte)"
+      },
+      {
+       "input": [
+        "Zoe 50",
+        "Ole 50",
+        "Uwe 70",
+        ""
+       ],
+       "expected": "1. Uwe (70 Punkte)\n2. Ole (50 Punkte)\n3. Zoe (50 Punkte)"
+      },
+      {
+       "input": [
+        "Solo 7",
+        ""
+       ],
+       "expected": "1. Solo (7 Punkte)"
+      },
+      {
+       "input": [
+        "Lea 12",
+        "Kim 30",
+        "Jan 12",
+        "Ida 30",
+        "Max 5",
+        ""
+       ],
+       "expected": "1. Ida (30 Punkte)\n2. Kim (30 Punkte)\n3. Jan (12 Punkte)\n4. Lea (12 Punkte)\n5. Max (5 Punkte)"
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "List<(string Name, int Punkte)> liste = new List<(string, int)>();\nwhile (true)\n{\n    string zeile = Console.ReadLine();\n    if (string.IsNullOrWhiteSpace(zeile)) break;\n    string[] t = zeile.Split(' ');\n    liste.Add((t[0], int.Parse(t[1])));\n}\nliste = liste.OrderByDescending(e => e.Punkte).ToList();\nfor (int i = 0; i < liste.Count; i++) Console.WriteLine($\"{i + 1}. {liste[i].Name} ({liste[i].Punkte} Punkte)\");\n"
+     ]
+    },
+    {
+     "id": "fs12",
+     "title": "Zeitrechner",
+     "topic": "Rechnen & Texte",
+     "task": "Das Programm liest eine Start- und eine Endzeit im Format `HH:MM` ein und berechnet die Dauer dazwischen. Liegt die Endzeit vor der Startzeit, geht es über Mitternacht. Gleiche Zeiten ergeben eine Dauer von 0. Fragen vor den Eingaben sind erlaubt.\n\n```\n08:15 bis 11:00  →  Dauer: 2 Std. 45 Min.\n22:30 bis 01:10  →  Dauer: 2 Std. 40 Min.\n12:00 bis 12:00  →  Dauer: 0 Std. 0 Min.\n```",
+     "starter": "// Schreib hier deinen Code\n",
+     "solution": "Console.Write(\"Start: \");\nint start = InMinuten(Console.ReadLine());\nConsole.Write(\"Ende: \");\nint ende = InMinuten(Console.ReadLine());\nint dauer = ende - start;\nif (dauer < 0) dauer += 24 * 60;\nConsole.WriteLine($\"Dauer: {dauer / 60} Std. {dauer % 60} Min.\");\n\nstatic int InMinuten(string zeit)\n{\n    string[] teile = zeit.Split(':');\n    return int.Parse(teile[0]) * 60 + int.Parse(teile[1]);\n}\n",
+     "hint": "Rechne beide Zeiten in Minuten seit Mitternacht um. Dann ist es nur noch eine Differenz, und für den Weg über Mitternacht kommt ein ganzer Tag dazu.",
+     "compare": "lenient",
+     "tests": [
+      {
+       "input": [
+        "08:15",
+        "11:00"
+       ],
+       "expected": "Dauer: 2 Std. 45 Min."
+      },
+      {
+       "input": [
+        "22:30",
+        "01:10"
+       ],
+       "expected": "Dauer: 2 Std. 40 Min."
+      },
+      {
+       "input": [
+        "12:00",
+        "12:00"
+       ],
+       "expected": "Dauer: 0 Std. 0 Min."
+      },
+      {
+       "input": [
+        "00:00",
+        "23:59"
+       ],
+       "expected": "Dauer: 23 Std. 59 Min."
+      },
+      {
+       "input": [
+        "09:50",
+        "10:05"
+       ],
+       "expected": "Dauer: 0 Std. 15 Min."
+      },
+      {
+       "input": [
+        "23:59",
+        "00:00"
+       ],
+       "expected": "Dauer: 0 Std. 1 Min."
+      }
+     ],
+     "requirements": [],
+     "wrong": [
+      "string[] s = Console.ReadLine().Split(':');\nstring[] e = Console.ReadLine().Split(':');\nint stunden = int.Parse(e[0]) - int.Parse(s[0]);\nint minuten = int.Parse(e[1]) - int.Parse(s[1]);\nConsole.WriteLine($\"Dauer: {stunden} Std. {minuten} Min.\");\n",
+      "string[] s = Console.ReadLine().Split(':');\nstring[] e = Console.ReadLine().Split(':');\nint dauer = int.Parse(e[0]) * 60 + int.Parse(e[1]) - (int.Parse(s[0]) * 60 + int.Parse(s[1]));\ndauer = Math.Abs(dauer);\nConsole.WriteLine($\"Dauer: {dauer / 60} Std. {dauer % 60} Min.\");\n"
+     ]
+    }
+   ]
+  }
+ ]
+}

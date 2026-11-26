@@ -49,6 +49,12 @@ public sealed class Fortschritt
             versionen[version - 1] = null; // Freie Plätze erhalten die Nummern der übrigen Versionen.
     }
 
+    /// <summary>Erledigte freie Aufgaben (Reiter „Freie Aufgaben“). Getrennt von <see cref="GeloesteAufgaben"/>,
+    /// damit Lektionsfortschritt und Erfolge unverändert bleiben. Erledigt bleibt erledigt, auch beim Wiederholen.</summary>
+    public HashSet<string> ErledigteFreieAufgaben { get; set; } = new();
+    /// <summary>Zuletzt geöffnete freie Aufgabe – beim nächsten Öffnen des Reiters geht es dort weiter.</summary>
+    public string LetzteFreieAufgabe { get; set; }
+
     /// <summary>Beste Anzahl richtiger Quiz-Antworten je Lektion.</summary>
     public Dictionary<string, int> QuizPunkte { get; set; } = new();
     public HashSet<string> GeleseneLektionen { get; set; } = new();
@@ -202,6 +208,8 @@ public sealed class Fortschritt
     {
         GeloesteAufgaben = Ohne(GeloesteAufgaben);
         GeleseneLektionen = Ohne(GeleseneLektionen);
+        ErledigteFreieAufgaben = Ohne(ErledigteFreieAufgaben);
+        if (string.IsNullOrWhiteSpace(LetzteFreieAufgabe)) LetzteFreieAufgabe = null;
         Code = Code == null ? new() : Code.Where(kv => !string.IsNullOrWhiteSpace(kv.Key) && kv.Value != null).ToDictionary(kv => kv.Key, kv => kv.Value);
         EigeneProjekte = EigeneProjekte == null ? new() : EigeneProjekte
             .Where(kv => kv.Key != Guid.Empty && !string.IsNullOrWhiteSpace(kv.Value))

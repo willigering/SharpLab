@@ -28,6 +28,7 @@ Neue Versionen meldet SharpLab beim Start selbst und installiert sie auf Wunsch 
 - Code-Editor mit Syntaxhervorhebung, Eingaben über `Console.ReadLine()` und Stopp-Knopf für Endlosschleifen
 - Autovervollständigung wie in Visual Studio (alphabetisch, CamelCase-Filter, eigene Variablen) und Codeausschnitte (`cw` Tab Tab)
 - Aufgaben nennen nur das Ziel, nicht den Lösungsweg; Tipps und Hinweise helfen bei Bedarf
+- Freie Aufgaben in drei Schwierigkeiten (Leicht, Mittel, Schwer) mit grünem Fähnchen für erledigte Aufgaben
 - Freie Spielwiese zum Ausprobieren, Fortschritt und Erfolge
 - Lernstand wahlweise in einem eigenen Ordner oder in OneDrive (für mehrere Rechner)
 - Auto-Update über GitHub-Releases, Feedback direkt aus der App

@@ -405,9 +405,14 @@ public partial class MainWindow
     async Task Pruefen()
     {
         if (laeuft) return;
+        if (seite == "freie" && freieAufgabe != null)
+        {
+            await PruefeFreieAufgabe();
+            return;
+        }
         if (aktuelleAufgabe == null || seite != "lernpfad")
         {
-            Status("Zum Prüfen öffne eine Übung im Lernpfad (Reiter „Übung“).", "TextGedimmt");
+            Status("Zum Prüfen öffne eine Übung im Lernpfad (Reiter „Übung“) oder eine freie Aufgabe.", "TextGedimmt");
             return;
         }
         if (aktuellerReiter != "uebung") ReiterUebung.IsChecked = true;

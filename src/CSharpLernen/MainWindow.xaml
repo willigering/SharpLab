@@ -49,6 +49,7 @@
                     <StackPanel x:Name="NavListe">
                         <local:NavReiter x:Name="NavLernpfad" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE8F1;" Content="Lernpfad" IsChecked="True" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
                         <local:NavReiter x:Name="NavUebungen" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE73A;" Content="Übungen" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
+                        <local:NavReiter x:Name="NavFreieAufgaben" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE7C1;" Content="Freie Aufgaben" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
                         <local:NavReiter x:Name="NavEditor" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE943;" Content="Code-Editor" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
                         <local:NavReiter x:Name="NavNotizen" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE70B;" Content="Code-Notizen" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
                         <local:NavReiter x:Name="NavProjekte" Style="{StaticResource NavKnopf}" GroupName="Nav" Tag="&#xE8B7;" Content="Projekte" Checked="Nav_Checked" Geschlossen="Nav_Geschlossen" />
