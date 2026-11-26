@@ -1,5 +1,5 @@
-SharpLab 1.0.19
+SharpLab 1.0.20
 
-- Direkt beim EXE-Export führt „.NET SDK“ zur offiziellen Microsoft-Downloadseite.
-- Auch im Fehlerdialog des EXE-Exports ist der SDK-Download erreichbar.
-- Das .NET 10 SDK kann für den Export verwendet werden. Die exportierte Anwendung zielt weiterhin auf .NET 8.
+- Neuer Reiter „Freie Aufgaben“: 36 Aufgaben in den Schwierigkeiten Leicht, Mittel und Schwer, unabhängig vom Lernpfad.
+- Erledigte Aufgaben bekommen ein grünes Fähnchen. Du kannst sie überspringen oder noch einmal machen, das Fähnchen bleibt.
+- Pro Schwierigkeit siehst du, wie viele Aufgaben du schon erledigt hast, auch auf der Seite „Fortschritt“.

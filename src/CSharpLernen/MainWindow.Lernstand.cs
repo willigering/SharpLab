@@ -183,6 +183,10 @@ public partial class MainWindow
         fortschritt.Code.Clear();
         fortschritt.QuizPunkte.Clear();
         fortschritt.GeleseneLektionen.Clear();
+        fortschritt.ErledigteFreieAufgaben.Clear();
+        fortschritt.LetzteFreieAufgabe = null;
+        freieStufe = null;
+        freieAufgabe = null;
         fortschritt.Ausfuehrungen = fortschritt.ErfolgreicheLaeufe = fortschritt.SpielwieseLaeufe = 0;
         fortschritt.FehlerBehoben = fortschritt.EndlosschleifeGestoppt = false;
         fortschritt.ErsterStart = DateTime.Now;

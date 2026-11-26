@@ -13,5 +13,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Inhalte\Lektionen.json" LogicalName="CSharpLernen.Lektionen.json" />
+    <EmbeddedResource Include="Inhalte\FreieAufgaben.json" LogicalName="CSharpLernen.FreieAufgaben.json" />
   </ItemGroup>
 </Project>

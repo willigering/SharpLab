@@ -21,7 +21,8 @@ public class AufgabentextTests
         return KursLader.AusJson(r.ReadToEnd());
     }
 
-    static IEnumerable<Aufgabe> Alle => Kurs.Lektionen.SelectMany(l => l.Aufgaben);
+    /// <summary>Lektionsaufgaben und freie Aufgaben – für beide gelten dieselben Regeln.</summary>
+    static IEnumerable<Aufgabe> Alle => Kurs.Lektionen.SelectMany(l => l.Aufgaben).Concat(FreieAufgabenLader.Laden().Alle);
 
     /// <summary>Verräterische Bausteine (Name → Muster).</summary>
     static readonly (string Name, string Muster)[] Verraeter =

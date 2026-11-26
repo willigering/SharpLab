@@ -1,5 +1,5 @@
 ; SharpLab – Installer (NSIS 3, Modern UI 2, Deutsch)
-; Bauen:  makensis -DVERSION=1.0.19 -DSRC=<Ordner mit SharpLab.exe usw.> -DOUT=<Ziel.exe> installer/SharpLab.nsi
+; Bauen:  makensis -DVERSION=1.0.20 -DSRC=<Ordner mit SharpLab.exe usw.> -DOUT=<Ziel.exe> installer/SharpLab.nsi
 ; Installation pro Benutzer ohne Adminrechte nach %LOCALAPPDATA%\Programs\SharpLab,
 ; damit das Auto-Update der App die exe im Installationsordner austauschen darf.
 
@@ -9,7 +9,7 @@ SetCompressor /SOLID lzma
 RequestExecutionLevel user
 
 !ifndef VERSION
-  !define VERSION "1.0.19"
+  !define VERSION "1.0.20"
 !endif
 !ifndef SRC
   !define SRC "..\publish"

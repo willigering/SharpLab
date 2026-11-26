@@ -20,6 +20,7 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
     {
         if (!geladen) return;
         string neu = sender == NavUebungen ? "uebungen"
+            : sender == NavFreieAufgaben ? "freie"
             : sender == NavEditor ? "editor"
             : sender == NavNotizen ? "notizen"
             : sender == NavProjekte ? "projekte"
@@ -78,6 +79,7 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
         switch (name)
         {
             case "uebungen": SeiteUebungen(); break;
+            case "freie": SeiteFreieAufgaben(); break;
             case "editor": SeiteSpielwiese(); break;
             case "projekte": SeiteProjekte(); break;
             case "compiler": SeiteCompiler(); break;
@@ -436,6 +438,25 @@ Console.WriteLine("Hallo! Was möchtest du heute programmieren?");
             stufen.Children.Add(new ProgressBar { Maximum = Math.Max(1, a), Value = g, Height = 8, Margin = new Thickness(0, 0, 0, 14) });
         }
         SeitenInhalt.Children.Add(Ui.Karte(stufen));
+
+        if (FreieAufgaben.Stufen.Count > 0)
+        {
+            var frei = new StackPanel();
+            frei.Children.Add(Ui.Text("Freie Aufgaben", 15.5, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 12)));
+            foreach (var s in FreieAufgaben.Stufen)
+            {
+                int a = s.Aufgaben.Count, g = FreieAufgabenStatus.Erledigt(s, fortschritt.ErledigteFreieAufgaben);
+                var zeile = new Grid { Margin = new Thickness(0, 0, 0, 4) };
+                zeile.Children.Add(Ui.Text(s.Titel, 12.5, "TextHell"));
+                var z = Ui.Text($"{g}/{a} erledigt", 11, g == a && a > 0 ? "Gruen" : "TextGedimmt");
+                z.HorizontalAlignment = HorizontalAlignment.Right;
+                zeile.Children.Add(z);
+                frei.Children.Add(zeile);
+                frei.Children.Add(new ProgressBar { Maximum = Math.Max(1, a), Value = g, Height = 8, Margin = new Thickness(0, 0, 0, 14) });
+            }
+            frei.Children.Add(Ui.Knopf("Zu den freien Aufgaben", (_, _) => NavFreieAufgaben.IsChecked = true, false, "\uE7C1"));
+            SeitenInhalt.Children.Add(Ui.Karte(frei));
+        }
 
         var weiter = new StackPanel();
         weiter.Children.Add(Ui.Text("Als Nächstes", 15.5, "TextHell", FontWeights.SemiBold, new Thickness(0, 0, 0, 8)));

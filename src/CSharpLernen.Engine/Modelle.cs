@@ -42,6 +42,8 @@ public sealed class Aufgabe
     [JsonPropertyName("compare")] public string Vergleich { get; set; } = "exact";
     [JsonPropertyName("tests")] public List<Testfall> Tests { get; set; } = new();
     [JsonPropertyName("requirements")] public List<Anforderung> Anforderungen { get; set; } = new();
+    /// <summary>Kurzes Thema für die Liste der freien Aufgaben, z. B. „Schleifen“ (bei Lektionsaufgaben leer).</summary>
+    [JsonPropertyName("topic")] public string Thema { get; set; } = "";
 
     public override string ToString() => Titel;
 }

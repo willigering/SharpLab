@@ -61,6 +61,8 @@ public class KonsoleTests
         Assert.Matches(new Regex(@"if \(nr != laufNr\) return;\s*\n\s*fortschritt\.Ausfuehrungen\+\+"), aus);
         string pr = Methode(Datei("MainWindow.Lektion.cs"), "async Task Pruefen(");
         Assert.True(pr.IndexOf("if (nr != laufNr) return;") < pr.IndexOf("AusgabeBox.Text = r.Lauf.Ausgabe"), "Prüfergebnis erst nach der Laufnummer-Prüfung anzeigen.");
+        string frei = Methode(Datei("MainWindow.FreieAufgaben.cs"), "async Task PruefeFreieAufgabe(");
+        Assert.True(frei.IndexOf("if (nr != laufNr) return;") is > 0 and var n && n < frei.IndexOf("AusgabeBox.Text = r.Lauf.Ausgabe"), "Auch bei freien Aufgaben erst nach der Laufnummer-Prüfung anzeigen.");
     }
 
     [Fact]
@@ -71,12 +73,12 @@ public class KonsoleTests
         Assert.True(box.Success);
         Assert.DoesNotMatch(new Regex(@"\bText\s*="), box.Value);
         // AusgabeBox wird nur hier beschrieben: Lauf, Echo der Eingabe, Kürzen, „nichts ausgegeben“,
-        // Prüfergebnis und noch einmal nach dem Neuaufbau einer bestandenen Aufgabe.
+        // Prüfergebnis (Lernpfad und freie Aufgaben) und noch einmal nach dem Neuaufbau einer bestandenen Aufgabe.
         var schreiber = Directory.GetFiles(Path.Combine(Wurzel(), "src", "CSharpLernen"), "*.cs")
             .SelectMany(f => File.ReadAllLines(f).Select((z, i) => (Datei: Path.GetFileName(f), Zeile: z.Trim())))
             .Where(t => Regex.IsMatch(t.Zeile, @"AusgabeBox\.(Text\s*=|AppendText)"))
             .Select(t => t.Datei).ToList();
-        Assert.Equal(6, schreiber.Count);
+        Assert.Equal(7, schreiber.Count);
         Assert.DoesNotContain(schreiber, d => d.Contains("Seiten") || d.Contains("Lernstand"));
     }
 }
